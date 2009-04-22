@@ -1,0 +1,425 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* Y_TilesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		3B78CC010F5B7CC20041A61D /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CC000F5B7CC20041A61D /* Util.m */; };
+		3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CCF90F5B95BD0041A61D /* WaitImageView.m */; };
+		3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */; };
+		3B799D000F57BE53001BCAEC /* PhotoDefaultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B799CFF0F57BE53001BCAEC /* PhotoDefaultView.xib */; };
+		3BE09CD10F53AE3E00D88117 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CC10F53AE3E00D88117 /* AboutController.m */; };
+		3BE09CD20F53AE3E00D88117 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CC30F53AE3E00D88117 /* Board.m */; };
+		3BE09CD30F53AE3E00D88117 /* BoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CC50F53AE3E00D88117 /* BoardController.m */; };
+		3BE09CD40F53AE3E00D88117 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CC70F53AE3E00D88117 /* Configuration.m */; };
+		3BE09CD50F53AE3E00D88117 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CCA0F53AE3E00D88117 /* PhotoController.m */; };
+		3BE09CD60F53AE3E00D88117 /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CCC0F53AE3E00D88117 /* SettingsController.m */; };
+		3BE09CD70F53AE3E00D88117 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CCE0F53AE3E00D88117 /* Tile.m */; };
+		3BE09CFB0F53B05300D88117 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF30F53B05300D88117 /* Default.png */; };
+		3BE09CFC0F53B05300D88117 /* DefaultPhoto1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF40F53B05300D88117 /* DefaultPhoto1.jpg */; };
+		3BE09CFD0F53B05300D88117 /* DefaultPhoto2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */; };
+		3BE09CFE0F53B05300D88117 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF60F53B05300D88117 /* Icon.png */; };
+		3BE09CFF0F53B05300D88117 /* Photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF70F53B05300D88117 /* Photo.png */; };
+		3BE09D000F53B05300D88117 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF80F53B05300D88117 /* Play.png */; };
+		3BE09D010F53B05300D88117 /* Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF90F53B05300D88117 /* Settings.png */; };
+		3BE09D670F53B19E00D88117 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE09D660F53B19E00D88117 /* AudioToolbox.framework */; };
+		3BE09D720F53B1C500D88117 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09D710F53B1C500D88117 /* AboutView.xib */; };
+		3BE09D740F53B1D000D88117 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09D730F53B1D000D88117 /* Localizable.strings */; };
+		3BE09D760F53B1DC00D88117 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09D750F53B1DC00D88117 /* SettingsView.xib */; };
+		3BE09DFE0F53B9E200D88117 /* DefaultPhoto1_sm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09DFC0F53B9E200D88117 /* DefaultPhoto1_sm.jpg */; };
+		3BE09DFF0F53B9E200D88117 /* DefaultPhoto2_sm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09DFD0F53B9E200D88117 /* DefaultPhoto2_sm.jpg */; };
+		3BE56CF00F9D971000B7A13F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3BE56CEF0F9D971000B7A13F /* LICENSE */; };
+		3BF37B9A0F586EA00077EF8E /* DefaultPhoto3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BF37B960F586EA00077EF8E /* DefaultPhoto3.jpg */; };
+		3BF37B9B0F586EA00077EF8E /* DefaultPhoto3_sm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BF37B970F586EA00077EF8E /* DefaultPhoto3_sm.jpg */; };
+		3BF37B9C0F586EA00077EF8E /* DefaultPhoto4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BF37B980F586EA00077EF8E /* DefaultPhoto4.jpg */; };
+		3BF37B9D0F586EA00077EF8E /* DefaultPhoto4_sm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BF37B990F586EA00077EF8E /* DefaultPhoto4_sm.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* Y_TilesAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_TilesAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Y_TilesAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Y-Tiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Y-Tiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
+		3B78CBFF0F5B7CC20041A61D /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		3B78CC000F5B7CC20041A61D /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		3B78CCF80F5B95BD0041A61D /* WaitImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitImageView.h; sourceTree = "<group>"; };
+		3B78CCF90F5B95BD0041A61D /* WaitImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitImageView.m; sourceTree = "<group>"; };
+		3B799C5C0F57AC73001BCAEC /* PhotoDefaultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDefaultController.h; sourceTree = "<group>"; };
+		3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDefaultController.m; sourceTree = "<group>"; };
+		3B799CB00F57B96A001BCAEC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PhotoDefaultView.xib; sourceTree = "<group>"; };
+		3BE09CC00F53AE3E00D88117 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
+		3BE09CC10F53AE3E00D88117 /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
+		3BE09CC20F53AE3E00D88117 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		3BE09CC30F53AE3E00D88117 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		3BE09CC40F53AE3E00D88117 /* BoardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardController.h; sourceTree = "<group>"; };
+		3BE09CC50F53AE3E00D88117 /* BoardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardController.m; sourceTree = "<group>"; };
+		3BE09CC60F53AE3E00D88117 /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
+		3BE09CC70F53AE3E00D88117 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
+		3BE09CC80F53AE3E00D88117 /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
+		3BE09CC90F53AE3E00D88117 /* PhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoController.h; sourceTree = "<group>"; };
+		3BE09CCA0F53AE3E00D88117 /* PhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoController.m; sourceTree = "<group>"; };
+		3BE09CCB0F53AE3E00D88117 /* SettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
+		3BE09CCC0F53AE3E00D88117 /* SettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
+		3BE09CCD0F53AE3E00D88117 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		3BE09CCE0F53AE3E00D88117 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		3BE09CF30F53B05300D88117 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		3BE09CF40F53B05300D88117 /* DefaultPhoto1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto1.jpg; path = Images/DefaultPhoto1.jpg; sourceTree = "<group>"; };
+		3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto2.jpg; path = Images/DefaultPhoto2.jpg; sourceTree = "<group>"; };
+		3BE09CF60F53B05300D88117 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
+		3BE09CF70F53B05300D88117 /* Photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Photo.png; path = Images/Photo.png; sourceTree = "<group>"; };
+		3BE09CF80F53B05300D88117 /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Play.png; path = Images/Play.png; sourceTree = "<group>"; };
+		3BE09CF90F53B05300D88117 /* Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Settings.png; path = Images/Settings.png; sourceTree = "<group>"; };
+		3BE09D520F53B14600D88117 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		3BE09D5A0F53B17300D88117 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutView.xib; sourceTree = "<group>"; };
+		3BE09D5B0F53B17300D88117 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3BE09D5C0F53B17300D88117 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SettingsView.xib; sourceTree = "<group>"; };
+		3BE09D660F53B19E00D88117 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3BE09DFC0F53B9E200D88117 /* DefaultPhoto1_sm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto1_sm.jpg; path = Images/DefaultPhoto1_sm.jpg; sourceTree = "<group>"; };
+		3BE09DFD0F53B9E200D88117 /* DefaultPhoto2_sm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto2_sm.jpg; path = Images/DefaultPhoto2_sm.jpg; sourceTree = "<group>"; };
+		3BE56CEF0F9D971000B7A13F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		3BF37B960F586EA00077EF8E /* DefaultPhoto3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto3.jpg; path = Images/DefaultPhoto3.jpg; sourceTree = "<group>"; };
+		3BF37B970F586EA00077EF8E /* DefaultPhoto3_sm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto3_sm.jpg; path = Images/DefaultPhoto3_sm.jpg; sourceTree = "<group>"; };
+		3BF37B980F586EA00077EF8E /* DefaultPhoto4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto4.jpg; path = Images/DefaultPhoto4.jpg; sourceTree = "<group>"; };
+		3BF37B990F586EA00077EF8E /* DefaultPhoto4_sm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto4_sm.jpg; path = Images/DefaultPhoto4_sm.jpg; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				3BE09D670F53B19E00D88117 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09CC00F53AE3E00D88117 /* AboutController.h */,
+				3BE09CC10F53AE3E00D88117 /* AboutController.m */,
+				3BE09CC20F53AE3E00D88117 /* Board.h */,
+				3BE09CC30F53AE3E00D88117 /* Board.m */,
+				3BE09CC40F53AE3E00D88117 /* BoardController.h */,
+				3BE09CC50F53AE3E00D88117 /* BoardController.m */,
+				3BE09CC60F53AE3E00D88117 /* Configuration.h */,
+				3BE09CC70F53AE3E00D88117 /* Configuration.m */,
+				3BE09CC80F53AE3E00D88117 /* DataTypes.h */,
+				3BE09CC90F53AE3E00D88117 /* PhotoController.h */,
+				3BE09CCA0F53AE3E00D88117 /* PhotoController.m */,
+				3BE09CCB0F53AE3E00D88117 /* SettingsController.h */,
+				3BE09CCC0F53AE3E00D88117 /* SettingsController.m */,
+				3BE09CCD0F53AE3E00D88117 /* Tile.h */,
+				3BE09CCE0F53AE3E00D88117 /* Tile.m */,
+				1D3623240D0F684500981E51 /* Y_TilesAppDelegate.h */,
+				1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */,
+				3B799C5C0F57AC73001BCAEC /* PhotoDefaultController.h */,
+				3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */,
+				3B78CBFF0F5B7CC20041A61D /* Util.h */,
+				3B78CC000F5B7CC20041A61D /* Util.m */,
+				3B78CCF80F5B95BD0041A61D /* WaitImageView.h */,
+				3B78CCF90F5B95BD0041A61D /* WaitImageView.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Y-Tiles.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09CF10F53B03D00D88117 /* Images */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09D520F53B14600D88117 /* Constants.h */,
+				32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				3BE56CEF0F9D971000B7A13F /* LICENSE */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3B799CFF0F57BE53001BCAEC /* PhotoDefaultView.xib */,
+				3BE09D710F53B1C500D88117 /* AboutView.xib */,
+				3BE09D730F53B1D000D88117 /* Localizable.strings */,
+				3BE09D750F53B1DC00D88117 /* SettingsView.xib */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09D660F53B19E00D88117 /* AudioToolbox.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3BE09CF10F53B03D00D88117 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3BF37B960F586EA00077EF8E /* DefaultPhoto3.jpg */,
+				3BF37B970F586EA00077EF8E /* DefaultPhoto3_sm.jpg */,
+				3BF37B980F586EA00077EF8E /* DefaultPhoto4.jpg */,
+				3BF37B990F586EA00077EF8E /* DefaultPhoto4_sm.jpg */,
+				3BE09DFC0F53B9E200D88117 /* DefaultPhoto1_sm.jpg */,
+				3BE09DFD0F53B9E200D88117 /* DefaultPhoto2_sm.jpg */,
+				3BE09CF30F53B05300D88117 /* Default.png */,
+				3BE09CF40F53B05300D88117 /* DefaultPhoto1.jpg */,
+				3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */,
+				3BE09CF60F53B05300D88117 /* Icon.png */,
+				3BE09CF70F53B05300D88117 /* Photo.png */,
+				3BE09CF80F53B05300D88117 /* Play.png */,
+				3BE09CF90F53B05300D88117 /* Settings.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* Y-Tiles */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Y-Tiles" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Y-Tiles";
+			productName = "Y-Tiles";
+			productReference = 1D6058910D05DD3D006BFB54 /* Y-Tiles.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Y-Tiles" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* Y-Tiles */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BE09CFB0F53B05300D88117 /* Default.png in Resources */,
+				3BE09CFC0F53B05300D88117 /* DefaultPhoto1.jpg in Resources */,
+				3BE09CFD0F53B05300D88117 /* DefaultPhoto2.jpg in Resources */,
+				3BE09CFE0F53B05300D88117 /* Icon.png in Resources */,
+				3BE09CFF0F53B05300D88117 /* Photo.png in Resources */,
+				3BE09D000F53B05300D88117 /* Play.png in Resources */,
+				3BE09D010F53B05300D88117 /* Settings.png in Resources */,
+				3BE09D720F53B1C500D88117 /* AboutView.xib in Resources */,
+				3BE09D740F53B1D000D88117 /* Localizable.strings in Resources */,
+				3BE09D760F53B1DC00D88117 /* SettingsView.xib in Resources */,
+				3BE09DFE0F53B9E200D88117 /* DefaultPhoto1_sm.jpg in Resources */,
+				3BE09DFF0F53B9E200D88117 /* DefaultPhoto2_sm.jpg in Resources */,
+				3B799D000F57BE53001BCAEC /* PhotoDefaultView.xib in Resources */,
+				3BF37B9A0F586EA00077EF8E /* DefaultPhoto3.jpg in Resources */,
+				3BF37B9B0F586EA00077EF8E /* DefaultPhoto3_sm.jpg in Resources */,
+				3BF37B9C0F586EA00077EF8E /* DefaultPhoto4.jpg in Resources */,
+				3BF37B9D0F586EA00077EF8E /* DefaultPhoto4_sm.jpg in Resources */,
+				3BE56CF00F9D971000B7A13F /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* Y_TilesAppDelegate.m in Sources */,
+				3BE09CD10F53AE3E00D88117 /* AboutController.m in Sources */,
+				3BE09CD20F53AE3E00D88117 /* Board.m in Sources */,
+				3BE09CD30F53AE3E00D88117 /* BoardController.m in Sources */,
+				3BE09CD40F53AE3E00D88117 /* Configuration.m in Sources */,
+				3BE09CD50F53AE3E00D88117 /* PhotoController.m in Sources */,
+				3BE09CD60F53AE3E00D88117 /* SettingsController.m in Sources */,
+				3BE09CD70F53AE3E00D88117 /* Tile.m in Sources */,
+				3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */,
+				3B78CC010F5B7CC20041A61D /* Util.m in Sources */,
+				3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3B799CFF0F57BE53001BCAEC /* PhotoDefaultView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B799CB00F57B96A001BCAEC /* English */,
+			);
+			name = PhotoDefaultView.xib;
+			sourceTree = "<group>";
+		};
+		3BE09D710F53B1C500D88117 /* AboutView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BE09D5A0F53B17300D88117 /* English */,
+			);
+			name = AboutView.xib;
+			sourceTree = "<group>";
+		};
+		3BE09D730F53B1D000D88117 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BE09D5B0F53B17300D88117 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		3BE09D750F53B1DC00D88117 /* SettingsView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BE09D5C0F53B17300D88117 /* English */,
+			);
+			name = SettingsView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = "Y-Tiles";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = "Y-Tiles";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3278F2B9-93B7-4E51-882A-1AB2D1A557F8";
+				SDKROOT = iphoneos2.2.1;
+				SYMROOT = build;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_THUMB_SUPPORT = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3278F2B9-93B7-4E51-882A-1AB2D1A557F8";
+				SDKROOT = iphoneos2.2.1;
+				SYMROOT = build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Y-Tiles" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Y-Tiles" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

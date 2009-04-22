@@ -1,0 +1,41 @@
+/* 
+   Localizable.strings
+   Tiles
+
+   Created by Chris Yunker on 1/3/09.
+   Copyright 2009 Chris Yunker. All rights reserved.
+ */
+
+// Navigation Titles
+"PlayTitle"          = "Play";
+"PhotoTitle"         = "Photo";
+"SettingsTitle"      = "Settings";
+"YTilesTitle"        = "Y-Tiles";
+
+// BoardController
+"StartButton"        = "Start";
+"RestartButton"      = "Restart";
+"ResumeButton"       = "Resume";
+"TilesSolved"        = "Y-Tiles Solved";
+
+// PhotoController
+"PhotoPickerButton"  = "Camera Photo";
+"PhotoDefaultButton" = "Default Photo";
+"CancelButton"       = "Cancel";
+"TakePhoto"          = "Take Photo";
+"ExistingPhoto"      = "Choose Existing Photo";
+"NoCamera"           = "No Camera Available";
+"NoPhotos"           = "No Photos Available";
+
+// SettingsController
+"CancelButton"       = "Cancel Settings";
+"SaveButton"         = "Save Settings";
+"ColumnsLabel"       = "Columns";
+"RowsLabel"          = "Rows";
+
+// AboutController
+"EmailButton"        = "ytiles@chrisyunker.com";
+"WebButton"          = "www.chrisyunker.com";
+"VersionLabel"       = "Version";
+
+"WaitImageLabel"     = "Processing";
