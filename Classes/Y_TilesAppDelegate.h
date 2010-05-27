@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Board.h"
 
 @class Y_TilesViewController;
 
 @interface Y_TilesAppDelegate : NSObject <UIApplicationDelegate>
 {
+	NSMutableArray *controllers;
+	Board *board;
 }
 
 @end

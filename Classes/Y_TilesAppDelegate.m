@@ -18,9 +18,9 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	NSMutableArray *controllers = [[NSMutableArray alloc] init];
+	controllers = [[NSMutableArray alloc] init];
 	
-	Board *board = [[Board alloc] init];
+	board = [[Board alloc] init];
 	
 	BoardController *boardController = [[BoardController alloc] initWithBoard:board];
 	PhotoController *photoController = [[PhotoController alloc] initWithBoard:board];
@@ -51,19 +51,27 @@
 	
 	UITabBarController *tabBarController = [[UITabBarController alloc] init];
 	tabBarController.viewControllers = controllers;
-	tabBarController.delegate = board;
+	tabBarController.delegate = boardController;
 	
 	[window addSubview:tabBarController.view];
 	[window makeKeyAndVisible];
 	
-	[controllers release];
-	
 	[board initialize];
-	[board release];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	DLog("applicationWillTerminate");
+	
+	[board saveBoard];
 }
 
 - (void)dealloc
 {
+	DLog("Delegate Dealloc");
+
+	[board release];
+	[controllers release];
     [super dealloc];
 }
 

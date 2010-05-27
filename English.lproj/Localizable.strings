@@ -7,7 +7,7 @@
  */
 
 // Navigation Titles
-"PlayTitle"          = "Play";
+"BoardTitle"         = "Board";
 "PhotoTitle"         = "Photo";
 "SettingsTitle"      = "Settings";
 "YTilesTitle"        = "Y-Tiles";

@@ -12,6 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		3B06CE0D11A97F2700C48CB4 /* BoardCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */; };
+		3B06CF1B11A9C72D00C48CB4 /* BoardImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */; };
+		3B06CF3E11A9DB1D00C48CB4 /* TestBoardCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */; };
 		3B78CC010F5B7CC20041A61D /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CC000F5B7CC20041A61D /* Util.m */; };
 		3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CCF90F5B95BD0041A61D /* WaitImageView.m */; };
 		3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */; };
@@ -28,7 +31,7 @@
 		3BE09CFD0F53B05300D88117 /* DefaultPhoto2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */; };
 		3BE09CFE0F53B05300D88117 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF60F53B05300D88117 /* Icon.png */; };
 		3BE09CFF0F53B05300D88117 /* Photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF70F53B05300D88117 /* Photo.png */; };
-		3BE09D000F53B05300D88117 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF80F53B05300D88117 /* Play.png */; };
+		3BE09D000F53B05300D88117 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF80F53B05300D88117 /* Board.png */; };
 		3BE09D010F53B05300D88117 /* Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09CF90F53B05300D88117 /* Settings.png */; };
 		3BE09D670F53B19E00D88117 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE09D660F53B19E00D88117 /* AudioToolbox.framework */; };
 		3BE09D720F53B1C500D88117 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BE09D710F53B1C500D88117 /* AboutView.xib */; };
@@ -52,6 +55,14 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
+		3B06CE0B11A97F2700C48CB4 /* BoardCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardCoordinate.h; sourceTree = "<group>"; };
+		3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCoordinate.m; sourceTree = "<group>"; };
+		3B06CF1911A9C72D00C48CB4 /* BoardImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardImage.h; sourceTree = "<group>"; };
+		3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardImage.m; sourceTree = "<group>"; };
+		3B06CF3C11A9DB1D00C48CB4 /* TestBoardCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBoardCoordinate.h; sourceTree = "<group>"; };
+		3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBoardCoordinate.m; sourceTree = "<group>"; };
+		3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B06CF4C11A9DD3400C48CB4 /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
 		3B78CBFF0F5B7CC20041A61D /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		3B78CC000F5B7CC20041A61D /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3B78CCF80F5B95BD0041A61D /* WaitImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitImageView.h; sourceTree = "<group>"; };
@@ -79,7 +90,7 @@
 		3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = DefaultPhoto2.jpg; path = Images/DefaultPhoto2.jpg; sourceTree = "<group>"; };
 		3BE09CF60F53B05300D88117 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
 		3BE09CF70F53B05300D88117 /* Photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Photo.png; path = Images/Photo.png; sourceTree = "<group>"; };
-		3BE09CF80F53B05300D88117 /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Play.png; path = Images/Play.png; sourceTree = "<group>"; };
+		3BE09CF80F53B05300D88117 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Board.png; path = Images/Board.png; sourceTree = "<group>"; };
 		3BE09CF90F53B05300D88117 /* Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Settings.png; path = Images/Settings.png; sourceTree = "<group>"; };
 		3BE09D520F53B14600D88117 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3BE09D5A0F53B17300D88117 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutView.xib; sourceTree = "<group>"; };
@@ -108,12 +119,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B06CF4811A9DD3400C48CB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3B06CF1911A9C72D00C48CB4 /* BoardImage.h */,
+				3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */,
+				3B06CE0B11A97F2700C48CB4 /* BoardCoordinate.h */,
+				3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */,
 				3BE09CC00F53AE3E00D88117 /* AboutController.h */,
 				3BE09CC10F53AE3E00D88117 /* AboutController.m */,
 				3BE09CC20F53AE3E00D88117 /* Board.h */,
@@ -145,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Y-Tiles.app */,
+				3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,12 +175,14 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				3B06CF4211A9DB4300C48CB4 /* Tests */,
 				3BE09CF10F53B03D00D88117 /* Images */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				3B06CF4C11A9DD3400C48CB4 /* LogicTests-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -196,6 +221,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3B06CF4211A9DB4300C48CB4 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3B06CF3C11A9DB1D00C48CB4 /* TestBoardCoordinate.h */,
+				3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		3BE09CF10F53B03D00D88117 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +244,7 @@
 				3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */,
 				3BE09CF60F53B05300D88117 /* Icon.png */,
 				3BE09CF70F53B05300D88117 /* Photo.png */,
-				3BE09CF80F53B05300D88117 /* Play.png */,
+				3BE09CF80F53B05300D88117 /* Board.png */,
 				3BE09CF90F53B05300D88117 /* Settings.png */,
 			);
 			name = Images;
@@ -236,6 +270,24 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* Y-Tiles.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3B06CF4A11A9DD3400C48CB4 /* LogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B06CF4F11A9DD3500C48CB4 /* Build configuration list for PBXNativeTarget "LogicTests" */;
+			buildPhases = (
+				3B06CF4611A9DD3400C48CB4 /* Resources */,
+				3B06CF4711A9DD3400C48CB4 /* Sources */,
+				3B06CF4811A9DD3400C48CB4 /* Frameworks */,
+				3B06CF4911A9DD3400C48CB4 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LogicTests;
+			productName = LogicTests;
+			productReference = 3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -249,6 +301,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Y-Tiles */,
+				3B06CF4A11A9DD3400C48CB4 /* LogicTests */,
 			);
 		};
 /* End PBXProject section */
@@ -263,7 +316,7 @@
 				3BE09CFD0F53B05300D88117 /* DefaultPhoto2.jpg in Resources */,
 				3BE09CFE0F53B05300D88117 /* Icon.png in Resources */,
 				3BE09CFF0F53B05300D88117 /* Photo.png in Resources */,
-				3BE09D000F53B05300D88117 /* Play.png in Resources */,
+				3BE09D000F53B05300D88117 /* Board.png in Resources */,
 				3BE09D010F53B05300D88117 /* Settings.png in Resources */,
 				3BE09D720F53B1C500D88117 /* AboutView.xib in Resources */,
 				3BE09D740F53B1D000D88117 /* Localizable.strings in Resources */,
@@ -279,7 +332,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B06CF4611A9DD3400C48CB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3B06CF4911A9DD3400C48CB4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -298,6 +374,16 @@
 				3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */,
 				3B78CC010F5B7CC20041A61D /* Util.m in Sources */,
 				3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */,
+				3B06CE0D11A97F2700C48CB4 /* BoardCoordinate.m in Sources */,
+				3B06CF1B11A9C72D00C48CB4 /* BoardImage.m in Sources */,
+				3B06CF3E11A9DB1D00C48CB4 /* TestBoardCoordinate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B06CF4711A9DD3400C48CB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +429,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -350,6 +439,10 @@
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = "Y-Tiles";
+				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = Debug;
 		};
@@ -357,11 +450,76 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = "Y-Tiles";
+				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				SDKROOT = iphoneos3.1.3;
+			};
+			name = Release;
+		};
+		3B06CF4D11A9DD3500C48CB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		3B06CF4E11A9DD3500C48CB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -369,15 +527,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3278F2B9-93B7-4E51-882A-1AB2D1A557F8";
-				SDKROOT = iphoneos2.2.1;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "";
+				SDKROOT = iphoneos3.1;
 				SYMROOT = build;
 			};
 			name = Debug;
@@ -386,14 +547,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3278F2B9-93B7-4E51-882A-1AB2D1A557F8";
-				SDKROOT = iphoneos2.2.1;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "";
+				SDKROOT = iphoneos3.1;
 				SYMROOT = build;
 			};
 			name = Release;
@@ -406,6 +570,15 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B06CF4F11A9DD3500C48CB4 /* Build configuration list for PBXNativeTarget "LogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B06CF4D11A9DD3500C48CB4 /* Debug */,
+				3B06CF4E11A9DD3500C48CB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

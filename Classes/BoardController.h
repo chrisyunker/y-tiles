@@ -11,17 +11,22 @@
 
 @class Board;
 
-@interface BoardController : UIViewController <UIAlertViewDelegate>
+@interface BoardController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate, UIAccelerometerDelegate>
 {
 	Board *board;
 	UIBarButtonItem *startButton;
 	UIBarButtonItem *restartButton;
 	UIBarButtonItem *resumeButton;
+	UIAccelerometer *accelerometer;
+	UIAcceleration *lastAcceleration;
+	int shakeCount;
+	int selectedViewController;
 }
 
 @property (nonatomic, retain) UIBarButtonItem *startButton;
 @property (nonatomic, retain) UIBarButtonItem *restartButton;
 @property (nonatomic, retain) UIBarButtonItem *resumeButton;
+@property (nonatomic, retain) UIAcceleration *lastAcceleration;
 
 - (id)initWithBoard:(Board *)aBoard;
 - (void)startButtonAction;

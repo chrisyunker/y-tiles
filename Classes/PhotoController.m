@@ -45,6 +45,19 @@
 	[super didReceiveMemoryWarning];
 }
 
+- (void)setView:(UIView *)aView
+{
+	DLog("setView");
+	
+	if (aView == nil)
+	{
+		DLog("aView not nil");
+		
+		//[imageView release];
+	}
+	[super setView:aView];
+}
+
 - (void)loadView
 {
 	[super loadView];
@@ -171,7 +184,7 @@
 	
 	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
 	imagePicker.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	imagePicker.allowsImageEditing = NO;
+	imagePicker.allowsEditing = NO;
 	imagePicker.delegate = self;
 	imagePicker.sourceType = sourceType;
 	

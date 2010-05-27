@@ -10,9 +10,14 @@
 
 @interface Tile (Private)
 
++ (void)getTilePhotoBorderPathForWidth:(int)width height:(int)height;
++ (void)getTileNumberBorderPathForWidth:(int)width height:(int)height;
+
+- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
 - (void)createPhotoImage;
 - (void)createNumberImage;
 - (void)updateFrame;
+- (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
 
 @end
 
@@ -22,14 +27,37 @@
 @synthesize tileId;
 @synthesize solved;
 @synthesize moveType;
-@synthesize board;
 @synthesize pushTile;
+
+static CGMutablePathRef tilePhotoBorderPath = NULL;
+static CGMutablePathRef tileNumberBorderPath = NULL;
+static int tileWidth = 0;
+static int tileHeight = 0;
+
+
++ (Tile *)tileWithId:(int)aId board:(Board *)aBoard loc:(Coordinate)aLoc photo:(UIImage *)aPhoto
+{
+	int height = (int) aPhoto.size.height;
+	int width = (int) aPhoto.size.width;
+	
+	if ((height != tileHeight) || (width != tileWidth))
+	{
+		[Tile getTilePhotoBorderPathForWidth:width height:height];
+		[Tile getTileNumberBorderPathForWidth:width height:height];
+	}
+	
+	tileWidth = width;
+	tileHeight = height;
+	
+	return [[[Tile alloc] initWithBoard:aBoard tileId:aId loc:aLoc photo:aPhoto] autorelease];
+}
+
 
 - (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
 {
-	tileFrame = CGRectMake(0, 0, aPhoto.size.width, aPhoto.size.height);
+	CGRect rect = CGRectMake(0, 0, aPhoto.size.width, aPhoto.size.height);
 	
-	if (self = [super initWithFrame:tileFrame])
+	if (self = [super initWithFrame:rect])
 	{		
 		board = [aBoard retain];
 		photoImage = [aPhoto retain];
@@ -37,8 +65,8 @@
 		tileId = aTileId;
 		home = aLoc;
 		loc = aLoc;
-		tileHeight = (int) aPhoto.size.height;
-		tileWidth = (int) aPhoto.size.width;
+		//tileHeight = (int) aPhoto.size.height;
+		//tileWidth = (int) aPhoto.size.width;
 		
 		moveType = MoveNone;
 		solved = YES;
@@ -58,6 +86,7 @@
 {
 	DLog(@"dealloc tileId:[%d]", tileId);
 	
+	CGPathRelease(numberBorder);
 	[photoImage release];
 	[numberedPhotoImage release];
 	[numberImage release];
@@ -309,7 +338,7 @@
 {
 	CGContextRef context = [Util createBitmapContextForWidth:tileWidth height:tileHeight];
 	CGImageRef baseImageRef = [photoImage CGImage];
-	CGContextDrawImage(context, tileFrame, baseImageRef);
+	CGContextDrawImage(context, [self frame], baseImageRef);
 	
 	CGContextSetRGBFillColor(context,
 							 kBgColorRed,
@@ -317,7 +346,7 @@
 							 kBgColorBlue,
 							 kBgColorAlpha);
 	
-	CGContextAddPath(context, [board getTilePhotoBorderPath]);
+	CGContextAddPath(context, tilePhotoBorderPath);
 	CGContextEOFillPath(context);
 	
 	[photoImage release];
@@ -346,7 +375,7 @@
 	
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	
-	CGContextAddPath(context, [board getNumberBorderPathForTextWidth:textWidth]);
+	CGContextAddPath(context, [self getNumberBorderPathForTextWidth:textWidth]);
 	CGContextFillPath(context);
 	
 	// Draw number
@@ -382,7 +411,7 @@
 							 kNumberBgColorBlue,
 							 kNumberBgColorAlpha);
 	
-	CGContextAddPath(context, [board getTileNumberBorderPath]);
+	CGContextAddPath(context, tileNumberBorderPath);
 	CGContextFillPath(context);
 	
 	// Draw font
@@ -437,6 +466,74 @@
 	frame.origin.x = point.x;
 	frame.origin.y = point.y;
 	[self setFrame:frame];
+}
+
+
+- (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
+{
+	CFNumberRef textWidthRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &textWidth);
+	
+	if (numberBorder != nil)
+	{
+		CFRelease(textWidthRef);
+		
+		return numberBorder;
+	}
+	
+	numberBorder = CGPathCreateMutable();
+	
+	CGRect frame = CGRectMake((tileWidth - textWidth - (2 * kPhotoBgBorder) - kPhotoBgOffset),
+							  (tileHeight - kPhotoFontSize - kPhotoBgBorder - kPhotoBgOffset),
+							  (textWidth + (2 * kPhotoBgBorder)),
+							  (kPhotoFontSize + kPhotoBgBorder));
+	
+	[Util drawRoundedRectForPath:numberBorder
+							rect:frame
+						  radius:kPhotoBgCornerRadius];
+	
+	return numberBorder;
+}
+
+// Static Methods for creating/reusing CGPaths for Tiles
+
++ (void)getTilePhotoBorderPathForWidth:(int)width height:(int)height
+{	
+	if (tilePhotoBorderPath != NULL)
+	{
+		CGPathRelease(tilePhotoBorderPath);
+	}
+	
+	tilePhotoBorderPath = CGPathCreateMutable();
+	
+	CGPathMoveToPoint(tilePhotoBorderPath, NULL, 0, 0);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, width, 0);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, width, height);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, height);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, 0);
+	
+	[Util drawRoundedRectForPath:tilePhotoBorderPath
+							rect:CGRectMake(kTileSpacingWidth,
+											kTileSpacingWidth,
+											width,
+											height)
+						  radius:kTileCornerRadius];	
+}
+
++ (void)getTileNumberBorderPathForWidth:(int)width height:(int)height
+{	
+	if (tileNumberBorderPath != NULL)
+	{
+		CGPathRelease(tileNumberBorderPath);
+	}
+	
+	tileNumberBorderPath = CGPathCreateMutable();
+	
+	[Util drawRoundedRectForPath:tileNumberBorderPath
+							rect:CGRectMake(kTileSpacingWidth,
+											kTileSpacingWidth,
+											(width - (2 * kTileSpacingWidth)),
+											(height - (2 * kTileSpacingWidth)))
+						  radius:kTileCornerRadius];	
 }
 
 @end

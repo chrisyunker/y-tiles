@@ -13,6 +13,7 @@
 @synthesize startButton;
 @synthesize restartButton;
 @synthesize resumeButton;
+@synthesize lastAcceleration;
 
 - (id)initWithBoard:(Board *)aBoard
 {
@@ -20,9 +21,14 @@
 	{		
 		board = [aBoard retain];
 
-		[self.tabBarItem initWithTitle:NSLocalizedString(@"PlayTitle", @"")
-		 image:[UIImage imageNamed:@"Play.png"]
+		[self.tabBarItem initWithTitle:NSLocalizedString(@"BoardTitle", @"")
+		 image:[UIImage imageNamed:@"Board.png"]
 		 tag:kTabBarBoardTag];
+		
+		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
+		accelerometer.delegate = self;
+		accelerometer.updateInterval = kUpdateInterval;
+		shakeCount = 0;
     }
     return self;
 }
@@ -35,6 +41,8 @@
 	[restartButton release];
 	[resumeButton release];
 	[board release];
+	[accelerometer release];
+	[lastAcceleration release];
     [super dealloc];
 }
 
@@ -119,6 +127,70 @@
 						  otherButtonTitles:@"OK", nil];
 	[alert show];
 	[alert release];
+}
+
+
+#pragma mark UITabBarControllerDelegate methods
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+	selectedViewController = viewController.tabBarController.selectedIndex;
+}
+
+
+
+#pragma mark UIAccelerometerDelegate methods
+
+- (BOOL)thresholdShakeLast:(UIAcceleration *)last current:(UIAcceleration *)current threshold:(double)threshold
+{
+	double diffX = fabs(last.x - current.x);
+	double diffY = fabs(last.y - current.y);
+	double diffZ = fabs(last.z - current.z);
+	
+	if ((diffX > threshold) && (diffY > threshold) ||
+		(diffY > threshold) && (diffZ > threshold) ||
+		(diffZ > threshold) && (diffX > threshold))
+	{
+		return YES;
+	}
+	else
+	{
+		return NO;
+	}
+}
+
+- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+{
+	if (self.lastAcceleration)
+	{
+		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
+			shakeCount > kShakeCount)
+		{
+			if (selectedViewController == kBoardControllerIndex)
+			{
+				if (board.gameState == GameInProgress)
+				{
+					board.gameState = GamePaused;
+					[self displayRestartMenu];
+				}
+			}
+			
+			shakeCount = 0;
+        }
+		else if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh])
+		{
+			shakeCount += 1;
+        }
+		else if (![self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdLow])
+		{
+			if (shakeCount > 0)
+			{
+				shakeCount -= 1;
+			}
+        }
+	}
+	
+	self.lastAcceleration = acceleration;
 }
 
 @end

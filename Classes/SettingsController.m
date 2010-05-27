@@ -23,8 +23,6 @@
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{		
 		board = [aBoard retain];
-		config = [[Configuration alloc] init];
-		[config setConfiguration:board.config];
 
 		[self.tabBarItem
 		 initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
@@ -47,7 +45,7 @@
 	[saveButton release];
 	[cancelButton release];
 	[board release];
-	[config release];
+	//[config release];
     [super dealloc];
 }
 
@@ -75,11 +73,11 @@
 
 - (void)updateControlsWithAnimation:(BOOL)animated
 {
-	[pickerView selectRow:(config.columns - kColumnsMin) inComponent:COLUMN_INDEX animated:animated];
-	[pickerView selectRow:(config.rows - kRowsMin) inComponent:ROW_INDEX animated:animated];
-	[photoSwitch setOn:config.photoEnabled animated:animated];
-	[numberSwitch setOn:config.numbersEnabled animated:animated];
-	[soundSwitch setOn:config.soundEnabled animated:animated];
+	[pickerView selectRow:(board.config.columns - kColumnsMin) inComponent:COLUMN_INDEX animated:animated];
+	[pickerView selectRow:(board.config.rows - kRowsMin) inComponent:ROW_INDEX animated:animated];
+	[photoSwitch setOn:board.config.photoEnabled animated:animated];
+	[numberSwitch setOn:board.config.numbersEnabled animated:animated];
+	[soundSwitch setOn:board.config.soundEnabled animated:animated];
 }
 
 - (void)enableButtons:(BOOL)value
@@ -108,7 +106,7 @@
 	
 	if (value)
 	{
-		[config setConfiguration:board.config];
+		//[config setConfiguration:board.config];
 		
 		[self updateControlsWithAnimation:YES];
 		
@@ -126,7 +124,7 @@
 	
 	[super viewWillAppear:animated];
 	
-	[config setConfiguration:board.config];
+	//[config setConfiguration:board.config];
 	[self updateControlsWithAnimation:NO];
 	[self enableButtons:NO];
 }
@@ -158,40 +156,36 @@
 - (void)saveButtonAction
 {
 	// Save configuration values
-	config.columns = [pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin;
-	config.rows = [pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin;
-	
-	[board setConfiguration:config];
-		
+	board.config.columns = [pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin;
+	board.config.rows = [pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin;
+	board.config.photoEnabled = photoSwitch.on;
+	board.config.numbersEnabled = numberSwitch.on;
+	board.config.soundEnabled = soundSwitch.on;
+	[board.config save];
+			
 	[self enableButtons:NO];
 }
 
 - (void)cancelButtonAction
-{
-	[config setConfiguration:board.config];
-		
+{		
 	[self updateControlsWithAnimation:YES];
 	[self enableButtons:NO];
 }
 
 - (IBAction)photoSwitchAction
 {
-	config.photoEnabled = photoSwitch.on;
+	//config.photoEnabled = photoSwitch.on;
 	
 	[self enableButtons:YES];
 }
 
 - (IBAction)numberSwitchAction
-{
-	config.numbersEnabled = numberSwitch.on;
-	
+{	
 	[self enableButtons:YES];
 }
 
 - (IBAction)soundSwitchAction
-{
-	config.soundEnabled = soundSwitch.on;
-	
+{	
 	[self enableButtons:YES];
 }
 
@@ -244,18 +238,6 @@
 
 - (void)pickerView:(UIPickerView *)aPickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	switch(component)
-	{
-		case(COLUMN_INDEX):
-			config.columns = row + kColumnsMin;
-			break;
-		case(ROW_INDEX):
-			config.rows = row + kRowsMin;
-			break;
-		default:
-			break;			
-	}
-	
 	[self enableButtons:YES];
 }
 

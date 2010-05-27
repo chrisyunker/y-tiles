@@ -7,6 +7,7 @@
 //
 
 #import "Util.h"
+#import "Constants.h"
 
 @implementation Util
 
@@ -56,6 +57,40 @@
 						origin.x, origin.y,
 						(origin.x + radius), origin.y,
 						radius);
+}
+
++ (UIImageView *)createPausedViewWithFrame:(CGRect)frame
+{
+	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();	
+	
+    CGContextRef context = CGBitmapContextCreate(NULL,
+												 frame.size.width,
+												 frame.size.height,
+												 8,
+												 (frame.size.width * 4),
+												 colorSpaceRef,
+												 kCGImageAlphaPremultipliedLast);
+	CGColorSpaceRelease(colorSpaceRef);
+	
+	CGContextSetRGBFillColor(context,
+							 kPausedImageColorRed,
+							 kPausedImageColorGreen,
+							 kPausedImageColorBlue,
+							 kPausedImageColorAlpha);
+	
+	CGContextFillRect(context, frame);
+	
+	CGImageRef pausedImageRef = CGBitmapContextCreateImage(context);
+	UIImage *pausedImage = [UIImage imageWithCGImage:pausedImageRef];
+	
+	CGImageRelease(pausedImageRef);
+	CGContextRelease(context);
+	
+	UIImageView *pausedView = [[UIImageView alloc] initWithFrame:frame];
+	pausedView.image = pausedImage;
+	pausedView.userInteractionEnabled = NO;
+	[pausedView autorelease];
+	return pausedView;
 }
 
 @end

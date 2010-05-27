@@ -8,18 +8,21 @@
 
 #import "Configuration.h"
 
+
 @implementation Configuration
 
 @synthesize columns;
 @synthesize rows;
-@synthesize lastPhotoType;
+@synthesize photoType;
 @synthesize photoEnabled;
 @synthesize numbersEnabled;
 @synthesize soundEnabled;
+@synthesize board;
+
 
 - (void)load
 {
-	DLog(@"load");
+	DLog(@"Load Configuration");
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
@@ -32,7 +35,7 @@
 		rows = [defaults integerForKey:kKeyRows];
 		if (rows == 0) rows = kRowsDefault;
 		
-		lastPhotoType = [defaults integerForKey:kKeylastPhotoType];
+		photoType = [defaults integerForKey:kKeylastPhotoType];
 		photoEnabled = [defaults boolForKey:kKeyPhotoEnabled];
 		numbersEnabled = [defaults boolForKey:kKeyNumbersEnabled];
 		soundEnabled = [defaults boolForKey:kKeySoundEnabled];
@@ -41,7 +44,7 @@
 	{
 		columns = kColumnsDefault;
 		rows = kRowsDefault;
-		lastPhotoType = klastPhotoTypeDefault;
+		photoType = klastPhotoTypeDefault;
 		photoEnabled = kPhotoEnabledDefault;
 		numbersEnabled = kNumbersEnabledDefault;
 		soundEnabled = kSoundEnabledDefault;
@@ -50,59 +53,24 @@
 
 - (void)save
 {
-	DLog(@"save");
+	DLog(@"Save Configuration");
+	BOOL restart = NO;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	if ([defaults integerForKey:kKeyColumns] != columns) { restart = YES; }
+	if ([defaults integerForKey:kKeyRows] != rows) { restart = YES; }
+
 	[defaults setBool:YES forKey:kKeySavedDefaults];
 	[defaults setInteger:columns forKey:kKeyColumns];
 	[defaults setInteger:rows forKey:kKeyRows];
-	[defaults setInteger:lastPhotoType forKey:kKeylastPhotoType];
+	[defaults setInteger:photoType forKey:kKeylastPhotoType];
 	[defaults setBool:photoEnabled forKey:kKeyPhotoEnabled];
 	[defaults setBool:numbersEnabled forKey:kKeyNumbersEnabled];
 	[defaults setBool:soundEnabled forKey:kKeySoundEnabled];
-	[defaults synchronize];	
-}
-
-- (BOOL)isEqual:(Configuration *)configuration
-{
-	// No need to compare lastPhotoType field
+	[defaults synchronize];
 	
-	if ((columns == configuration.columns) &&
-		(rows == configuration.rows) &&
-		(photoEnabled == configuration.photoEnabled) &&
-		(numbersEnabled == configuration.numbersEnabled) &&
-		(soundEnabled == configuration.soundEnabled))
-	{
-		return YES;
-	}
-	else
-	{
-		return NO;
-	}
-	
-}
-
-- (BOOL)isSizeEqual:(Configuration *)configuration
-{
-	if ((columns == configuration.columns) &&
-		(rows == configuration.rows))
-	{
-		return YES;
-	}
-	else
-	{
-		return NO;
-	}
-}
-
-- (void)setConfiguration:(Configuration *)configuration
-{
-	columns = configuration.columns;
-	rows = configuration.rows;
-	lastPhotoType = configuration.lastPhotoType;
-	photoEnabled = configuration.photoEnabled;
-	numbersEnabled = configuration.numbersEnabled;
-	soundEnabled = configuration.soundEnabled;
+	[board configChanged:restart];
 }
 
 @end

@@ -7,17 +7,17 @@
 //
 
 #import "Board.h"
+#import "BoardCoordinate.h"
 
 @interface Board (Private)
 
-- (void)freeNumberBorderPaths;
-- (void)createPausedView;
 - (void)createTilesForBoard;
 - (void)scrambleBoard;
 - (void)showWaitView;
 - (void)removeWaitView;
 - (void)createTilesForBoardInThread;
 - (void)drawBoard;
+- (void)restoreBoard;
 
 @end
 
@@ -29,17 +29,22 @@
 @synthesize tileLock;
 @synthesize gameState;
 @synthesize boardController;
-@synthesize lastAcceleration;
 
 - (id)init
 {
 	if (self = [super initWithFrame:CGRectMake(kBoardX, kBoardY, kBoardWidth, kBoardHeight)])
 	{
 		config = [[Configuration alloc] init];
+		config.board = self;
 		[config load];
 		
+		[self restoreBoard];
+		
+		gameState = GameNotStarted;
+
 		tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
 							  trunc(self.frame.size.height / config.rows));
+		
 						
 		// Create grid to handle largest possible configuration
 		grid = malloc(kColumnsMax * sizeof(Tile **));
@@ -60,7 +65,7 @@
 		
 		tileLock = [[NSLock alloc] init];
 		
-		switch (config.lastPhotoType)
+		switch (config.photoType)
 		{
 			case kDefaultPhoto1Type:
 				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
@@ -98,29 +103,16 @@
 				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
 																	   pathForResource:kDefaultPhoto1
 																	   ofType:kPhotoType]] autorelease];
-				break;
 		}
 		
 		waitImageView = [[WaitImageView alloc] init];
-		[self createPausedView];
+		pausedView = [Util createPausedViewWithFrame:self.frame];
 		[self addSubview:pausedView];
-		
-		gameState = GamePaused;
-		tilePhotoBorderPath = NULL;
-		tileNumberBorderPath = NULL;
-		numberBorderPaths = CFDictionaryCreateMutable(NULL, 0,
-													  &kCFTypeDictionaryKeyCallBacks,
-													  &kCFTypeDictionaryValueCallBacks);
 
 		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
 		NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
 		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
 		if (error) ALog(@"Board:init Failed to create sound for URL [%@]", url);
-		
-		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
-		accelerometer.delegate = self;
-		accelerometer.updateInterval = kUpdateInterval;
-		shakeCount = 0;
 		
 		self.backgroundColor = [UIColor blackColor];
 		self.userInteractionEnabled = YES;
@@ -138,22 +130,15 @@
 		if (grid[i]) free(grid[i]);
 	}
 	if (grid) free(grid);
-	
-	[self freeNumberBorderPaths];
-	CFRelease(numberBorderPaths);
-	CGPathRelease(tilePhotoBorderPath);
-	CGPathRelease(tileNumberBorderPath);
-	
+		
 	AudioServicesDisposeSystemSoundID(tockSSID);
 	[config release];
 	[pausedView release];
 	[waitImageView release];
 	[photo release];
-	[boardTiles release];
+	[tiles release];
 	[tileLock release];
 	[boardController release];
-	[accelerometer release];
-	[lastAcceleration release];
 	[super dealloc];
 }
 
@@ -189,10 +174,13 @@
 
 - (void)setGameState:(GameState)state
 {
+	DLog("Old State [%d] New State [%d]", gameState, state);
+	
 	gameState = state;
 	
 	switch (gameState)
 	{
+		case GameNotStarted:
 		case GamePaused:
 			self.userInteractionEnabled = NO;
 			pausedView.alpha = 1.0f;
@@ -209,36 +197,27 @@
 	}
 }
 
-- (void)setConfiguration:(Configuration *)aConfiguration
+- (void)configChanged:(BOOL)restart
 {
-	if (![config isSizeEqual:aConfiguration])
+	if (restart)
 	{
-		self.gameState = GamePaused;
-
-		[config setConfiguration:aConfiguration];
-		[config save];
-				
-		// Create New Board
+		self.gameState = GameNotStarted;
 		[self showWaitView];
 		[NSThread detachNewThreadSelector:@selector(createTilesForBoardInThread) toTarget:self withObject:nil];
 	}
-	else if (![config isEqual:aConfiguration])
+	else	
 	{
-		[config setConfiguration:aConfiguration];
-		[config save];
-		
-		// Board just needs to be redrawn
 		[self drawBoard];		
 	}
 }
 
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType
 {
-	self.gameState = GamePaused;
+	self.gameState = GameNotStarted;
 
 	self.photo = aPhoto;
 	
-	config.lastPhotoType = aType;
+	config.photoType = aType;
 	config.photoEnabled = YES;
 	[config save];
 	
@@ -247,7 +226,7 @@
 }
 
 
-// Methods for managing the moving and placemnt of Tiles
+// Methods for managing the moving and placement of Tiles
 
 - (void)updateGrid
 {
@@ -258,7 +237,7 @@
 	}
 
 	bool solved = YES;
-	for (Tile *tile in boardTiles)
+	for (Tile *tile in tiles)
 	{
 		// Check if board is solved
 		if (![tile solved]) solved = NO;
@@ -269,7 +248,7 @@
 	}
 	if (solved)
 	{
-		self.gameState = GamePaused;
+		self.gameState = GameNotStarted;
 		[boardController displaySolvedMenu];
 		
 		return;
@@ -325,220 +304,21 @@
 }
 
 
-// Methods for creating/reusing CGPaths for Tiles
-
-- (CGMutablePathRef)getTilePhotoBorderPath
-{	
-	if (tilePhotoBorderPath != NULL)
-	{
-		return tilePhotoBorderPath;
-	}
-
-	tilePhotoBorderPath = CGPathCreateMutable();
-	
-	CGPathMoveToPoint(tilePhotoBorderPath, NULL, 0, 0);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, tileSize.width, 0);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, tileSize.width, tileSize.height);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, tileSize.height);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, 0);
-	
-	[Util drawRoundedRectForPath:tilePhotoBorderPath
-							rect:CGRectMake(kTileSpacingWidth,
-											kTileSpacingWidth,
-											tileSize.width,
-											tileSize.height)
-						  radius:kTileCornerRadius];
-	
-	return tilePhotoBorderPath;
-}
-
-- (CGMutablePathRef)getTileNumberBorderPath
-{	
-	if (tileNumberBorderPath != NULL)
-	{
-		return tileNumberBorderPath;
-	}
-	
-	tileNumberBorderPath = CGPathCreateMutable();
-	
-	[Util drawRoundedRectForPath:tileNumberBorderPath
-							rect:CGRectMake(kTileSpacingWidth,
-										   kTileSpacingWidth,
-										   (tileSize.width - (2 * kTileSpacingWidth)),
-										   (tileSize.height - (2 * kTileSpacingWidth)))
-							radius:kTileCornerRadius];
-	
-	return tileNumberBorderPath;
-}
-
- - (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
-{
-	CFNumberRef textWidthRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &textWidth);
-	
-	CGMutablePathRef numberBorderPath = (CGMutablePathRef) CFDictionaryGetValue(numberBorderPaths, textWidthRef);	
-	if (numberBorderPath != nil)
-	{
-		CFRelease(textWidthRef);
-		
-		return numberBorderPath;
-	}
-
-	numberBorderPath = CGPathCreateMutable();
-
-	CGRect frame = CGRectMake((tileSize.width - textWidth - (2 * kPhotoBgBorder) - kPhotoBgOffset),
-							  (tileSize.height - kPhotoFontSize - kPhotoBgBorder - kPhotoBgOffset),
-							  (textWidth + (2 * kPhotoBgBorder)),
-							  (kPhotoFontSize + kPhotoBgBorder));
-	
-	[Util drawRoundedRectForPath:numberBorderPath
-							rect:frame
-						  radius:kPhotoBgCornerRadius];
-	
-	CFDictionarySetValue(numberBorderPaths, textWidthRef, numberBorderPath);
-	
-	return numberBorderPath;
-}
-
-
-
-#pragma mark UITabBarControllerDelegate methods
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-	selectedViewController = viewController.tabBarController.selectedIndex;
-}
-
-
-#pragma mark UIAccelerometerDelegate methods
-
-- (BOOL)thresholdShakeLast:(UIAcceleration *)last current:(UIAcceleration *)current threshold:(double)threshold
-{
-	double diffX = fabs(last.x - current.x);
-	double diffY = fabs(last.y - current.y);
-	double diffZ = fabs(last.z - current.z);
-	
-	if ((diffX > threshold) && (diffY > threshold) ||
-		(diffY > threshold) && (diffZ > threshold) ||
-		(diffZ > threshold) && (diffX > threshold))
-	{
-		return YES;
-	}
-	else
-	{
-		return NO;
-	}
-}
-
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
-{
-	if (self.lastAcceleration)
-	{
-		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
-			shakeCount > kShakeCount)
-		{
-			if (selectedViewController == kBoardControllerIndex)
-			{
-				if (self.gameState == GameInProgress)
-				{
-					self.gameState = GamePaused;
-					[boardController displayRestartMenu];
-				}
-			}
-						
-			shakeCount = 0;
-        }
-		else if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh])
-		{
-			shakeCount += 1;
-        }
-		else if (![self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdLow])
-		{
-			if (shakeCount > 0)
-			{
-				shakeCount -= 1;
-			}
-        }
-	}
-	
-	self.lastAcceleration = acceleration;
-}
 
 
 #pragma mark Private methods
 
-- (void)freeNumberBorderPaths
-{
-	const void **keys = 0;
-	const void **values = 0;
-	CFIndex count = CFDictionaryGetCount(numberBorderPaths);
-	keys = (const void **)malloc(sizeof(void *) * count);
-	values = (const void **)malloc(sizeof(void *) * count);
-	CFDictionaryGetKeysAndValues(numberBorderPaths, keys, values);
-	CFDictionaryRemoveAllValues(numberBorderPaths);
-	for (CFIndex i = 0; i < count; i++)
-	{
-		CFNumberRef numberRef = (CFNumberRef) keys[i];
-		CFRelease(numberRef);
-		CGMutablePathRef pathRef = (CGMutablePathRef) values[i];
-		CGPathRelease(pathRef);
-	}
-	free ((void *) keys);
-	free ((void *) values);
-}
-
-- (void)createPausedView
-{
-	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();	
-	
-    CGContextRef context = CGBitmapContextCreate(NULL,
-												 self.frame.size.width,
-												 self.frame.size.height,
-												 8,
-												 (self.frame.size.width * 4),
-												 colorSpaceRef,
-												 kCGImageAlphaPremultipliedLast);
-	CGColorSpaceRelease(colorSpaceRef);
-	
-	CGContextSetRGBFillColor(context,
-							 kPausedImageColorRed,
-							 kPausedImageColorGreen,
-							 kPausedImageColorBlue,
-							 kPausedImageColorAlpha);
-	
-	CGContextFillRect(context, self.frame);
-	
-	CGImageRef pausedImageRef = CGBitmapContextCreateImage(context);
-	UIImage *pausedImage = [UIImage imageWithCGImage:pausedImageRef];
-	
-	CGImageRelease(pausedImageRef);
-	CGContextRelease(context);
-	
-	pausedView = [[UIImageView alloc] initWithFrame:self.frame];
-	pausedView.image = pausedImage;
-	pausedView.userInteractionEnabled = NO;
-}
 
 - (void)createTilesForBoard
 {
-	for (Tile *tile in boardTiles)
+	// Clean up/remove previous tiles (if exist)
+	for (Tile *tile in tiles)
 	{
 		[tile removeFromSuperview];
 	}
-	[boardTiles removeAllObjects];
-	[boardTiles release];
-	
-	// Free CGPath resources, if needed
-	if (tilePhotoBorderPath != NULL)
-	{
-		CGPathRelease(tilePhotoBorderPath);
-		tilePhotoBorderPath = NULL;
-	}
-	if (tileNumberBorderPath != NULL)
-	{
-		CGPathRelease(tileNumberBorderPath);
-		tileNumberBorderPath = NULL;
-	}
-	[self freeNumberBorderPaths];
+	[tiles removeAllObjects];
+	[tiles release];
+		
 	
 	CGImageRef imageRef = [self.photo CGImage];
 	
@@ -546,7 +326,7 @@
 	tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
 						  trunc(self.frame.size.height / config.rows));
 	
-	boardTiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
+	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
 	
 	Coordinate loc = { 0, 0 };
 	int tileId = 1;
@@ -556,10 +336,9 @@
 		CGImageRef tileRef = CGImageCreateWithImageInRect(imageRef, tileRect);
 		UIImage *tilePhoto = [UIImage imageWithCGImage:tileRef];
 		CGImageRelease(tileRef);
-		
-		Tile *tile = [[Tile alloc] initWithBoard:self tileId:tileId loc:loc photo:tilePhoto];
-		
-		[boardTiles addObject:tile];
+				
+		Tile *tile = [[Tile tileWithId:tileId board:self loc:loc photo:tilePhoto] retain];
+		[tiles addObject:tile];
 		[tile release];
 		
 		if (++loc.x >= config.columns)
@@ -571,10 +350,39 @@
 	} while (loc.x < config.columns && (loc.y < config.rows));
 	
 	// Removed last tile
-	[boardTiles removeLastObject];
+	[tiles removeLastObject];
 	
+	
+	// Restore previous board state (if applicable)
+	if (boardSaved)
+	{
+		DLog("boardState [%d]", [boardState count]);
+		
+		for (Tile *tile in tiles)
+		{
+			NSNumber *num = [NSNumber numberWithInt:tile.tileId];
+			
+			BoardCoordinate *bc = (BoardCoordinate *) [boardState objectForKey:num];
+			if (bc != nil)
+			{
+				Coordinate savedLoc = { bc.x, bc.y};
+				[tile moveToCoordinate:savedLoc];
+				grid[bc.x][bc.y] = tile;
+			}
+			[boardState removeObjectForKey:num];
+		}
+		
+		NSArray *values = [boardState allValues];
+		DLog("remaining tiles [%d]", values.count);
+		BoardCoordinate *bc = (BoardCoordinate *) [values objectAtIndex:0];
+		empty.x = bc.x;
+		empty.y = bc.y;
+		
+		//boardSaved = NO;
+	}
+		
 	// Add tiles to board
-	for (Tile *tile in boardTiles)
+	for (Tile *tile in tiles)
 	{
 		[self addSubview:tile];
 	}
@@ -594,7 +402,7 @@
 		}
 	}
 	
-	NSMutableArray *numberArray = [NSMutableArray arrayWithCapacity:boardTiles.count];
+	NSMutableArray *numberArray = [NSMutableArray arrayWithCapacity:tiles.count];
 	for (int i = 0; i < (config.rows * config.columns); i++)
 	{
 		[numberArray insertObject:[NSNumber numberWithInt:i] atIndex:i];
@@ -625,10 +433,12 @@
 				
 				int index = [[numberArray objectAtIndex:randomNum] intValue];
 				[numberArray removeObjectAtIndex:randomNum];
-				if (index < boardTiles.count)
+				if (index < tiles.count)
 				{
-					Tile *tile = [boardTiles objectAtIndex:index];
+					Tile *tile = [tiles objectAtIndex:index];
 					grid[x][y] = tile;
+					
+					DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
 					
 					Coordinate coordinate = { x, y };
 					[tile moveToCoordinate:coordinate];
@@ -650,6 +460,76 @@
 	[self updateGrid];
 }
 
+- (void)restoreGrid
+{
+	// Clear grid
+	for (int x = 0; x < config.columns; x++)
+	{
+		for (int y = 0; y < config.rows; y++)
+		{
+			grid[x][y] = NULL;
+		}
+	}
+	
+	for (Tile *tile in tiles)
+	{
+		[self addSubview:tile];
+	}
+	
+	NSMutableArray *numberArray = [NSMutableArray arrayWithCapacity:tiles.count];
+	for (int i = 0; i < (config.rows * config.columns); i++)
+	{
+		[numberArray insertObject:[NSNumber numberWithInt:i] atIndex:i];
+	}
+	
+		
+	for (int y = 0; y < config.rows; y++)
+	{
+		for (int x = 0; x < config.columns; x++)
+		{
+			if (numberArray.count > 0)
+			{
+				int randomNum = arc4random() % numberArray.count;
+				
+#ifdef DEBUG
+				//				if (numberArray.count > 2)
+				//					randomNum = 0;
+				//				else if (numberArray.count == 2)
+				//					randomNum = 1;
+				//				else
+				//					randomNum = 0;
+#endif
+				
+				int index = [[numberArray objectAtIndex:randomNum] intValue];
+				[numberArray removeObjectAtIndex:randomNum];
+				if (index < tiles.count)
+				{
+					Tile *tile = [tiles objectAtIndex:index];
+					grid[x][y] = tile;
+					
+					DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
+					
+					Coordinate coordinate = { x, y };
+					[tile moveToCoordinate:coordinate];
+				}
+				else
+				{
+					// Empty slot
+					empty.x = x;
+					empty.y = y;
+					
+					DLog(@"Empty slot [%d][%d]", empty.x, empty.y);
+				}
+			}
+		}
+	}
+	
+	[UIView commitAnimations];
+	
+	[self updateGrid];
+}
+
+
 - (void)showWaitView
 {
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
@@ -664,8 +544,18 @@
 	[waitImageView stopAnimating];
 	
 	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
-	
-	[boardController displayStartMenu];
+		
+	if (boardSaved)
+	{
+		boardSaved = NO;
+		gameState = GamePaused;
+		[self updateGrid];
+		[boardController displayRestartMenu];
+	}
+	else
+	{		
+		[boardController displayStartMenu];
+	}
 }
 
 - (void)createTilesForBoardInThread
@@ -681,11 +571,91 @@
 
 - (void)drawBoard
 {
-	for (Tile *tile in boardTiles)
+	for (Tile *tile in tiles)
 	{
 		[tile drawTile];
 	}
 }
+
+- (void)saveBoard
+{
+	DLog("saveBoard");
+	
+	if (gameState != GameNotStarted)
+	{
+		DLog("saving board...");
+
+		NSMutableArray *stateArray = [[NSMutableArray alloc] initWithCapacity:(config.columns * config.rows)];
+	
+		for (int col = 0; col < config.columns; col++)
+		{
+			for (int row = 0; row < config.rows; row++)
+			{
+				Tile *tile = grid[col][row];
+				if (tile == nil)
+				{
+					//DLog("data [%d][%d] nil tile", col, row);
+					[stateArray addObject:[NSNumber numberWithInt:0]];
+				}
+				else
+				{
+					[stateArray addObject:[NSNumber numberWithInt:tile.tileId]];
+					//DLog("data [%d][%d] value [%d]", col, row, tile.tileId);
+				}
+			}
+		}
+				
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setObject:stateArray forKey:kKeyBoardState];
+		[defaults setBool:YES forKey:kKeyBoardSaved];
+		[defaults synchronize];
+	
+		[stateArray release];
+	}
+}
+
+- (void)restoreBoard
+{
+	DLog("restoreBoard");
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSArray *stateArray = (NSArray *) [defaults objectForKey:kKeyBoardState];
+	boardSaved = [defaults boolForKey:kKeyBoardSaved];
+	
+	[defaults setBool:NO forKey:kKeyBoardSaved];
+	[defaults setObject:nil forKey:kKeyBoardState];
+	[defaults synchronize];
+	
+	if (boardSaved)
+	{
+		DLog("restoring board...");
+		int tileCount = (config.columns * config.rows);
+		
+		// Check Size
+		if ([stateArray count] != tileCount)
+		{
+			ALog("Saved Board has been corrupted. Number of saves values [%d] different than expected [%d]",
+				 [stateArray count], tileCount); 
+			boardSaved = NO;
+			return;
+		}
+		
+		boardState = [[NSMutableDictionary alloc] initWithCapacity:(config.rows * config.columns)];
+		
+		for (int i = 0; i < stateArray.count; i++)
+		{
+			int col = i / config.rows;
+			int row = i % config.columns;
+			
+			NSNumber *num = (NSNumber *) [stateArray objectAtIndex:i];
+			[boardState setObject:[[[BoardCoordinate alloc] initWithX:col y:row] autorelease] forKey:num];
+				
+			//DLog("data [%d][%d] [%d]", col, row, [num intValue]);
+			[num release];
+		}
+	}
+}
+
 
 // END Private Methods
 

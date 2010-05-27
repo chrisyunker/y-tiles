@@ -20,11 +20,12 @@ typedef enum
 	MoveUp	 	   = 1,
 	MoveDown	   = 2,
 	MoveLeft	   = 3,
-	MoveRight	   = 4,
+	MoveRight	   = 4
 } MoveType;
 
 typedef enum
 {
-	GamePaused      = 0,
-	GameInProgress  = 1,
+	GameNotStarted  = 0,
+	GamePaused      = 1,
+	GameInProgress  = 2
 } GameState;

@@ -18,6 +18,8 @@
 #define kKeyPhotoEnabled         @"photoEnabled"
 #define kKeyNumbersEnabled       @"numbersEnabled"
 #define kKeySoundEnabled         @"soundEnabled"
+#define kKeyBoardSaved           @"boardSaved"
+#define kKeyBoardState           @"boardState"
 
 // Default Values
 #define kColumnsDefault          4

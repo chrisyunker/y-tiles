@@ -18,28 +18,24 @@
 
 @class Tile;
 @class BoardController;
+@class Configuration;
 
-@interface Board : UIView <UITabBarControllerDelegate, UIAccelerometerDelegate>
+@interface Board : UIView
 {
+	GameState gameState;
 	Configuration *config;
-	UIImageView *pausedView;
-	WaitImageView *waitImageView;
+	NSMutableArray *tiles;
+	Tile ***grid;
 	CGSize tileSize;
 	UIImage *photo;
-	NSMutableArray *boardTiles;
-	Tile ***grid;
 	Coordinate empty;
 	NSLock *tileLock;
 	SystemSoundID tockSSID;
 	BoardController *boardController;
-	int selectedViewController;
-	GameState gameState;
-	CGMutablePathRef tilePhotoBorderPath;
-	CGMutablePathRef tileNumberBorderPath;
-	CFMutableDictionaryRef numberBorderPaths;
-	UIAccelerometer *accelerometer;
-	UIAcceleration *lastAcceleration;
-	int shakeCount;	
+	UIImageView *pausedView;
+	WaitImageView *waitImageView;
+	NSMutableDictionary *boardState;
+	BOOL boardSaved;
 }
 
 @property (retain) UIImage *photo;
@@ -47,7 +43,6 @@
 @property (nonatomic, readonly) NSLock *tileLock;
 @property (nonatomic, assign) GameState gameState;
 @property (nonatomic, retain) BoardController *boardController;
-@property (nonatomic, retain) UIAcceleration *lastAcceleration;
 
 - (void)initialize;
 - (void)start;
@@ -55,11 +50,9 @@
 - (void)pause;
 - (void)resume;
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType;
-- (void)setConfiguration:(Configuration *)aConfiguration;
+- (void)configChanged:(BOOL)restart;
 - (void)moveTileFromCoordinate:(Coordinate)loc1 toCoordinate:(Coordinate)loc2;
 - (void)updateGrid;
-- (CGMutablePathRef)getTilePhotoBorderPath;
-- (CGMutablePathRef)getTileNumberBorderPath;
-- (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
+- (void)saveBoard;
 
 @end

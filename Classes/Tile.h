@@ -20,9 +20,7 @@
 	Coordinate home;
 	Coordinate loc;
 	int tileId;
-	int tileWidth;
-	int tileHeight;
-	CGRect tileFrame;
+	//CGRect tileFrame;
 	UIImage *photoImage;
 	UIImage *numberedPhotoImage;
 	UIImage *numberImage;
@@ -33,15 +31,15 @@
 	CGPoint startLocation;
 	BOOL solved;
 	BOOL haveLock;
+	CGMutablePathRef numberBorder;
 }
 
 @property (nonatomic, readonly) int tileId;
 @property (nonatomic, readonly) BOOL solved;
 @property (nonatomic, readwrite) MoveType moveType;
 @property (nonatomic, assign) Tile *pushTile;
-@property (nonatomic, readonly) Board *board;
 
-- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
++ (Tile *)tileWithId:(int)aId board:(Board *)aBoard loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
 - (void)drawTile;
 - (void)moveToCoordinate:(Coordinate)aLoc;
 - (void)moveToHomeCoordinate;
