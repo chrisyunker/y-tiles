@@ -30,18 +30,18 @@
 	UINavigationController *navController;
 	
 	navController = [[UINavigationController alloc] initWithRootViewController:boardController];
-	navController.navigationBarHidden = YES;
-	navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	[navController setNavigationBarHidden:YES];
+	[[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
 	[controllers addObject:navController];
 	[navController release];
 	
 	navController = [[UINavigationController alloc] initWithRootViewController:photoController];
-	navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	[[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
 	[controllers addObject:navController];
 	[navController release];
 	
 	navController = [[UINavigationController alloc] initWithRootViewController:settingsController];
-	navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	[[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
 	[controllers addObject:navController];
 	[navController release];
 		
@@ -50,8 +50,8 @@
 	[settingsController release];
 	
 	UITabBarController *tabBarController = [[UITabBarController alloc] init];
-	tabBarController.viewControllers = controllers;
-	tabBarController.delegate = boardController;
+	[tabBarController setViewControllers:controllers];
+	[tabBarController setDelegate:boardController];
 	
 	[window addSubview:tabBarController.view];
 	[window makeKeyAndVisible];

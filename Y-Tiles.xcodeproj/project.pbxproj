@@ -12,9 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		3B06CE0D11A97F2700C48CB4 /* BoardCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */; };
-		3B06CF1B11A9C72D00C48CB4 /* BoardImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */; };
-		3B06CF3E11A9DB1D00C48CB4 /* TestBoardCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */; };
+		3B06CE0D11A97F2700C48CB4 /* ObjCoord.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */; };
 		3B78CC010F5B7CC20041A61D /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CC000F5B7CC20041A61D /* Util.m */; };
 		3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CCF90F5B95BD0041A61D /* WaitImageView.m */; };
 		3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */; };
@@ -55,12 +53,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
-		3B06CE0B11A97F2700C48CB4 /* BoardCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardCoordinate.h; sourceTree = "<group>"; };
-		3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCoordinate.m; sourceTree = "<group>"; };
-		3B06CF1911A9C72D00C48CB4 /* BoardImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardImage.h; sourceTree = "<group>"; };
-		3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardImage.m; sourceTree = "<group>"; };
-		3B06CF3C11A9DB1D00C48CB4 /* TestBoardCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBoardCoordinate.h; sourceTree = "<group>"; };
-		3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBoardCoordinate.m; sourceTree = "<group>"; };
+		3B06CE0B11A97F2700C48CB4 /* ObjCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCoord.h; sourceTree = "<group>"; };
+		3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCoord.m; sourceTree = "<group>"; };
 		3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B06CF4C11A9DD3400C48CB4 /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
 		3B78CBFF0F5B7CC20041A61D /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
@@ -132,33 +126,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3B06CF1911A9C72D00C48CB4 /* BoardImage.h */,
-				3B06CF1A11A9C72D00C48CB4 /* BoardImage.m */,
-				3B06CE0B11A97F2700C48CB4 /* BoardCoordinate.h */,
-				3B06CE0C11A97F2700C48CB4 /* BoardCoordinate.m */,
-				3BE09CC00F53AE3E00D88117 /* AboutController.h */,
-				3BE09CC10F53AE3E00D88117 /* AboutController.m */,
-				3BE09CC20F53AE3E00D88117 /* Board.h */,
-				3BE09CC30F53AE3E00D88117 /* Board.m */,
-				3BE09CC40F53AE3E00D88117 /* BoardController.h */,
-				3BE09CC50F53AE3E00D88117 /* BoardController.m */,
-				3BE09CC60F53AE3E00D88117 /* Configuration.h */,
-				3BE09CC70F53AE3E00D88117 /* Configuration.m */,
-				3BE09CC80F53AE3E00D88117 /* DataTypes.h */,
-				3BE09CC90F53AE3E00D88117 /* PhotoController.h */,
-				3BE09CCA0F53AE3E00D88117 /* PhotoController.m */,
-				3BE09CCB0F53AE3E00D88117 /* SettingsController.h */,
-				3BE09CCC0F53AE3E00D88117 /* SettingsController.m */,
-				3BE09CCD0F53AE3E00D88117 /* Tile.h */,
-				3BE09CCE0F53AE3E00D88117 /* Tile.m */,
+				3B6E3DB211CD155500DE3DEE /* Util */,
+				3B6E3DB111CD152B00DE3DEE /* Photo */,
+				3B6E3DB011CD14F900DE3DEE /* Settings */,
+				3B6E3DAF11CD14E600DE3DEE /* Board */,
 				1D3623240D0F684500981E51 /* Y_TilesAppDelegate.h */,
 				1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */,
-				3B799C5C0F57AC73001BCAEC /* PhotoDefaultController.h */,
-				3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */,
-				3B78CBFF0F5B7CC20041A61D /* Util.h */,
-				3B78CC000F5B7CC20041A61D /* Util.m */,
-				3B78CCF80F5B95BD0041A61D /* WaitImageView.h */,
-				3B78CCF90F5B95BD0041A61D /* WaitImageView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -224,10 +197,59 @@
 		3B06CF4211A9DB4300C48CB4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				3B06CF3C11A9DB1D00C48CB4 /* TestBoardCoordinate.h */,
-				3B06CF3D11A9DB1D00C48CB4 /* TestBoardCoordinate.m */,
 			);
 			name = Tests;
+			sourceTree = "<group>";
+		};
+		3B6E3DAF11CD14E600DE3DEE /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09CC40F53AE3E00D88117 /* BoardController.h */,
+				3BE09CC50F53AE3E00D88117 /* BoardController.m */,
+				3BE09CC20F53AE3E00D88117 /* Board.h */,
+				3BE09CC30F53AE3E00D88117 /* Board.m */,
+				3BE09CCD0F53AE3E00D88117 /* Tile.h */,
+				3BE09CCE0F53AE3E00D88117 /* Tile.m */,
+			);
+			name = Board;
+			sourceTree = "<group>";
+		};
+		3B6E3DB011CD14F900DE3DEE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09CCB0F53AE3E00D88117 /* SettingsController.h */,
+				3BE09CCC0F53AE3E00D88117 /* SettingsController.m */,
+				3BE09CC00F53AE3E00D88117 /* AboutController.h */,
+				3BE09CC10F53AE3E00D88117 /* AboutController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		3B6E3DB111CD152B00DE3DEE /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				3BE09CC90F53AE3E00D88117 /* PhotoController.h */,
+				3BE09CCA0F53AE3E00D88117 /* PhotoController.m */,
+				3B799C5C0F57AC73001BCAEC /* PhotoDefaultController.h */,
+				3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */,
+			);
+			name = Photo;
+			sourceTree = "<group>";
+		};
+		3B6E3DB211CD155500DE3DEE /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				3B06CE0B11A97F2700C48CB4 /* ObjCoord.h */,
+				3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */,
+				3BE09CC60F53AE3E00D88117 /* Configuration.h */,
+				3BE09CC70F53AE3E00D88117 /* Configuration.m */,
+				3BE09CC80F53AE3E00D88117 /* DataTypes.h */,
+				3B78CBFF0F5B7CC20041A61D /* Util.h */,
+				3B78CC000F5B7CC20041A61D /* Util.m */,
+				3B78CCF80F5B95BD0041A61D /* WaitImageView.h */,
+				3B78CCF90F5B95BD0041A61D /* WaitImageView.m */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 		3BE09CF10F53B03D00D88117 /* Images */ = {
@@ -374,9 +396,7 @@
 				3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */,
 				3B78CC010F5B7CC20041A61D /* Util.m in Sources */,
 				3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */,
-				3B06CE0D11A97F2700C48CB4 /* BoardCoordinate.m in Sources */,
-				3B06CF1B11A9C72D00C48CB4 /* BoardImage.m in Sources */,
-				3B06CF3E11A9DB1D00C48CB4 /* TestBoardCoordinate.m in Sources */,
+				3B06CE0D11A97F2700C48CB4 /* ObjCoord.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,7 +451,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -440,9 +460,9 @@
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = "Y-Tiles";
 				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos3.1.3;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "59C64B03-A55B-4FD2-ACB5-148C0F06F71D";
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				SDKROOT = iphoneos3.2;
 			};
 			name = Debug;
 		};
@@ -452,16 +472,16 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = "Y-Tiles";
 				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos3.1.3;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "59C64B03-A55B-4FD2-ACB5-148C0F06F71D";
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				SDKROOT = iphoneos3.2;
 			};
 			name = Release;
 		};
@@ -528,17 +548,16 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "";
-				SDKROOT = iphoneos3.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.2;
 				SYMROOT = build;
 			};
 			name = Debug;
@@ -547,17 +566,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos3.1]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos3.1]" = "";
-				SDKROOT = iphoneos3.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.2;
 				SYMROOT = build;
 			};
 			name = Release;

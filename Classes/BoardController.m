@@ -20,15 +20,16 @@
 	if (self = [super init])
 	{		
 		board = [aBoard retain];
-
-		[self.tabBarItem initWithTitle:NSLocalizedString(@"BoardTitle", @"")
-		 image:[UIImage imageNamed:@"Board.png"]
-		 tag:kTabBarBoardTag];
+		[board setBoardController:self];
 		
-		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
-		accelerometer.delegate = self;
-		accelerometer.updateInterval = kUpdateInterval;
+		[[self tabBarItem] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
+								   image:[UIImage imageNamed:@"Board.png"]
+									 tag:kTabBarBoardTag];
+		
 		shakeCount = 0;
+		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
+		[accelerometer setDelegate:self];
+		[accelerometer setUpdateInterval:kUpdateInterval];
     }
     return self;
 }
@@ -37,10 +38,10 @@
 {
 	DLog(@"dealloc");
 	
+	[board release];
 	[startButton release];
 	[restartButton release];
 	[resumeButton release];
-	[board release];
 	[accelerometer release];
 	[lastAcceleration release];
     [super dealloc];
@@ -52,70 +53,110 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)setView:(UIView *)aView
+{
+	DLog(@"setView [%@]", aView);
+	if (aView == nil)
+	{
+		DLog(@"aView is nil");
+		
+	}
+	[super setView:aView];
+}
+
+
 - (void)loadView
 {
     [super loadView];
+	DLog(@"loadView");
 	
-	board.boardController = self;
-		
-	self.startButton = [[[UIBarButtonItem alloc]
-						initWithTitle:[NSString stringWithFormat:@"  %@  ", NSLocalizedString(@"StartButton", @"")]
-						style:UIBarButtonItemStyleDone
-						target:self
-						action:@selector(startButtonAction)] autorelease];
-		
-	self.restartButton = [[[UIBarButtonItem alloc]
-						  initWithTitle:NSLocalizedString(@"RestartButton", @"")
-						  style:UIBarButtonItemStyleDone
-						  target:self
-						  action:@selector(restartButtonAction)] autorelease];
+	if (startButton == nil)
+	{
+		DLog(@"create start button");
+
+		startButton = [[UIBarButtonItem alloc]
+					   initWithTitle:[NSString stringWithFormat:@"  %@  ", NSLocalizedString(@"StartButton", @"")]
+					   style:UIBarButtonItemStyleDone
+					   target:self
+					   action:@selector(startButtonAction)];
+	}
 	
-	self.resumeButton = [[[UIBarButtonItem alloc]
-						 initWithTitle:NSLocalizedString(@"ResumeButton", @"")
+	if (restartButton == nil)
+	{
+		restartButton = [[UIBarButtonItem alloc]
+						 initWithTitle:NSLocalizedString(@"RestartButton", @"")
 						 style:UIBarButtonItemStyleDone
 						 target:self
-						 action:@selector(resumeButtonAction)] autorelease];
-		
-	[self.view addSubview:board];
+						 action:@selector(restartButtonAction)];
+	}
+	
+	if (resumeButton == nil)
+	{
+		resumeButton = [[UIBarButtonItem alloc]
+						initWithTitle:NSLocalizedString(@"ResumeButton", @"")
+						style:UIBarButtonItemStyleDone
+						target:self
+						action:@selector(resumeButtonAction)];
+	}
+
+	
+	[[self view] addSubview:board];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	DLog(@"viewWillAppear");	
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	DLog(@"viewDidDisappear");
+	[super viewDidDisappear:animated];
+}
+
 
 - (void)startButtonAction
 {
-	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	[[self navigationController] setNavigationBarHidden:YES animated:YES];
 	[board start];
 }
 
 - (void)restartButtonAction
 {
-	[self.navigationController setNavigationBarHidden:YES animated:YES];	
+	[[self navigationController] setNavigationBarHidden:YES animated:YES];	
 	[board start];
 }
 
 - (void)resumeButtonAction
 {
-	[self.navigationController setNavigationBarHidden:YES animated:YES];	
+	[[self navigationController] setNavigationBarHidden:YES animated:YES];	
 	[board resume];
 }
 
 - (void)displayRestartMenu
 {
-	self.navigationItem.leftBarButtonItem = restartButton;
-	self.navigationItem.rightBarButtonItem = resumeButton;
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	DLog(@"displayRestartMenu");
+	
+	[[self navigationItem] setLeftBarButtonItem:restartButton];
+	[[self navigationItem] setRightBarButtonItem:resumeButton];
+	[[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)displayStartMenu
 {
-	self.navigationItem.leftBarButtonItem = startButton;
-	self.navigationItem.rightBarButtonItem = nil;
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	DLog(@"displayStartMenu");
+	
+	[[self navigationItem] setLeftBarButtonItem:startButton];
+	[[self navigationItem] setRightBarButtonItem:nil];
+	[[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)displaySolvedMenu
 {
-	self.navigationItem.leftBarButtonItem = startButton;
-	self.navigationItem.rightBarButtonItem = nil;
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	[[self navigationItem] setLeftBarButtonItem:startButton];
+	[[self navigationItem] setRightBarButtonItem:nil];
+	[[self navigationController] setNavigationBarHidden:NO animated:YES];
 		
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 	
@@ -134,10 +175,8 @@
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-	selectedViewController = viewController.tabBarController.selectedIndex;
+	selectedViewController = [[viewController tabBarController] selectedIndex];
 }
-
-
 
 #pragma mark UIAccelerometerDelegate methods
 

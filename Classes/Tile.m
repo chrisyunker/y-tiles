@@ -10,10 +10,9 @@
 
 @interface Tile (Private)
 
-+ (void)getTilePhotoBorderPathForWidth:(int)width height:(int)height;
-+ (void)getTileNumberBorderPathForWidth:(int)width height:(int)height;
-
-- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
++ (void)setTilePhotoBorderPath;
++ (void)setTileNumberBorderPath;
+- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId coord:(Coord)aCoord photo:(UIImage *)aPhoto;
 - (void)createPhotoImage;
 - (void)createNumberImage;
 - (void)updateFrame;
@@ -35,25 +34,24 @@ static int tileWidth = 0;
 static int tileHeight = 0;
 
 
-+ (Tile *)tileWithId:(int)aId board:(Board *)aBoard loc:(Coordinate)aLoc photo:(UIImage *)aPhoto
++ (Tile *)tileWithId:(int)aId board:(Board *)aBoard coord:(Coord)aCoord photo:(UIImage *)aPhoto
 {
 	int height = (int) aPhoto.size.height;
 	int width = (int) aPhoto.size.width;
 	
 	if ((height != tileHeight) || (width != tileWidth))
 	{
-		[Tile getTilePhotoBorderPathForWidth:width height:height];
-		[Tile getTileNumberBorderPathForWidth:width height:height];
+		tileWidth = width;
+		tileHeight = height;
+		[Tile setTilePhotoBorderPath];
+		[Tile setTileNumberBorderPath];
 	}
 	
-	tileWidth = width;
-	tileHeight = height;
-	
-	return [[[Tile alloc] initWithBoard:aBoard tileId:aId loc:aLoc photo:aPhoto] autorelease];
+	return [[[Tile alloc] initWithBoard:aBoard tileId:aId coord:aCoord photo:aPhoto] autorelease];
 }
 
 
-- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
+- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId coord:(Coord)aCoord photo:(UIImage *)aPhoto
 {
 	CGRect rect = CGRectMake(0, 0, aPhoto.size.width, aPhoto.size.height);
 	
@@ -63,12 +61,9 @@ static int tileHeight = 0;
 		photoImage = [aPhoto retain];
 		
 		tileId = aTileId;
-		home = aLoc;
-		loc = aLoc;
-		//tileHeight = (int) aPhoto.size.height;
-		//tileWidth = (int) aPhoto.size.width;
-		
-		moveType = MoveNone;
+		homeCoord = aCoord;
+		coord = aCoord;		
+		moveType = None;
 		solved = YES;
 		haveLock = NO;
 		
@@ -76,8 +71,8 @@ static int tileHeight = 0;
 		[self createPhotoImage];
 		[self drawTile];
 		[self updateFrame];
-		self.userInteractionEnabled = YES;
-		self.multipleTouchEnabled = NO;
+		[self setUserInteractionEnabled:YES];
+		[self setMultipleTouchEnabled:NO];
 	}
 	return self;
 }
@@ -86,7 +81,6 @@ static int tileHeight = 0;
 {
 	DLog(@"dealloc tileId:[%d]", tileId);
 	
-	CGPathRelease(numberBorder);
 	[photoImage release];
 	[numberedPhotoImage release];
 	[numberImage release];
@@ -100,89 +94,84 @@ static int tileHeight = 0;
 	{
 		if (board.config.numbersEnabled)
 		{
-			self.image = numberedPhotoImage;
+			[self setImage:numberedPhotoImage];
 		}
 		else
 		{
-			self.image = photoImage;
+			[self setImage:photoImage];
 		}
 	}
 	else
 	{
-		self.image = numberImage;
+		[self setImage:numberImage];
 	}
 }
 
-- (void)moveToHomeCoordinate
+- (void)moveToCoord:(Coord)aCoord;
 {
-	Coordinate prevLoc = loc;
-	loc = home;
-	
-	[board moveTileFromCoordinate:prevLoc toCoordinate:loc];
-	
+	coord.x = aCoord.x;
+	coord.y = aCoord.y;
 	[self updateFrame];
 }
 
-- (void)moveToCoordinate:(Coordinate)aLoc
+- (void)moveToCoordX:(int)x coordY:(int)y
 {
-	loc = aLoc;
-	
+	coord.x = x;
+	coord.y = y;
 	[self updateFrame];
 }
-
-- (void)moveInDirection:(MoveType)type
+				
+- (void)moveInDirection:(Direction)type
 {
 	// Need to move the furthest tile first
 	if (pushTile != nil) [pushTile moveInDirection:type];
 	
-	Coordinate prevLoc = loc;
+	Coord prevLoc = coord;
 		
 	switch (type)
 	{
-		case MoveLeft:
-			loc.x--;
-			[board moveTileFromCoordinate:prevLoc toCoordinate:loc];
+		case Left:
+			coord.x--;
+			[board moveTileFromCoordinate:prevLoc toCoordinate:coord];
 			break;
-		case MoveRight:
-			loc.x++;
-			[board moveTileFromCoordinate:prevLoc toCoordinate:loc];
+		case Right:
+			coord.x++;
+			[board moveTileFromCoordinate:prevLoc toCoordinate:coord];
 			break;
-		case MoveUp:
-			loc.y--;
-			[board moveTileFromCoordinate:prevLoc toCoordinate:loc];
+		case Up:
+			coord.y--;
+			[board moveTileFromCoordinate:prevLoc toCoordinate:coord];
 			break;
-		case MoveDown:
-			loc.y++;
-			[board moveTileFromCoordinate:prevLoc toCoordinate:loc];
+		case Down:
+			coord.y++;
+			[board moveTileFromCoordinate:prevLoc toCoordinate:coord];
 			break;
 		default:
 			// No move
 			break;
 	}
-	
 	[self updateFrame];
 }
 
-- (void)slideTileInDirection:(MoveType)type distance:(CGFloat)distance
+- (void)slideInDirection:(Direction)direction distance:(CGFloat)distance
 {
-	if (pushTile != nil) [pushTile slideTileInDirection:type distance:distance];
+	if (pushTile != nil) [pushTile slideInDirection:direction distance:distance];
 	
 	CGRect frame = [self frame];
-	if (type == MoveLeft)
+	switch (direction)
 	{
-		frame.origin.x -= distance;
-	}
-	if (type == MoveRight)
-	{
-		frame.origin.x += distance;
-	}
-	if (type == MoveUp)
-	{
-		frame.origin.y -= distance;
-	}
-	if (type == MoveDown)
-	{
-		frame.origin.y += distance;
+		case Left:
+			frame.origin.x -= distance;
+			break;
+		case Right:
+			frame.origin.x += distance;
+			break;
+		case Up:
+			frame.origin.y -= distance;
+			break;
+		case Down:
+			frame.origin.y += distance;
+			break;
 	}
 	[self setFrame:frame];	
 }
@@ -204,71 +193,59 @@ static int tileHeight = 0;
 		return;
 	}
 	
-	CGPoint pt = [[touches anyObject] locationInView:self];
-	startLocation = pt;
+	// Set start point for sliding tile
+	startPoint = [[touches anyObject] locationInView:self];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	if (!haveLock) return;
 		
-	if (moveType == MoveUp)
+	CGRect frame = [self frame];
+	CGPoint endPoint = [[touches anyObject] locationInView:self];
+	
+	if (moveType == Up)
 	{
-		CGRect frame = [self frame];
-		CGPoint pt = [[touches anyObject] locationInView:self];
 		CGFloat initY = frame.origin.y;
-				
-		frame.origin.y += pt.y - startLocation.y;
-		if (frame.origin.y > point.y) frame.origin.y = point.y;
-		if (frame.origin.y < (point.y - (tileHeight))) frame.origin.y = point.y - (tileHeight);
+
+		frame.origin.y += endPoint.y - startPoint.y;
+		if (frame.origin.y > startOrigin.y) frame.origin.y = startOrigin.y;
+		if (frame.origin.y < (startOrigin.y - tileHeight)) frame.origin.y = startOrigin.y - tileHeight;
 		
-		if (pushTile != nil) [pushTile slideTileInDirection:moveType distance:(initY - frame.origin.y)];
-		[self setFrame:frame];
-		return;
+		if (pushTile != nil) [pushTile slideInDirection:moveType distance:(initY - frame.origin.y)];		
 	}
-	if (moveType == MoveDown)
+	else if (moveType == Down)
 	{
-		CGPoint pt = [[touches anyObject] locationInView:self];
-		CGRect frame = [self frame];
 		CGFloat initY = frame.origin.y;
 		
-		frame.origin.y += pt.y - startLocation.y;
-		if (frame.origin.y < point.y) frame.origin.y = point.y;
-		if (frame.origin.y > (point.y + (tileHeight))) frame.origin.y = point.y + (tileHeight);
+		frame.origin.y += endPoint.y - startPoint.y;
+		if (frame.origin.y < startOrigin.y) frame.origin.y = startOrigin.y;
+		if (frame.origin.y > (startOrigin.y + tileHeight)) frame.origin.y = startOrigin.y + tileHeight;
 		
-		if (pushTile != nil) [pushTile slideTileInDirection:moveType distance:(frame.origin.y - initY)];
-		[self setFrame:frame];
-		return;
+		if (pushTile != nil) [pushTile slideInDirection:moveType distance:(frame.origin.y - initY)];
 	}
-	if (moveType == MoveLeft)
+	else if (moveType == Left)
 	{
-		CGPoint pt = [[touches anyObject] locationInView:self];
-		CGRect frame = [self frame];
 		CGFloat initX = frame.origin.x;
 		
-		frame.origin.x += pt.x - startLocation.x;
-		if (frame.origin.x > point.x) frame.origin.x = point.x;
-		if (frame.origin.x < (point.x - (tileWidth))) frame.origin.x = point.x - (tileWidth);
+		frame.origin.x += endPoint.x - startPoint.x;
+		if (frame.origin.x > startOrigin.x) frame.origin.x = startOrigin.x;
+		if (frame.origin.x < (startOrigin.x - tileWidth)) frame.origin.x = startOrigin.x - tileWidth;
 		
-		if (pushTile != nil) [pushTile slideTileInDirection:moveType distance:(initX - frame.origin.x)];
-		[self setFrame:frame];
-		return;
+		if (pushTile != nil) [pushTile slideInDirection:moveType distance:(initX - frame.origin.x)];
 	}
-	if (moveType == MoveRight)
+	else if (moveType == Right)
 	{
-		CGPoint pt = [[touches anyObject] locationInView:self];
-		CGRect frame = [self frame];
 		CGFloat initX = frame.origin.x;
 		
-		frame.origin.x += pt.x - startLocation.x;
-		if (frame.origin.x < point.x) frame.origin.x = point.x;
-		if (frame.origin.x > (point.x + (tileWidth))) frame.origin.x = point.x + (tileWidth);
+		frame.origin.x += endPoint.x - startPoint.x;
+		if (frame.origin.x < startOrigin.x) frame.origin.x = startOrigin.x;
+		if (frame.origin.x > (startOrigin.x + tileWidth)) frame.origin.x = startOrigin.x + tileWidth;
 		
-		if (pushTile != nil) [pushTile slideTileInDirection:moveType distance:(frame.origin.x - initX)];
-		
-		[self setFrame:frame];
-		return;
+		if (pushTile != nil) [pushTile slideInDirection:moveType distance:(frame.origin.x - initX)];
 	}
+	
+	[self setFrame:frame];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -276,41 +253,41 @@ static int tileHeight = 0;
 	if (!haveLock) return;
 
 	CGRect frame = [self frame];
-	if ((frame.origin.x == point.x) && (frame.origin.y == point.y))
+	if ((frame.origin.x == startOrigin.x) && (frame.origin.y == startOrigin.y))
 	{
 		// Do nothing
 	}
-	else if ((frame.origin.x - point.x) > (tileWidth / 2))
+	else if ((frame.origin.x - startOrigin.x) > (tileWidth / 2))
 	{		
 		// Move Right
 
-		[self moveInDirection:MoveRight];
+		[self moveInDirection:Right];
 		[board updateGrid];
 	}
-	else if ((point.x - frame.origin.x) > (tileWidth / 2))
+	else if ((startOrigin.x - frame.origin.x) > (tileWidth / 2))
 	{		
 		// Move Left
 
-		[self moveInDirection:MoveLeft];
+		[self moveInDirection:Left];
 		[board updateGrid];
 	}
-	else if ((frame.origin.y - point.y) > (tileHeight / 2))
+	else if ((frame.origin.y - startOrigin.y) > (tileHeight / 2))
 	{
 		// Move Down
 
-		[self moveInDirection:MoveDown];
+		[self moveInDirection:Down];
 		[board updateGrid];
 	}
-	else if ((point.y - frame.origin.y) > (tileHeight / 2))
+	else if ((startOrigin.y - frame.origin.y) > (tileHeight / 2))
 	{
 		// Move Up
 
-		[self moveInDirection:MoveUp];
+		[self moveInDirection:Up];
 		[board updateGrid];
 	}
 	else
 	{
-		[self moveInDirection:MoveNone];
+		[self moveInDirection:None];
 	}
 	
 	// Release lock
@@ -337,6 +314,9 @@ static int tileHeight = 0;
 - (void)createPhotoImage
 {
 	CGContextRef context = [Util createBitmapContextForWidth:tileWidth height:tileHeight];
+
+	// Create photo with rounded boarder
+	
 	CGImageRef baseImageRef = [photoImage CGImage];
 	CGContextDrawImage(context, [self frame], baseImageRef);
 	
@@ -353,8 +333,10 @@ static int tileHeight = 0;
 	
 	CGImageRef photoImageRef = CGBitmapContextCreateImage(context);
 	photoImage = [[UIImage imageWithCGImage:photoImageRef] retain];
-	
 	CGImageRelease(photoImageRef);
+	
+	
+	// Create tile ID number 
 	
 	CGContextSelectFont(context, kPhotoFontType,  kPhotoFontSize, kCGEncodingMacRoman);
 	NSString *number = [NSString stringWithFormat:@"%d", tileId];
@@ -366,6 +348,7 @@ static int tileHeight = 0;
 	CGPoint end = CGContextGetTextPosition(context);
 	float textWidth = end.x - start.x;
 	
+	
 	// Draw background
 	CGContextSetRGBFillColor(context,
 							 kPhotoBgColorRed,
@@ -375,7 +358,9 @@ static int tileHeight = 0;
 	
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	
-	CGContextAddPath(context, [self getNumberBorderPathForTextWidth:textWidth]);
+	CGMutablePathRef numberBorderPath = [self getNumberBorderPathForTextWidth:textWidth];
+	
+	CGContextAddPath(context, numberBorderPath);
 	CGContextFillPath(context);
 	
 	// Draw number
@@ -393,10 +378,10 @@ static int tileHeight = 0;
 							 [number length]);	
 	
 	CGImageRef numberedPhotoImageRef = CGBitmapContextCreateImage(context);
-	
 	numberedPhotoImage = [[UIImage imageWithCGImage:numberedPhotoImageRef] retain];
-	
+	CGPathRelease(numberBorderPath);
 	CGImageRelease(numberedPhotoImageRef);
+	
 	CGContextRelease(context);
 }
 
@@ -449,11 +434,11 @@ static int tileHeight = 0;
 
 - (void)updateFrame
 {
-	point.x = tileWidth * loc.x;
-	point.y = tileHeight * loc.y;
+	startOrigin.x = tileWidth * coord.x;
+	startOrigin.y = tileHeight * coord.y;
 	
 	// Update solved state
-	if ((loc.x == home.x) && (loc.y == home.y))
+	if ((coord.x == homeCoord.x) && (coord.y == homeCoord.y))
 	{
 		solved = YES;
 	}
@@ -463,40 +448,33 @@ static int tileHeight = 0;
 	}
 	
 	CGRect frame = [self frame];
-	frame.origin.x = point.x;
-	frame.origin.y = point.y;
+	frame.origin = startOrigin;
 	[self setFrame:frame];
 }
 
 
 - (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
 {
-	CFNumberRef textWidthRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &textWidth);
-	
-	if (numberBorder != nil)
-	{
-		CFRelease(textWidthRef);
-		
-		return numberBorder;
-	}
-	
-	numberBorder = CGPathCreateMutable();
+	CGMutablePathRef numberBorderPath = CGPathCreateMutable();
 	
 	CGRect frame = CGRectMake((tileWidth - textWidth - (2 * kPhotoBgBorder) - kPhotoBgOffset),
 							  (tileHeight - kPhotoFontSize - kPhotoBgBorder - kPhotoBgOffset),
 							  (textWidth + (2 * kPhotoBgBorder)),
 							  (kPhotoFontSize + kPhotoBgBorder));
 	
-	[Util drawRoundedRectForPath:numberBorder
+	[Util drawRoundedRectForPath:numberBorderPath
 							rect:frame
 						  radius:kPhotoBgCornerRadius];
 	
-	return numberBorder;
+	return numberBorderPath;
 }
 
-// Static Methods for creating/reusing CGPaths for Tiles
 
-+ (void)getTilePhotoBorderPathForWidth:(int)width height:(int)height
+// All tiles are the same size so we only need to create
+// the rounded border once. The following static methods
+// set static CGPathRef variables.
+
++ (void)setTilePhotoBorderPath
 {	
 	if (tilePhotoBorderPath != NULL)
 	{
@@ -506,20 +484,20 @@ static int tileHeight = 0;
 	tilePhotoBorderPath = CGPathCreateMutable();
 	
 	CGPathMoveToPoint(tilePhotoBorderPath, NULL, 0, 0);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, width, 0);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, width, height);
-	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, height);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, tileWidth, 0);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, tileWidth, tileHeight);
+	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, tileHeight);
 	CGPathAddLineToPoint(tilePhotoBorderPath, NULL, 0, 0);
 	
 	[Util drawRoundedRectForPath:tilePhotoBorderPath
 							rect:CGRectMake(kTileSpacingWidth,
 											kTileSpacingWidth,
-											width,
-											height)
+											tileWidth,
+											tileHeight)
 						  radius:kTileCornerRadius];	
 }
 
-+ (void)getTileNumberBorderPathForWidth:(int)width height:(int)height
++ (void)setTileNumberBorderPath
 {	
 	if (tileNumberBorderPath != NULL)
 	{
@@ -531,8 +509,8 @@ static int tileHeight = 0;
 	[Util drawRoundedRectForPath:tileNumberBorderPath
 							rect:CGRectMake(kTileSpacingWidth,
 											kTileSpacingWidth,
-											(width - (2 * kTileSpacingWidth)),
-											(height - (2 * kTileSpacingWidth)))
+											(tileWidth - (2 * kTileSpacingWidth)),
+											(tileHeight - (2 * kTileSpacingWidth)))
 						  radius:kTileCornerRadius];	
 }
 

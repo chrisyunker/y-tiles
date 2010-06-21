@@ -16,8 +16,8 @@
 {
 	UIBarButtonItem *photoPickerButton;
 	UIBarButtonItem *photoDefaultButton;
-	Board *board;
 	UIImageView *selectImageView;
+	Board *board;
 }
 
 @property (nonatomic, retain) UIBarButtonItem *photoPickerButton;

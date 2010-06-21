@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "Board.h"
-#import "Configuration.h"
 #import "DataTypes.h"
 #import "Util.h"
 
@@ -17,33 +16,31 @@
 
 @interface Tile : UIImageView
 {
-	Coordinate home;
-	Coordinate loc;
 	int tileId;
-	//CGRect tileFrame;
+	CGPoint startOrigin;
+	CGPoint startPoint;
+	Coord coord;
+	Coord homeCoord;
 	UIImage *photoImage;
 	UIImage *numberedPhotoImage;
 	UIImage *numberImage;
-	CGPoint point;
-	MoveType moveType;
+	Direction moveType;
 	Tile *pushTile;
-	Board *board;
-	CGPoint startLocation;
 	BOOL solved;
 	BOOL haveLock;
-	CGMutablePathRef numberBorder;
+	Board *board;
 }
 
 @property (nonatomic, readonly) int tileId;
 @property (nonatomic, readonly) BOOL solved;
-@property (nonatomic, readwrite) MoveType moveType;
+@property (nonatomic, readwrite) Direction moveType;
 @property (nonatomic, assign) Tile *pushTile;
 
-+ (Tile *)tileWithId:(int)aId board:(Board *)aBoard loc:(Coordinate)aLoc photo:(UIImage *)aPhoto;
++ (Tile *)tileWithId:(int)aId board:(Board *)aBoard coord:(Coord)aCoord photo:(UIImage *)aPhoto;
 - (void)drawTile;
-- (void)moveToCoordinate:(Coordinate)aLoc;
-- (void)moveToHomeCoordinate;
-- (void)moveInDirection:(MoveType)type;
-- (void)slideTileInDirection:(MoveType)type distance:(CGFloat)distance;
+- (void)moveToCoord:(Coord)coord;
+- (void)moveToCoordX:(int)x coordY:(int)y;
+- (void)moveInDirection:(Direction)type;
+- (void)slideInDirection:(Direction)direction distance:(CGFloat)distance;
 
 @end

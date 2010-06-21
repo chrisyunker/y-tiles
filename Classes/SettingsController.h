@@ -25,7 +25,6 @@
 	UIBarButtonItem *saveButton;
 	UIBarButtonItem *cancelButton;
 	Board *board;
-	Configuration *config;
 }
 
 @property (nonatomic, retain) IBOutlet UIPickerView *pickerView;

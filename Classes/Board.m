@@ -7,7 +7,7 @@
 //
 
 #import "Board.h"
-#import "BoardCoordinate.h"
+#import "ObjCoord.h"
 
 @interface Board (Private)
 
@@ -35,12 +35,13 @@
 	if (self = [super initWithFrame:CGRectMake(kBoardX, kBoardY, kBoardWidth, kBoardHeight)])
 	{
 		config = [[Configuration alloc] init];
-		config.board = self;
+		[config setBoard:self];
 		[config load];
 		
 		[self restoreBoard];
 		
 		gameState = GameNotStarted;
+		tileLock = [[NSLock alloc] init];
 
 		tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
 							  trunc(self.frame.size.height / config.rows));
@@ -63,50 +64,48 @@
 			}
 		}
 		
-		tileLock = [[NSLock alloc] init];
-		
 		switch (config.photoType)
 		{
 			case kDefaultPhoto1Type:
-				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																	   pathForResource:kDefaultPhoto1
-																	   ofType:kPhotoType]] autorelease];
+				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																		 pathForResource:kDefaultPhoto1
+																		 ofType:kPhotoType]] autorelease]];
 				break;
 			case kDefaultPhoto2Type:
-				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																	   pathForResource:kDefaultPhoto2
-																	   ofType:kPhotoType]] autorelease];
+				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																		 pathForResource:kDefaultPhoto2
+																		 ofType:kPhotoType]] autorelease]];
 				break;
 			case kDefaultPhoto3Type:
-				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																	   pathForResource:kDefaultPhoto3
-																	   ofType:kPhotoType]] autorelease];
+				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																		 pathForResource:kDefaultPhoto3
+																		 ofType:kPhotoType]] autorelease]];
 				break;
 			case kDefaultPhoto4Type:
-				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																	   pathForResource:kDefaultPhoto4
-																	   ofType:kPhotoType]] autorelease];
+				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																		 pathForResource:kDefaultPhoto4
+																		 ofType:kPhotoType]] autorelease]];
 				break;
 			case kBoardPhotoType:
-				self.photo = [UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]];
-				if (self.photo == nil)
+				[self setPhoto:[UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]]];
+				if ([self photo] == nil)
 				{
 					ALog(@"Board:init Failed to load last board image [%@]",
 						  [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]);
 					
-					self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+					[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
 																		   pathForResource:kDefaultPhoto1
-																		   ofType:kPhotoType]] autorelease];
+																		   ofType:kPhotoType]] autorelease]];
 				}
 				break;
 			default:
-				self.photo = [[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																	   pathForResource:kDefaultPhoto1
-																	   ofType:kPhotoType]] autorelease];
+				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																		 pathForResource:kDefaultPhoto1
+																		 ofType:kPhotoType]] autorelease]];
 		}
-		
+				
 		waitImageView = [[WaitImageView alloc] init];
-		pausedView = [Util createPausedViewWithFrame:self.frame];
+		pausedView = [Util createPausedViewWithFrame:[self frame]];
 		[self addSubview:pausedView];
 
 		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
@@ -114,9 +113,9 @@
 		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
 		if (error) ALog(@"Board:init Failed to create sound for URL [%@]", url);
 		
-		self.backgroundColor = [UIColor blackColor];
-		self.userInteractionEnabled = YES;
-		self.multipleTouchEnabled = NO;
+		[self setBackgroundColor:[UIColor blackColor]];
+		[self setUserInteractionEnabled:YES];
+		[self setMultipleTouchEnabled:NO];
 	}
 	
     return self;
@@ -153,23 +152,23 @@
 - (void)start
 {
 	[self scrambleBoard];
-	self.gameState = GameInProgress;
+	[self setGameState:GameInProgress];
 }
 
 - (void)restart
 {	
 	[self scrambleBoard];
-	self.gameState = GameInProgress;
+	[self setGameState:GameInProgress];
 }
 
 - (void)pause
 {
-	self.gameState = GamePaused;
+	[self setGameState:GamePaused];
 }
 
 - (void)resume
 {
-	self.gameState = GameInProgress;
+	[self setGameState:GameInProgress];
 }
 
 - (void)setGameState:(GameState)state
@@ -182,13 +181,13 @@
 	{
 		case GameNotStarted:
 		case GamePaused:
-			self.userInteractionEnabled = NO;
+			[self setUserInteractionEnabled:NO];
 			pausedView.alpha = 1.0f;
 			[self bringSubviewToFront:pausedView];
 			
 			break;
 		case GameInProgress:
-			self.userInteractionEnabled = YES;
+			[self setUserInteractionEnabled:YES];
 			pausedView.alpha = 0.0f;
 
 			break;
@@ -201,7 +200,7 @@
 {
 	if (restart)
 	{
-		self.gameState = GameNotStarted;
+		[self setGameState:GameNotStarted];
 		[self showWaitView];
 		[NSThread detachNewThreadSelector:@selector(createTilesForBoardInThread) toTarget:self withObject:nil];
 	}
@@ -213,12 +212,11 @@
 
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType
 {
-	self.gameState = GameNotStarted;
-
-	self.photo = aPhoto;
+	[self setGameState:GameNotStarted];
+	[self setPhoto:aPhoto];
 	
-	config.photoType = aType;
-	config.photoEnabled = YES;
+	[config setPhotoType:aType];
+	[config setPhotoEnabled:YES];
 	[config save];
 	
 	[self showWaitView];
@@ -243,12 +241,12 @@
 		if (![tile solved]) solved = NO;
 		
 		// Reset move state
-		[tile setMoveType:MoveNone];
+		[tile setMoveType:None];
 		[tile setPushTile:nil];
 	}
 	if (solved)
 	{
-		self.gameState = GameNotStarted;
+		[self setGameState:GameNotStarted];
 		[boardController displaySolvedMenu];
 		
 		return;
@@ -257,7 +255,7 @@
 	// Go left
 	for (int i = 0; (empty.x - 1 - i) >= 0; i++)
 	{
-		grid[empty.x - 1 - i][empty.y].moveType = MoveRight;
+		grid[empty.x - 1 - i][empty.y].moveType = Right;
 		if (i > 0)
 		{
 			grid[empty.x - 1 - i][empty.y].pushTile = grid[empty.x - i][empty.y];
@@ -267,7 +265,7 @@
 	// Go right
 	for (int i = 0; (empty.x + 1 + i) < config.columns; i++)
 	{
-		grid[empty.x + 1 + i][empty.y].moveType = MoveLeft;
+		grid[empty.x + 1 + i][empty.y].moveType = Left;
 		if (i > 0)
 		{
 			grid[empty.x + 1 + i][empty.y].pushTile = grid[empty.x + i][empty.y];
@@ -277,7 +275,7 @@
 	// Go up
 	for (int i = 0; (empty.y - 1 - i) >= 0; i++)
 	{
-		grid[empty.x][empty.y - 1 - i].moveType = MoveDown;
+		grid[empty.x][empty.y - 1 - i].moveType = Down;
 		if (i > 0)
 		{
 			grid[empty.x][empty.y - 1 - i].pushTile = grid[empty.x][empty.y - i];
@@ -287,7 +285,7 @@
 	// Go down
 	for (int i = 0; (empty.y + 1 + i) < config.rows; i++)
 	{
-		grid[empty.x][empty.y + 1 + i].moveType = MoveUp;
+		grid[empty.x][empty.y + 1 + i].moveType = Up;
 		if (i > 0)
 		{
 			grid[empty.x][empty.y + 1 + i].pushTile = grid[empty.x][empty.y + i];
@@ -295,19 +293,16 @@
 	}
 }
 
-- (void)moveTileFromCoordinate:(Coordinate)loc1 toCoordinate:(Coordinate)loc2
+- (void)moveTileFromCoordinate:(Coord)coord1 toCoordinate:(Coord)coord2
 {
-	grid[loc2.x][loc2.y] = grid[loc1.x][loc1.y];
-	grid[loc1.x][loc1.y] = NULL;
+	grid[coord2.x][coord2.y] = grid[coord1.x][coord1.y];
+	grid[coord1.x][coord1.y] = NULL;
 	
-	empty = loc1;
+	empty = coord1;
 }
 
 
-
-
 #pragma mark Private methods
-
 
 - (void)createTilesForBoard
 {
@@ -320,7 +315,7 @@
 	[tiles release];
 		
 	
-	CGImageRef imageRef = [self.photo CGImage];
+	CGImageRef imageRef = [[self photo] CGImage];
 	
 	// Calculate tile size
 	tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
@@ -328,26 +323,30 @@
 	
 	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
 	
-	Coordinate loc = { 0, 0 };
+
+	Coord coord = { 0, 0 };
 	int tileId = 1;
 	do
 	{
-		CGRect tileRect = CGRectMake((loc.x * tileSize.width), (loc.y * tileSize.height), tileSize.width, tileSize.height);
+		CGRect tileRect = CGRectMake((coord.x * tileSize.width), (coord.y * tileSize.height), tileSize.width, tileSize.height);
 		CGImageRef tileRef = CGImageCreateWithImageInRect(imageRef, tileRect);
 		UIImage *tilePhoto = [UIImage imageWithCGImage:tileRef];
 		CGImageRelease(tileRef);
 				
-		Tile *tile = [[Tile tileWithId:tileId board:self loc:loc photo:tilePhoto] retain];
+		Tile *tile = [[Tile tileWithId:tileId
+								 board:self
+								 coord:coord
+								 photo:tilePhoto] retain];
 		[tiles addObject:tile];
 		[tile release];
 		
-		if (++loc.x >= config.columns)
+		if (++coord.x >= config.columns)
 		{
-			loc.x = 0;
-			loc.y++;
+			coord.x = 0;
+			coord.y++;
 		}
 		tileId++;
-	} while (loc.x < config.columns && (loc.y < config.rows));
+	} while (coord.x < config.columns && (coord.y < config.rows));
 	
 	// Removed last tile
 	[tiles removeLastObject];
@@ -362,21 +361,20 @@
 		{
 			NSNumber *num = [NSNumber numberWithInt:tile.tileId];
 			
-			BoardCoordinate *bc = (BoardCoordinate *) [boardState objectForKey:num];
-			if (bc != nil)
+			ObjCoord *objCoord = (ObjCoord *) [boardState objectForKey:num];
+			if (objCoord != nil)
 			{
-				Coordinate savedLoc = { bc.x, bc.y};
-				[tile moveToCoordinate:savedLoc];
-				grid[bc.x][bc.y] = tile;
+				[tile moveToCoordX:objCoord.x coordY:objCoord.y];
+				grid[objCoord.x][objCoord.y] = tile;
 			}
 			[boardState removeObjectForKey:num];
 		}
 		
 		NSArray *values = [boardState allValues];
 		DLog("remaining tiles [%d]", values.count);
-		BoardCoordinate *bc = (BoardCoordinate *) [values objectAtIndex:0];
-		empty.x = bc.x;
-		empty.y = bc.y;
+		ObjCoord *objCoord = (ObjCoord *) [values objectAtIndex:0];
+		empty.x = objCoord.x;
+		empty.y = objCoord.y;
 		
 		//boardSaved = NO;
 	}
@@ -438,10 +436,9 @@
 					Tile *tile = [tiles objectAtIndex:index];
 					grid[x][y] = tile;
 					
-					DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
+					//DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
 					
-					Coordinate coordinate = { x, y };
-					[tile moveToCoordinate:coordinate];
+					[tile moveToCoordX:x coordY:y];
 				}
 				else
 				{
@@ -481,7 +478,6 @@
 	{
 		[numberArray insertObject:[NSNumber numberWithInt:i] atIndex:i];
 	}
-	
 		
 	for (int y = 0; y < config.rows; y++)
 	{
@@ -490,16 +486,6 @@
 			if (numberArray.count > 0)
 			{
 				int randomNum = arc4random() % numberArray.count;
-				
-#ifdef DEBUG
-				//				if (numberArray.count > 2)
-				//					randomNum = 0;
-				//				else if (numberArray.count == 2)
-				//					randomNum = 1;
-				//				else
-				//					randomNum = 0;
-#endif
-				
 				int index = [[numberArray objectAtIndex:randomNum] intValue];
 				[numberArray removeObjectAtIndex:randomNum];
 				if (index < tiles.count)
@@ -509,8 +495,7 @@
 					
 					DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
 					
-					Coordinate coordinate = { x, y };
-					[tile moveToCoordinate:coordinate];
+					[tile moveToCoordX:x coordY:y];
 				}
 				else
 				{
@@ -563,7 +548,6 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	[self createTilesForBoard];
-	
 	[self performSelectorOnMainThread:@selector(removeWaitView) withObject:self waitUntilDone:NO];
 	
 	[pool release];
@@ -648,7 +632,7 @@
 			int row = i % config.columns;
 			
 			NSNumber *num = (NSNumber *) [stateArray objectAtIndex:i];
-			[boardState setObject:[[[BoardCoordinate alloc] initWithX:col y:row] autorelease] forKey:num];
+			[boardState setObject:[[[ObjCoord alloc] initWithX:col y:row] autorelease] forKey:num];
 				
 			//DLog("data [%d][%d] [%d]", col, row, [num intValue]);
 			[num release];

@@ -21,14 +21,14 @@
 {
 	if (self = [super initWithFrame:CGRectMake(kWaitViewX, kWaitViewY, kWaitViewWidth, kWaitViewHeight)])
 	{
-		self.image = [[self createImage] retain];
+		[self setImage:[[self createImage] retain]];
 		
 		activityIndicator = [[UIActivityIndicatorView alloc]
 							 initWithFrame:CGRectMake(kWaitIndicatorX,
 													  kWaitIndicatorY,
 													  kWaitIndicatorWidth,
 													  kWaitIndicatorHeight)];
-		activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
 		[self addSubview:activityIndicator];
 	}
 	return self;

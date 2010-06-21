@@ -23,13 +23,11 @@
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{		
 		board = [aBoard retain];
-
-		[self.tabBarItem
-		 initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
-		 image:[UIImage imageNamed:@"Settings.png"]
-		 tag:kTabBarSettingsTag];
+		
+		[[self tabBarItem] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
+								   image:[UIImage imageNamed:@"Settings.png"]
+									 tag:kTabBarSettingsTag];
 	}
-
 	return self;
 }
 
@@ -45,7 +43,6 @@
 	[saveButton release];
 	[cancelButton release];
 	[board release];
-	//[config release];
     [super dealloc];
 }
 
@@ -58,14 +55,14 @@
 - (void)setView:(UIView *)aView
 {
 	DLog(@"setView [%@]", aView);
-	
-	if (!aView)
+	if (aView == nil)
 	{
-		self.pickerView = nil;
-		self.photoSwitch = nil;
-		self.numberSwitch = nil;
-		self.soundSwitch = nil;
-		self.infoButton = nil;
+		DLog("aView is nil");
+		[self setPickerView:nil];
+		[self setPhotoSwitch:nil];
+		[self setNumberSwitch:nil];
+		[self setSoundSwitch:nil];
+		[self setInfoButton:nil];
 	}
 	
     [super setView:aView];
@@ -99,17 +96,14 @@
 
 - (void)setEnabled:(BOOL)value
 {
-	photoSwitch.enabled = value;
-	numberSwitch.enabled = value;
-	soundSwitch.enabled = value;
-	infoButton.enabled = value;
+	[photoSwitch setEnabled:value];
+	[numberSwitch setEnabled:value];
+	[soundSwitch setEnabled:value];
+	[infoButton setEnabled:value];
 	
 	if (value)
-	{
-		//[config setConfiguration:board.config];
-		
+	{		
 		[self updateControlsWithAnimation:YES];
-		
 		[self enableButtons:NO];
 	}
 	else
@@ -123,10 +117,15 @@
 	DLog(@"viewWillAppear");
 	
 	[super viewWillAppear:animated];
-	
-	//[config setConfiguration:board.config];
 	[self updateControlsWithAnimation:NO];
 	[self enableButtons:NO];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	DLog(@"viewDidDisappear\n\n");
+	
+	[super viewDidDisappear:animated];
 }
 
 - (void)viewDidLoad 
@@ -134,36 +133,36 @@
 	DLog(@"viewDidLoad");
 	
     [super viewDidLoad];
-		
-	self.saveButton = [[[UIBarButtonItem alloc]
-						initWithTitle:NSLocalizedString(@"SaveButton", @"")
-						style:UIBarButtonItemStylePlain
-						target:self
-						action:@selector(saveButtonAction)] autorelease];
 	
-	self.cancelButton = [[[UIBarButtonItem alloc]
-						  initWithTitle:NSLocalizedString(@"CancelButton", @"")
+	[self setSaveButton:[[[UIBarButtonItem alloc]
+						  initWithTitle:NSLocalizedString(@"SaveButton", @"")
 						  style:UIBarButtonItemStylePlain
 						  target:self
-						  action:@selector(cancelButtonAction)] autorelease];
-		
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem = saveButton;
+						  action:@selector(saveButtonAction)] autorelease]];
 	
+	[self setCancelButton:[[[UIBarButtonItem alloc]
+							initWithTitle:NSLocalizedString(@"CancelButton", @"")
+							style:UIBarButtonItemStylePlain
+							target:self
+							action:@selector(cancelButtonAction)] autorelease]];
+		
+	[[self navigationItem] setLeftBarButtonItem:cancelButton];
+	[[self navigationItem] setRightBarButtonItem:saveButton];
 	[self enableButtons:NO];
 }
 
 - (void)saveButtonAction
 {
 	// Save configuration values
-	board.config.columns = [pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin;
-	board.config.rows = [pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin;
-	board.config.photoEnabled = photoSwitch.on;
-	board.config.numbersEnabled = numberSwitch.on;
-	board.config.soundEnabled = soundSwitch.on;
-	[board.config save];
+	[[board config] setColumns:([pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin)];
+	[[board config] setRows:([pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin)];
+	[[board config] setPhotoEnabled:[photoSwitch isOn]];
+	[[board config] setNumbersEnabled:[numberSwitch isOn]];
+	[[board config] setSoundEnabled:[soundSwitch isOn]];
+	[[board config] save];
 			
 	[self enableButtons:NO];
+	[[self tabBarController] setSelectedIndex:0];
 }
 
 - (void)cancelButtonAction
@@ -173,9 +172,7 @@
 }
 
 - (IBAction)photoSwitchAction
-{
-	//config.photoEnabled = photoSwitch.on;
-	
+{	
 	[self enableButtons:YES];
 }
 

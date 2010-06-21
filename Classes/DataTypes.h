@@ -7,21 +7,24 @@
  *
  */
 
-struct Coordinate
+
+struct Coord
 {
 	int x;
 	int y;
 };
-typedef struct Coordinate Coordinate;
+typedef struct Coord Coord;
+
 
 typedef enum
 {
-	MoveNone	   = 0,
-	MoveUp	 	   = 1,
-	MoveDown	   = 2,
-	MoveLeft	   = 3,
-	MoveRight	   = 4
-} MoveType;
+	None	   = 0,
+	Up	 	   = 1,
+	Down	   = 2,
+	Left	   = 3,
+	Right	   = 4
+} Direction;
+
 
 typedef enum
 {

@@ -20,10 +20,9 @@
 	{
 		board = [aBoard retain];
 		
-		[self.tabBarItem
-		 initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
-		 image:[UIImage imageNamed:@"Photo.png"]
-		 tag:kTabBarPhotoTag];
+		[[self tabBarItem] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
+								   image:[UIImage imageNamed:@"Photo.png"]
+									 tag:kTabBarPhotoTag];
 	}
 	return self;
 }
@@ -47,13 +46,11 @@
 
 - (void)setView:(UIView *)aView
 {
-	DLog("setView");
-	
+	DLog(@"setView [%@]", aView);
 	if (aView == nil)
 	{
-		DLog("aView not nil");
+		DLog(@"aView is nil");
 		
-		//[imageView release];
 	}
 	[super setView:aView];
 }
@@ -61,37 +58,41 @@
 - (void)loadView
 {
 	[super loadView];
-	
-	self.photoPickerButton = [[[UIBarButtonItem alloc]
-							   initWithTitle:NSLocalizedString(@"PhotoPickerButton", @"")
-							   style:UIBarButtonItemStyleDone
-							   target:self
-							   action:@selector(photoPickerButtonAction)] autorelease];
 
-	self.photoDefaultButton = [[[UIBarButtonItem alloc]
-								initWithTitle:NSLocalizedString(@"PhotoDefaultButton", @"")
-								style:UIBarButtonItemStyleDone
-								target:self
-								action:@selector(photoDefaultButtonAction)] autorelease];
+	if (photoPickerButton == nil)
+	{
+		photoPickerButton = [[UIBarButtonItem alloc]
+							 initWithTitle:NSLocalizedString(@"PhotoPickerButton", @"")
+							 style:UIBarButtonItemStyleDone
+							 target:self
+							 action:@selector(photoPickerButtonAction)];
+	}
 	
-	self.navigationItem.leftBarButtonItem = photoDefaultButton;
-	self.navigationItem.rightBarButtonItem = photoPickerButton;
+	if (photoDefaultButton == nil)
+	{
+		photoDefaultButton = [[UIBarButtonItem alloc]
+							  initWithTitle:NSLocalizedString(@"PhotoDefaultButton", @"")
+							  style:UIBarButtonItemStyleDone
+							  target:self
+							  action:@selector(photoDefaultButtonAction)];
+	}
+	
+	[[self navigationItem] setLeftBarButtonItem:photoDefaultButton];
+	[[self navigationItem] setRightBarButtonItem:photoPickerButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	DLog(@"viewWillAppear");
-	
 	[super viewWillAppear:animated];
 	
-	selectImageView = [[UIImageView alloc] initWithImage:board.photo];
-	[self.view addSubview:selectImageView];
+	selectImageView = [[UIImageView alloc] initWithImage:[board photo]];
+	[[self view] addSubview:selectImageView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
 	DLog(@"viewDidDisappear");
-	
 	[super viewDidDisappear:animated];
 	
 	[selectImageView removeFromSuperview];
@@ -116,8 +117,7 @@
 						   NSLocalizedString(@"ExistingPhoto", @""), nil];
 	
 	[menu setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-	
-	[menu showInView:[self.view window]];
+	[menu showInView:[[self view] window]];
 	[menu release];
 }
 
@@ -183,10 +183,10 @@
 	}
 	
 	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-	imagePicker.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	imagePicker.allowsEditing = NO;
-	imagePicker.delegate = self;
-	imagePicker.sourceType = sourceType;
+	[[imagePicker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
+	[imagePicker setAllowsEditing:NO];
+	[imagePicker setDelegate:self];
+	[imagePicker setSourceType:sourceType];
 	
 	[self presentModalViewController:imagePicker animated:YES];
 }

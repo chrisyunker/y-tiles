@@ -28,7 +28,7 @@
 	Tile ***grid;
 	CGSize tileSize;
 	UIImage *photo;
-	Coordinate empty;
+	Coord empty;
 	NSLock *tileLock;
 	SystemSoundID tockSSID;
 	BoardController *boardController;
@@ -51,7 +51,7 @@
 - (void)resume;
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType;
 - (void)configChanged:(BOOL)restart;
-- (void)moveTileFromCoordinate:(Coordinate)loc1 toCoordinate:(Coordinate)loc2;
+- (void)moveTileFromCoordinate:(Coord)coord1 toCoordinate:(Coord)coord2;
 - (void)updateGrid;
 - (void)saveBoard;
 

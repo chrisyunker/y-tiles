@@ -48,13 +48,15 @@
 {
 	DLog(@"setView [%@]", aView);
 	
-	if (!aView)
+	if (aView == nil)
 	{
-		self.defaultPhoto1 = nil;
-		self.defaultPhoto2 = nil;
-		self.defaultPhoto3 = nil;
-		self.defaultPhoto4 = nil;
-		self.cancelButton = nil;
+		DLog(@"aView is nil");
+
+		[self setDefaultPhoto1:nil];
+		[self setDefaultPhoto2:nil];
+		[self setDefaultPhoto3:nil];
+		[self setDefaultPhoto4:nil];
+		[self setCancelButton:nil];
 	}
 	
     [super setView:aView];
