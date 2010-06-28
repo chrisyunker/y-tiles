@@ -56,7 +56,7 @@
 	[window addSubview:tabBarController.view];
 	[window makeKeyAndVisible];
 	
-	[board initialize];
+	[board createNewBoard];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

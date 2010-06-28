@@ -11,7 +11,7 @@
 
 @implementation PhotoController
 
-@synthesize photoPickerButton;
+@synthesize photoLibraryButton;
 @synthesize photoDefaultButton;
 
 - (id)initWithBoard:(Board *)aBoard
@@ -31,7 +31,7 @@
 {
 	DLog(@"dealloc");
 	
-	[photoPickerButton release];
+	[photoLibraryButton release];
 	[photoDefaultButton release];
 	[selectImageView release];
 	[board release];
@@ -59,13 +59,13 @@
 {
 	[super loadView];
 
-	if (photoPickerButton == nil)
+	if (photoLibraryButton == nil)
 	{
-		photoPickerButton = [[UIBarButtonItem alloc]
-							 initWithTitle:NSLocalizedString(@"PhotoPickerButton", @"")
+		photoLibraryButton = [[UIBarButtonItem alloc]
+							 initWithTitle:NSLocalizedString(@"PhotoLibraryButton", @"")
 							 style:UIBarButtonItemStyleDone
 							 target:self
-							 action:@selector(photoPickerButtonAction)];
+							 action:@selector(photoLibraryButtonAction)];
 	}
 	
 	if (photoDefaultButton == nil)
@@ -78,7 +78,7 @@
 	}
 	
 	[[self navigationItem] setLeftBarButtonItem:photoDefaultButton];
-	[[self navigationItem] setRightBarButtonItem:photoPickerButton];
+	[[self navigationItem] setRightBarButtonItem:photoLibraryButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,24 +101,44 @@
 
 - (void)photoDefaultButtonAction
 {
-	PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithNibName:@"PhotoDefaultView" bundle:nil board:board];
+	PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithNibName:@"PhotoDefaultView" bundle:nil photoController:self];
 	[self presentModalViewController:pdc animated:YES];
 	[pdc release];
 }
 
-- (void)photoPickerButtonAction
+- (void)photoLibraryButtonAction
 {
-	UIActionSheet *menu = [[UIActionSheet alloc]
-						   initWithTitle:nil
-						   delegate:self
-						   cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-						   destructiveButtonTitle:nil
-						   otherButtonTitles:NSLocalizedString(@"TakePhoto", @""),
-						   NSLocalizedString(@"ExistingPhoto", @""), nil];
+	// Check to make sure pictures are available
+	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] &&
+		![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
+	{		
+		UIAlertView *alert = [[UIAlertView alloc]
+							  initWithTitle:NSLocalizedString(@"NoPhotos", @"")
+							  message:nil
+							  delegate:self
+							  cancelButtonTitle:nil
+							  otherButtonTitles:@"OK", nil];
+		[alert show];
+		[alert release];
+		return;
+	}
 	
-	[menu setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-	[menu showInView:[[self view] window]];
-	[menu release];
+	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+	[[imagePicker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
+	[imagePicker setAllowsEditing:NO];
+	[imagePicker setDelegate:self];
+	[imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+	
+	[self presentModalViewController:imagePicker animated:YES];
+	
+	//TODO: Why dont we release this?
+	//[imagePicker release];
+}
+
+- (void)selectPhoto:(UIImage *)photo type:(int)type
+{
+	[board setPhoto:photo type:type];
+	[[self tabBarController] setSelectedIndex:0];
 }
 
 - (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size
@@ -134,68 +154,12 @@
 }
 
 
-# pragma mark UIActionSheetDelegate methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	UIImagePickerControllerSourceType sourceType;
-			
-	if (buttonIndex == 0)
-	{		
-		// Check to make sure camera is available
-		if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-		{		
-			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle:NSLocalizedString(@"NoCamera", @"")
-								  message:nil
-								  delegate:self
-								  cancelButtonTitle:nil
-								  otherButtonTitles:@"OK", nil];
-			[alert show];
-			[alert release];
-			return;
-		}
-		
-		sourceType = UIImagePickerControllerSourceTypeCamera;
-	}
-	else if (buttonIndex == 1)
-	{
-		// Check to make sure pictures are available
-		if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] &&
-			![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
-		{		
-			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle:NSLocalizedString(@"NoPhotos", @"")
-								  message:nil
-								  delegate:self
-								  cancelButtonTitle:nil
-								  otherButtonTitles:@"OK", nil];
-			[alert show];
-			[alert release];
-			return;
-		}
-		
-		sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-	}
-	else
-	{
-		return;
-	}
-	
-	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-	[[imagePicker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
-	[imagePicker setAllowsEditing:NO];
-	[imagePicker setDelegate:self];
-	[imagePicker setSourceType:sourceType];
-	
-	[self presentModalViewController:imagePicker animated:YES];
-}
-
-
 #pragma mark UIImagePickerControllerDelegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
+	DLog("size [%@]", board.frame);
+	
 	UIImage *resizedImage = [self resizeImage:image size:board.frame.size];
 	
 	NSString *path = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
@@ -208,6 +172,8 @@
 	
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	[picker release];
+	
+	[[self tabBarController] setSelectedIndex:0];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

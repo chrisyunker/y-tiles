@@ -11,11 +11,11 @@
 
 @interface Board (Private)
 
-- (void)createTilesForBoard;
+- (void)createTiles;
 - (void)scrambleBoard;
 - (void)showWaitView;
 - (void)removeWaitView;
-- (void)createTilesForBoardInThread;
+- (void)createTilesInThread;
 - (void)drawBoard;
 - (void)restoreBoard;
 
@@ -34,8 +34,7 @@
 {
 	if (self = [super initWithFrame:CGRectMake(kBoardX, kBoardY, kBoardWidth, kBoardHeight)])
 	{
-		config = [[Configuration alloc] init];
-		[config setBoard:self];
+		config = [[Configuration alloc] initWithBoard:self];
 		[config load];
 		
 		[self restoreBoard];
@@ -141,22 +140,16 @@
 	[super dealloc];
 }
 
-- (void)initialize
+- (void)createNewBoard
 {		
 	[self showWaitView];
-	[NSThread detachNewThreadSelector:@selector(createTilesForBoardInThread)
+	[NSThread detachNewThreadSelector:@selector(createTilesInThread)
 							 toTarget:self
 						   withObject:nil];
 }
 
 - (void)start
 {
-	[self scrambleBoard];
-	[self setGameState:GameInProgress];
-}
-
-- (void)restart
-{	
 	[self scrambleBoard];
 	[self setGameState:GameInProgress];
 }
@@ -201,8 +194,7 @@
 	if (restart)
 	{
 		[self setGameState:GameNotStarted];
-		[self showWaitView];
-		[NSThread detachNewThreadSelector:@selector(createTilesForBoardInThread) toTarget:self withObject:nil];
+		[self createNewBoard];
 	}
 	else	
 	{
@@ -219,8 +211,7 @@
 	[config setPhotoEnabled:YES];
 	[config save];
 	
-	[self showWaitView];
-	[NSThread detachNewThreadSelector:@selector(createTilesForBoardInThread) toTarget:self withObject:nil];
+	[self createNewBoard];
 }
 
 
@@ -304,7 +295,7 @@
 
 #pragma mark Private methods
 
-- (void)createTilesForBoard
+- (void)createTiles
 {
 	// Clean up/remove previous tiles (if exist)
 	for (Tile *tile in tiles)
@@ -543,11 +534,11 @@
 	}
 }
 
-- (void)createTilesForBoardInThread
+- (void)createTilesInThread
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	[self createTilesForBoard];
+	[self createTiles];
 	[self performSelectorOnMainThread:@selector(removeWaitView) withObject:self waitUntilDone:NO];
 	
 	[pool release];
@@ -607,7 +598,7 @@
 	boardSaved = [defaults boolForKey:kKeyBoardSaved];
 	
 	[defaults setBool:NO forKey:kKeyBoardSaved];
-	[defaults setObject:nil forKey:kKeyBoardState];
+	[defaults removeObjectForKey:kKeyBoardState];
 	[defaults synchronize];
 	
 	if (boardSaved)

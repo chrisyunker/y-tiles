@@ -55,8 +55,6 @@
 		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
 		3B06CE0B11A97F2700C48CB4 /* ObjCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCoord.h; sourceTree = "<group>"; };
 		3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCoord.m; sourceTree = "<group>"; };
-		3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B06CF4C11A9DD3400C48CB4 /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
 		3B78CBFF0F5B7CC20041A61D /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		3B78CC000F5B7CC20041A61D /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3B78CCF80F5B95BD0041A61D /* WaitImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitImageView.h; sourceTree = "<group>"; };
@@ -113,13 +111,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3B06CF4811A9DD3400C48CB4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -140,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Y-Tiles.app */,
-				3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,7 +145,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				3B06CF4C11A9DD3400C48CB4 /* LogicTests-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -292,24 +281,6 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* Y-Tiles.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3B06CF4A11A9DD3400C48CB4 /* LogicTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3B06CF4F11A9DD3500C48CB4 /* Build configuration list for PBXNativeTarget "LogicTests" */;
-			buildPhases = (
-				3B06CF4611A9DD3400C48CB4 /* Resources */,
-				3B06CF4711A9DD3400C48CB4 /* Sources */,
-				3B06CF4811A9DD3400C48CB4 /* Frameworks */,
-				3B06CF4911A9DD3400C48CB4 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LogicTests;
-			productName = LogicTests;
-			productReference = 3B06CF4B11A9DD3400C48CB4 /* LogicTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -323,7 +294,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Y-Tiles */,
-				3B06CF4A11A9DD3400C48CB4 /* LogicTests */,
 			);
 		};
 /* End PBXProject section */
@@ -354,30 +324,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3B06CF4611A9DD3400C48CB4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3B06CF4911A9DD3400C48CB4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -397,13 +344,6 @@
 				3B78CC010F5B7CC20041A61D /* Util.m in Sources */,
 				3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */,
 				3B06CE0D11A97F2700C48CB4 /* ObjCoord.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3B06CF4711A9DD3400C48CB4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,7 +402,7 @@
 				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "59C64B03-A55B-4FD2-ACB5-148C0F06F71D";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -481,65 +421,7 @@
 				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "59C64B03-A55B-4FD2-ACB5-148C0F06F71D";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos3.2;
-			};
-			name = Release;
-		};
-		3B06CF4D11A9DD3500C48CB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "LogicTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = LogicTests;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		3B06CF4E11A9DD3500C48CB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				INFOPLIST_FILE = "LogicTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = LogicTests;
-				WRAPPER_EXTENSION = octest;
-				ZERO_LINK = NO;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};
@@ -588,15 +470,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3B06CF4F11A9DD3500C48CB4 /* Build configuration list for PBXNativeTarget "LogicTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3B06CF4D11A9DD3500C48CB4 /* Debug */,
-				3B06CF4E11A9DD3500C48CB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

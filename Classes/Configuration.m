@@ -17,8 +17,23 @@
 @synthesize photoEnabled;
 @synthesize numbersEnabled;
 @synthesize soundEnabled;
-@synthesize board;
 
+- (id)initWithBoard:(Board *)aBoard
+{
+	if (self = [super init])
+	{
+		board = [aBoard retain];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	DLog(@"dealloc");
+	
+	[board release];
+	[super dealloc];
+}
 
 - (void)load
 {

@@ -44,9 +44,8 @@
 @property (nonatomic, assign) GameState gameState;
 @property (nonatomic, retain) BoardController *boardController;
 
-- (void)initialize;
+- (void)createNewBoard;
 - (void)start;
-- (void)restart;
 - (void)pause;
 - (void)resume;
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType;

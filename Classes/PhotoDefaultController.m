@@ -8,6 +8,13 @@
 
 #import "PhotoDefaultController.h"
 
+@interface PhotoDefaultController (Private)
+
+- (void)selectPhotoWithPath:(NSString *)path type:(int)type;
+
+@end
+
+
 @implementation PhotoDefaultController
 
 @synthesize defaultPhoto1;
@@ -16,11 +23,11 @@
 @synthesize defaultPhoto4;
 @synthesize cancelButton;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil board:(Board *)aBoard
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil photoController:(PhotoController *)aPhotoController
 {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{
-		board = [aBoard retain];
+		photoController = [aPhotoController retain];
 	}
 	return self;
 }
@@ -34,7 +41,7 @@
 	[defaultPhoto3 release], defaultPhoto3 = nil;
 	[defaultPhoto4 release], defaultPhoto4 = nil;
 	[cancelButton release], cancelButton = nil;
-	[board release];
+	[photoController release];
     [super dealloc];
 }
 
@@ -93,48 +100,39 @@
 	[photo4 release];
 }
 
-- (IBAction)selectPhoto1Action
+- (void)selectPhotoWithPath:(NSString *)path type:(int)type
 {
 	UIImage *photo = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															  pathForResource:kDefaultPhoto1
+															  pathForResource:path
 															  ofType:kPhotoType]];
-	[board setPhoto:photo type:kDefaultPhoto1Type];
+	[photoController selectPhoto:photo type:type];
 	[photo release];
 	
-	[self dismissModalViewControllerAnimated:YES];	
+	NSString *boardPhoto = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	[fileManager removeItemAtPath:boardPhoto error:NULL];
+	
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)selectPhoto1Action
+{
+	[self selectPhotoWithPath:kDefaultPhoto1 type:kDefaultPhoto1Type];
 }
 
 - (IBAction)selectPhoto2Action
 {
-	UIImage *photo = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															  pathForResource:kDefaultPhoto2
-															  ofType:kPhotoType]];
-	[board setPhoto:photo type:kDefaultPhoto2Type];
-	[photo release];
-	
-	[self dismissModalViewControllerAnimated:YES];	
+	[self selectPhotoWithPath:kDefaultPhoto2 type:kDefaultPhoto2Type];
 }
 
 - (IBAction)selectPhoto3Action
 {
-	UIImage *photo = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															  pathForResource:kDefaultPhoto3
-															  ofType:kPhotoType]];
-	[board setPhoto:photo type:kDefaultPhoto3Type];
-	[photo release];
-	
-	[self dismissModalViewControllerAnimated:YES];	
+	[self selectPhotoWithPath:kDefaultPhoto3 type:kDefaultPhoto3Type];
 }
 
 - (IBAction)selectPhoto4Action
 {
-	UIImage *photo = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															  pathForResource:kDefaultPhoto4
-															  ofType:kPhotoType]];
-	[board setPhoto:photo type:kDefaultPhoto4Type];
-	[photo release];
-	
-	[self dismissModalViewControllerAnimated:YES];	
+	[self selectPhotoWithPath:kDefaultPhoto4 type:kDefaultPhoto4Type];
 }
 
 - (IBAction)cancelButtonAction

@@ -29,8 +29,8 @@
 @property (nonatomic, assign) BOOL photoEnabled;
 @property (nonatomic, assign) BOOL numbersEnabled;
 @property (nonatomic, assign) BOOL soundEnabled;
-@property (nonatomic, retain) Board *board;
 
+- (id)initWithBoard:(Board *)aBoard;
 - (void)load;
 - (void)save;
 

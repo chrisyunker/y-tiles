@@ -19,7 +19,7 @@
 "TilesSolved"        = "Y-Tiles Solved";
 
 // PhotoController
-"PhotoPickerButton"  = "Camera Photo";
+"PhotoLibraryButton" = "Library Photo";
 "PhotoDefaultButton" = "Default Photo";
 "CancelButton"       = "Cancel";
 "TakePhoto"          = "Take Photo";

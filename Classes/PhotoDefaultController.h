@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Board.h"
+#import "PhotoController.h"
 #import "Constants.h"
+
+@class PhotoController;
 
 @interface PhotoDefaultController : UIViewController
 {
-	Board *board;
+	PhotoController *photoController;
 	IBOutlet UIButton *defaultPhoto1;
 	IBOutlet UIButton *defaultPhoto2;
 	IBOutlet UIButton *defaultPhoto3;
@@ -26,7 +28,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *defaultPhoto4;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *cancelButton;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil board:(Board *)aBoard;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil photoController:(PhotoController *)aPhotoController;
 - (IBAction)selectPhoto1Action;
 - (IBAction)selectPhoto2Action;
 - (IBAction)selectPhoto3Action;

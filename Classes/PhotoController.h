@@ -12,20 +12,21 @@
 
 @class Board;
 
-@interface PhotoController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
+@interface PhotoController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
-	UIBarButtonItem *photoPickerButton;
+	UIBarButtonItem *photoLibraryButton;
 	UIBarButtonItem *photoDefaultButton;
 	UIImageView *selectImageView;
 	Board *board;
 }
 
-@property (nonatomic, retain) UIBarButtonItem *photoPickerButton;
+@property (nonatomic, retain) UIBarButtonItem *photoLibraryButton;
 @property (nonatomic, retain) UIBarButtonItem *photoDefaultButton;
 
 - (id)initWithBoard:(Board *)aBoard;
-- (void)photoPickerButtonAction;
+- (void)photoLibraryButtonAction;
 - (void)photoDefaultButtonAction;
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+- (void)selectPhoto:(UIImage *)photo type:(int)type;
+
 
 @end
