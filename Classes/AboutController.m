@@ -17,6 +17,8 @@
 
 - (void)dealloc
 {
+	DLog(@"dealloc");
+
 	[versionLabel release], versionLabel = nil;
 	[webButton release], webButton = nil;
 	[emailButton release], emailButton = nil;
@@ -46,8 +48,10 @@
 
 - (void)setView:(UIView *)aView
 {
-	if (!aView)
+	if (aView == nil)
 	{
+		DLog(@"Setting view to nil due to low memory");
+
 		self.versionLabel = nil;
 		self.webButton = nil;
 		self.emailButton = nil;

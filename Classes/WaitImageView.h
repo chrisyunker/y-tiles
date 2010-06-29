@@ -11,7 +11,7 @@
 #import "Util.h"
 
 #define kWaitViewX               75.0f
-#define kWaitViewY               190.0f
+#define kWaitViewY               145.0f
 #define kWaitViewWidth           170.0f
 #define kWaitViewHeight          120.0f
 

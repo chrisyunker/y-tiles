@@ -10,7 +10,7 @@
 
 @interface Util : NSObject {}
 
-+ (CGContextRef)createBitmapContextForWidth:(float)width height:(float)height;
++ (CGContextRef)newBitmapContextForWidth:(float)width height:(float)height;
 + (void)drawRoundedRectForPath:(CGMutablePathRef)path rect:(CGRect)rect radius:(float)radius;
 + (UIImageView *)createPausedViewWithFrame:(CGRect)frame;
 

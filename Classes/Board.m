@@ -36,16 +36,9 @@
 	{
 		config = [[Configuration alloc] initWithBoard:self];
 		[config load];
-		
-		[self restoreBoard];
-		
-		gameState = GameNotStarted;
+				
 		tileLock = [[NSLock alloc] init];
-
-		tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
-							  trunc(self.frame.size.height / config.rows));
 		
-						
 		// Create grid to handle largest possible configuration
 		grid = malloc(kColumnsMax * sizeof(Tile **));
 		if (grid == NULL)
@@ -102,19 +95,23 @@
 																		 pathForResource:kDefaultPhoto1
 																		 ofType:kPhotoType]] autorelease]];
 		}
+		
+		[self restoreBoard];
 				
 		waitImageView = [[WaitImageView alloc] init];
 		pausedView = [Util createPausedViewWithFrame:[self frame]];
 		[self addSubview:pausedView];
 
+		// Tile move tick sound
 		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
 		NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
 		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
 		if (error) ALog(@"Board:init Failed to create sound for URL [%@]", url);
 		
 		[self setBackgroundColor:[UIColor blackColor]];
-		[self setUserInteractionEnabled:YES];
 		[self setMultipleTouchEnabled:NO];
+		
+		[self setGameState:GameNotStarted];
 	}
 	
     return self;
@@ -137,11 +134,12 @@
 	[tiles release];
 	[tileLock release];
 	[boardController release];
+	[boardState release];
 	[super dealloc];
 }
 
 - (void)createNewBoard
-{		
+{
 	[self showWaitView];
 	[NSThread detachNewThreadSelector:@selector(createTilesInThread)
 							 toTarget:self
@@ -151,6 +149,7 @@
 - (void)start
 {
 	[self scrambleBoard];
+	[self updateGrid];
 	[self setGameState:GameInProgress];
 }
 
@@ -161,6 +160,7 @@
 
 - (void)resume
 {
+	[self updateGrid];
 	[self setGameState:GameInProgress];
 }
 
@@ -173,6 +173,7 @@
 	switch (gameState)
 	{
 		case GameNotStarted:
+			DLog("set GameNotStarted");
 		case GamePaused:
 			[self setUserInteractionEnabled:NO];
 			pausedView.alpha = 1.0f;
@@ -182,6 +183,7 @@
 		case GameInProgress:
 			[self setUserInteractionEnabled:YES];
 			pausedView.alpha = 0.0f;
+			[self sendSubviewToBack:pausedView];
 
 			break;
 		default:
@@ -193,7 +195,7 @@
 {
 	if (restart)
 	{
-		[self setGameState:GameNotStarted];
+		//[self setGameState:GameNotStarted];
 		[self createNewBoard];
 	}
 	else	
@@ -204,7 +206,7 @@
 
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType
 {
-	[self setGameState:GameNotStarted];
+	//[self setGameState:GameNotStarted];
 	[self setPhoto:aPhoto];
 	
 	[config setPhotoType:aType];
@@ -306,10 +308,10 @@
 	[tiles release];
 		
 	
-	CGImageRef imageRef = [[self photo] CGImage];
+	CGImageRef imageRef = [photo CGImage];
 	
 	// Calculate tile size
-	tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
+	CGSize tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
 						  trunc(self.frame.size.height / config.rows));
 	
 	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
@@ -346,7 +348,7 @@
 	// Restore previous board state (if applicable)
 	if (boardSaved)
 	{
-		DLog("boardState [%d]", [boardState count]);
+		DLog("boardState count [%d]", [boardState count]);
 		
 		for (Tile *tile in tiles)
 		{
@@ -358,16 +360,13 @@
 				[tile moveToCoordX:objCoord.x coordY:objCoord.y];
 				grid[objCoord.x][objCoord.y] = tile;
 			}
-			[boardState removeObjectForKey:num];
 		}
 		
-		NSArray *values = [boardState allValues];
-		DLog("remaining tiles [%d]", values.count);
-		ObjCoord *objCoord = (ObjCoord *) [values objectAtIndex:0];
+		ObjCoord *objCoord = (ObjCoord *) [boardState objectForKey:[NSNumber numberWithInt:0]];
 		empty.x = objCoord.x;
 		empty.y = objCoord.y;
 		
-		//boardSaved = NO;
+		[boardState removeAllObjects];
 	}
 		
 	// Add tiles to board
@@ -376,8 +375,7 @@
 		[self addSubview:tile];
 	}
 	
-	[self bringSubviewToFront:pausedView];
-	[pausedView setAlpha:1.0f];
+	[self setGameState:GameNotStarted];
 }
 
 - (void)scrambleBoard
@@ -401,7 +399,7 @@
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:kTileScrambleTime];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut]; 
-	[pausedView setAlpha:0];
+	//[pausedView setAlpha:0];
 	
 	for (int y = 0; y < config.rows; y++)
 	{
@@ -443,66 +441,7 @@
 		}
 	}
 	
-	[UIView commitAnimations];
-	
-	[self updateGrid];
-}
-
-- (void)restoreGrid
-{
-	// Clear grid
-	for (int x = 0; x < config.columns; x++)
-	{
-		for (int y = 0; y < config.rows; y++)
-		{
-			grid[x][y] = NULL;
-		}
-	}
-	
-	for (Tile *tile in tiles)
-	{
-		[self addSubview:tile];
-	}
-	
-	NSMutableArray *numberArray = [NSMutableArray arrayWithCapacity:tiles.count];
-	for (int i = 0; i < (config.rows * config.columns); i++)
-	{
-		[numberArray insertObject:[NSNumber numberWithInt:i] atIndex:i];
-	}
-		
-	for (int y = 0; y < config.rows; y++)
-	{
-		for (int x = 0; x < config.columns; x++)
-		{
-			if (numberArray.count > 0)
-			{
-				int randomNum = arc4random() % numberArray.count;
-				int index = [[numberArray objectAtIndex:randomNum] intValue];
-				[numberArray removeObjectAtIndex:randomNum];
-				if (index < tiles.count)
-				{
-					Tile *tile = [tiles objectAtIndex:index];
-					grid[x][y] = tile;
-					
-					DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
-					
-					[tile moveToCoordX:x coordY:y];
-				}
-				else
-				{
-					// Empty slot
-					empty.x = x;
-					empty.y = y;
-					
-					DLog(@"Empty slot [%d][%d]", empty.x, empty.y);
-				}
-			}
-		}
-	}
-	
-	[UIView commitAnimations];
-	
-	[self updateGrid];
+	[UIView commitAnimations];	
 }
 
 
@@ -520,12 +459,12 @@
 	[waitImageView stopAnimating];
 	
 	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
-		
+	
+	DLog("boardSaved [%d]", boardSaved);
+
 	if (boardSaved)
 	{
 		boardSaved = NO;
-		gameState = GamePaused;
-		[self updateGrid];
 		[boardController displayRestartMenu];
 	}
 	else
@@ -594,16 +533,18 @@
 	DLog("restoreBoard");
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSArray *stateArray = (NSArray *) [defaults objectForKey:kKeyBoardState];
 	boardSaved = [defaults boolForKey:kKeyBoardSaved];
-	
-	[defaults setBool:NO forKey:kKeyBoardSaved];
-	[defaults removeObjectForKey:kKeyBoardState];
-	[defaults synchronize];
 	
 	if (boardSaved)
 	{
 		DLog("restoring board...");
+		
+		NSArray *stateArray = (NSArray *) [defaults objectForKey:kKeyBoardState];
+		
+		[defaults setBool:NO forKey:kKeyBoardSaved];
+		[defaults removeObjectForKey:kKeyBoardState];
+		[defaults synchronize];
+		
 		int tileCount = (config.columns * config.rows);
 		
 		// Check Size
@@ -624,9 +565,6 @@
 			
 			NSNumber *num = (NSNumber *) [stateArray objectAtIndex:i];
 			[boardState setObject:[[[ObjCoord alloc] initWithX:col y:row] autorelease] forKey:num];
-				
-			//DLog("data [%d][%d] [%d]", col, row, [num intValue]);
-			[num release];
 		}
 	}
 }

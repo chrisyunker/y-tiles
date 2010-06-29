@@ -21,7 +21,7 @@
 {
 	if (self = [super initWithFrame:CGRectMake(kWaitViewX, kWaitViewY, kWaitViewWidth, kWaitViewHeight)])
 	{
-		[self setImage:[[self createImage] retain]];
+		[self setImage:[self createImage]];
 		
 		activityIndicator = [[UIActivityIndicatorView alloc]
 							 initWithFrame:CGRectMake(kWaitIndicatorX,
@@ -53,7 +53,7 @@
 - (UIImage *)createImage
 {
 	// Wait View
-	CGContextRef context = [Util createBitmapContextForWidth:kWaitViewWidth height:kWaitViewHeight];
+	CGContextRef context = [Util newBitmapContextForWidth:kWaitViewWidth height:kWaitViewHeight];
 	
 	CGMutablePathRef pathRef = CGPathCreateMutable();
 	[Util drawRoundedRectForPath:pathRef

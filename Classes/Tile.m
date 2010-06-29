@@ -16,7 +16,7 @@
 - (void)createPhotoImage;
 - (void)createNumberImage;
 - (void)updateFrame;
-- (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
+- (CGMutablePathRef)newNumberBorderPathForTextWidth:(float)textWidth;
 
 @end
 
@@ -313,7 +313,7 @@ static int tileHeight = 0;
 
 - (void)createPhotoImage
 {
-	CGContextRef context = [Util createBitmapContextForWidth:tileWidth height:tileHeight];
+	CGContextRef context = [Util newBitmapContextForWidth:tileWidth height:tileHeight];
 
 	// Create photo with rounded boarder
 	
@@ -358,7 +358,7 @@ static int tileHeight = 0;
 	
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	
-	CGMutablePathRef numberBorderPath = [self getNumberBorderPathForTextWidth:textWidth];
+	CGMutablePathRef numberBorderPath = [self newNumberBorderPathForTextWidth:textWidth];
 	
 	CGContextAddPath(context, numberBorderPath);
 	CGContextFillPath(context);
@@ -387,7 +387,7 @@ static int tileHeight = 0;
 
 - (void)createNumberImage
 {
-	CGContextRef context = [Util createBitmapContextForWidth:tileWidth height:tileHeight];
+	CGContextRef context = [Util newBitmapContextForWidth:tileWidth height:tileHeight];
 	
 	// Draw tile
 	CGContextSetRGBFillColor(context,
@@ -453,7 +453,7 @@ static int tileHeight = 0;
 }
 
 
-- (CGMutablePathRef)getNumberBorderPathForTextWidth:(float)textWidth;
+- (CGMutablePathRef)newNumberBorderPathForTextWidth:(float)textWidth;
 {
 	CGMutablePathRef numberBorderPath = CGPathCreateMutable();
 	
@@ -475,7 +475,9 @@ static int tileHeight = 0;
 // set static CGPathRef variables.
 
 + (void)setTilePhotoBorderPath
-{	
+{
+	DLog("setTilePhotoBorderPath");
+		 
 	if (tilePhotoBorderPath != NULL)
 	{
 		CGPathRelease(tilePhotoBorderPath);
@@ -498,7 +500,9 @@ static int tileHeight = 0;
 }
 
 + (void)setTileNumberBorderPath
-{	
+{
+	DLog("setTileNumberBorderPath");
+
 	if (tileNumberBorderPath != NULL)
 	{
 		CGPathRelease(tileNumberBorderPath);

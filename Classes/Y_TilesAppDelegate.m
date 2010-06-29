@@ -66,6 +66,13 @@
 	[board saveBoard];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	DLog("applicationDidEnterBackground");
+	
+	[board saveBoard];	
+}
+
 - (void)dealloc
 {
 	DLog("Delegate Dealloc");

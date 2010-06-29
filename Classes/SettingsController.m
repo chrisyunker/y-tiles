@@ -24,9 +24,9 @@
 	{		
 		board = [aBoard retain];
 		
-		[[self tabBarItem] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
-								   image:[UIImage imageNamed:@"Settings.png"]
-									 tag:kTabBarSettingsTag];
+		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
+														   image:[UIImage imageNamed:@"Settings.png"]
+															 tag:kTabBarSettingsTag] autorelease]];
 	}
 	return self;
 }
@@ -54,10 +54,10 @@
 
 - (void)setView:(UIView *)aView
 {
-	DLog(@"setView [%@]", aView);
 	if (aView == nil)
 	{
-		DLog("aView is nil");
+		DLog(@"Setting view to nil due to low memory");
+		
 		[self setPickerView:nil];
 		[self setPhotoSwitch:nil];
 		[self setNumberSwitch:nil];
@@ -114,7 +114,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	DLog(@"viewWillAppear");
+	DLog(@"-> viewWillAppear");
 	
 	[super viewWillAppear:animated];
 	[self updateControlsWithAnimation:NO];
@@ -123,14 +123,14 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	DLog(@"viewDidDisappear\n\n");
+	DLog(@"<- viewDidDisappear");
 	
 	[super viewDidDisappear:animated];
 }
 
 - (void)viewDidLoad 
 {
-	DLog(@"viewDidLoad");
+	DLog(@"-> viewDidLoad");
 	
     [super viewDidLoad];
 	

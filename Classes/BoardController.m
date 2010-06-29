@@ -22,9 +22,9 @@
 		board = [aBoard retain];
 		[board setBoardController:self];
 		
-		[[self tabBarItem] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
-								   image:[UIImage imageNamed:@"Board.png"]
-									 tag:kTabBarBoardTag];
+		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
+														   image:[UIImage imageNamed:@"Board.png"]
+															 tag:kTabBarBoardTag] autorelease]];
 		
 		shakeCount = 0;
 		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
@@ -55,10 +55,9 @@
 
 - (void)setView:(UIView *)aView
 {
-	DLog(@"setView [%@]", aView);
 	if (aView == nil)
 	{
-		DLog(@"aView is nil");
+		DLog(@"Setting view to nil due to low memory");
 		
 	}
 	[super setView:aView];
@@ -68,7 +67,6 @@
 - (void)loadView
 {
     [super loadView];
-	DLog(@"loadView");
 	
 	if (startButton == nil)
 	{
@@ -105,13 +103,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	DLog(@"viewWillAppear");	
+	DLog(@"-> viewWillAppear");	
 	[super viewWillAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	DLog(@"viewDidDisappear");
+	DLog(@"<- viewDidDisappear");
 	[super viewDidDisappear:animated];
 }
 

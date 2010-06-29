@@ -52,12 +52,10 @@
 }
 
 - (void)setView:(UIView *)aView
-{
-	DLog(@"setView [%@]", aView);
-	
+{	
 	if (aView == nil)
 	{
-		DLog(@"aView is nil");
+		DLog(@"Setting view to nil due to low memory");
 
 		[self setDefaultPhoto1:nil];
 		[self setDefaultPhoto2:nil];
@@ -70,9 +68,7 @@
 }
 
 - (void)viewDidLoad 
-{
-	DLog(@"viewDidLoad");
-	
+{	
 	[super viewDidLoad];
 	
 	UIImage *photo1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]

@@ -11,7 +11,7 @@
 
 @implementation Util
 
-+ (CGContextRef)createBitmapContextForWidth:(float)width height:(float)height
++ (CGContextRef)newBitmapContextForWidth:(float)width height:(float)height
 {	
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL,

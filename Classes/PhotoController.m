@@ -20,9 +20,9 @@
 	{
 		board = [aBoard retain];
 		
-		[[self tabBarItem] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
-								   image:[UIImage imageNamed:@"Photo.png"]
-									 tag:kTabBarPhotoTag];
+		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
+														   image:[UIImage imageNamed:@"Photo.png"]
+															 tag:kTabBarPhotoTag] autorelease]];
 	}
 	return self;
 }
@@ -46,10 +46,9 @@
 
 - (void)setView:(UIView *)aView
 {
-	DLog(@"setView [%@]", aView);
 	if (aView == nil)
 	{
-		DLog(@"aView is nil");
+		DLog(@"Setting view to nil due to low memory");
 		
 	}
 	[super setView:aView];
@@ -83,7 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	DLog(@"viewWillAppear");
+	DLog(@"-> viewWillAppear");
 	[super viewWillAppear:animated];
 	
 	selectImageView = [[UIImageView alloc] initWithImage:[board photo]];
@@ -92,7 +91,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	DLog(@"viewDidDisappear");
+	DLog(@"<- viewDidDisappear");
 	[super viewDidDisappear:animated];
 	
 	[selectImageView removeFromSuperview];

@@ -26,7 +26,6 @@
 	Configuration *config;
 	NSMutableArray *tiles;
 	Tile ***grid;
-	CGSize tileSize;
 	UIImage *photo;
 	Coord empty;
 	NSLock *tileLock;
@@ -38,7 +37,7 @@
 	BOOL boardSaved;
 }
 
-@property (retain) UIImage *photo;
+@property (nonatomic, retain) UIImage *photo;
 @property (nonatomic, readonly) Configuration *config;
 @property (nonatomic, readonly) NSLock *tileLock;
 @property (nonatomic, assign) GameState gameState;
