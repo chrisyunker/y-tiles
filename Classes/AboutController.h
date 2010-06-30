@@ -12,18 +12,12 @@
 @interface AboutController : UIViewController
 {
 	IBOutlet UILabel *versionLabel;
-	IBOutlet UIButton *webButton;
-	IBOutlet UIButton *emailButton;
 	IBOutlet UIBarButtonItem *doneButton;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
-@property (nonatomic, retain) IBOutlet UIButton *webButton;
-@property (nonatomic, retain) IBOutlet UIButton *emailButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
-- (IBAction)webButtonAction;
-- (IBAction)emailButtonAction;
 - (IBAction)doneButtonAction;
 
 @end
