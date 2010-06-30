@@ -7,7 +7,6 @@
 //
 
 #import "Board.h"
-#import "ObjCoord.h"
 
 @interface Board (Private)
 
@@ -56,7 +55,7 @@
 			}
 		}
 		
-		switch (config.photoType)
+		switch ([config photoType])
 		{
 			case kDefaultPhoto1Type:
 				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
@@ -194,7 +193,6 @@
 {
 	if (restart)
 	{
-		//[self setGameState:GameNotStarted];
 		[self createNewBoard];
 	}
 	else	
@@ -205,7 +203,6 @@
 
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType
 {
-	//[self setGameState:GameNotStarted];
 	[self setPhoto:aPhoto];
 	
 	[config setPhotoType:aType];
@@ -293,9 +290,6 @@
 	empty = coord1;
 }
 
-
-#pragma mark Private methods
-
 - (void)createTiles
 {
 	// Clean up/remove previous tiles (if exist)
@@ -315,7 +309,6 @@
 	
 	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
 	
-
 	Coord coord = { 0, 0 };
 	int tileId = 1;
 	do
@@ -343,27 +336,26 @@
 	// Removed last tile
 	[tiles removeLastObject];
 	
-	
 	// Restore previous board state (if applicable)
 	if (boardSaved)
-	{
-		DLog("boardState count [%d]", [boardState count]);
-		
+	{		
 		for (Tile *tile in tiles)
 		{
-			NSNumber *num = [NSNumber numberWithInt:tile.tileId];
-			
-			ObjCoord *objCoord = (ObjCoord *) [boardState objectForKey:num];
-			if (objCoord != nil)
+			NSNumber *tileId = [NSNumber numberWithInt:[tile tileId]];
+			NSArray *coord = (NSArray *) [boardState objectForKey:tileId];
+			if (coord != nil)
 			{
-				[tile moveToCoordX:objCoord.x coordY:objCoord.y];
-				grid[objCoord.x][objCoord.y] = tile;
+				int x = [(NSNumber *) [coord objectAtIndex:0] intValue];
+				int y = [(NSNumber *) [coord objectAtIndex:1] intValue];
+				
+				[tile moveToCoordX:x coordY:y];
+				grid[x][y] = tile;
 			}
 		}
 		
-		ObjCoord *objCoord = (ObjCoord *) [boardState objectForKey:[NSNumber numberWithInt:0]];
-		empty.x = objCoord.x;
-		empty.y = objCoord.y;
+		NSArray *coord = (NSArray *) [boardState objectForKey:[NSNumber numberWithInt:0]];
+		empty.x = [(NSNumber *) [coord objectAtIndex:0] intValue];
+		empty.y = [(NSNumber *) [coord objectAtIndex:1] intValue];
 		
 		[boardState removeAllObjects];
 	}
@@ -405,7 +397,6 @@
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:kTileScrambleTime];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut]; 
-	//[pausedView setAlpha:0];
 	
 	for (int y = 0; y < config.rows; y++)
 	{
@@ -430,9 +421,7 @@
 				{
 					Tile *tile = [tiles objectAtIndex:index];
 					grid[x][y] = tile;
-					
-					//DLog("Add to grid[%d][%d] id[%d]", x, y, tile.tileId);
-					
+										
 					[tile moveToCoordX:x coordY:y];
 				}
 				else
@@ -450,24 +439,19 @@
 	[UIView commitAnimations];	
 }
 
-
 - (void)showWaitView
 {
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-	
 	[[[UIApplication sharedApplication] keyWindow] addSubview:waitImageView];
 	[waitImageView startAnimating];
 }
 
 - (void)removeWaitView
-{
+{	
 	[waitImageView removeFromSuperview];
 	[waitImageView stopAnimating];
-	
 	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
 	
-	DLog("boardSaved [%d]", boardSaved);
-
 	if (boardSaved)
 	{
 		boardSaved = NO;
@@ -507,20 +491,18 @@
 
 		NSMutableArray *stateArray = [[NSMutableArray alloc] initWithCapacity:(config.columns * config.rows)];
 	
-		for (int col = 0; col < config.columns; col++)
+		for (int y = 0; y < config.rows; y++)
 		{
-			for (int row = 0; row < config.rows; row++)
+			for (int x = 0; x < config.columns; x++)
 			{
-				Tile *tile = grid[col][row];
+				Tile *tile = grid[x][y];
 				if (tile == nil)
 				{
-					//DLog("data [%d][%d] nil tile", col, row);
 					[stateArray addObject:[NSNumber numberWithInt:0]];
 				}
 				else
 				{
-					[stateArray addObject:[NSNumber numberWithInt:tile.tileId]];
-					//DLog("data [%d][%d] value [%d]", col, row, tile.tileId);
+					[stateArray addObject:[NSNumber numberWithInt:[tile tileId]]];
 				}
 			}
 		}
@@ -566,16 +548,16 @@
 		
 		for (int i = 0; i < stateArray.count; i++)
 		{
-			int col = i / config.rows;
-			int row = i % config.columns;
+			int y = i / config.rows;
+			int x = i % config.columns;
 			
-			NSNumber *num = (NSNumber *) [stateArray objectAtIndex:i];
-			[boardState setObject:[[[ObjCoord alloc] initWithX:col y:row] autorelease] forKey:num];
+			NSNumber *tileId = (NSNumber *) [stateArray objectAtIndex:i];
+			NSArray *coord = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil];
+
+			[boardState setObject:coord forKey:tileId];
+			[coord release];
 		}
 	}
 }
-
-
-// END Private Methods
 
 @end

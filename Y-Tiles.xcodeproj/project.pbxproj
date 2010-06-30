@@ -12,7 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		3B06CE0D11A97F2700C48CB4 /* ObjCoord.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */; };
+		3B46F5F411DAE71F007616DC /* Screenshot 2010.06.29 21.42.29.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B46F5F311DAE71F007616DC /* Screenshot 2010.06.29 21.42.29.png */; };
 		3B78CC010F5B7CC20041A61D /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CC000F5B7CC20041A61D /* Util.m */; };
 		3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CCF90F5B95BD0041A61D /* WaitImageView.m */; };
 		3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */; };
@@ -53,8 +53,7 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
-		3B06CE0B11A97F2700C48CB4 /* ObjCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCoord.h; sourceTree = "<group>"; };
-		3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCoord.m; sourceTree = "<group>"; };
+		3B46F5F311DAE71F007616DC /* Screenshot 2010.06.29 21.42.29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Screenshot 2010.06.29 21.42.29.png"; path = "Images/Screenshot 2010.06.29 21.42.29.png"; sourceTree = "<group>"; };
 		3B78CBFF0F5B7CC20041A61D /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		3B78CC000F5B7CC20041A61D /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3B78CCF80F5B95BD0041A61D /* WaitImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitImageView.h; sourceTree = "<group>"; };
@@ -220,8 +219,6 @@
 		3B6E3DB211CD155500DE3DEE /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				3B06CE0B11A97F2700C48CB4 /* ObjCoord.h */,
-				3B06CE0C11A97F2700C48CB4 /* ObjCoord.m */,
 				3BE09CC60F53AE3E00D88117 /* Configuration.h */,
 				3BE09CC70F53AE3E00D88117 /* Configuration.m */,
 				3BE09CC80F53AE3E00D88117 /* DataTypes.h */,
@@ -236,19 +233,20 @@
 		3BE09CF10F53B03D00D88117 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3B46F5F311DAE71F007616DC /* Screenshot 2010.06.29 21.42.29.png */,
+				3BE09CF40F53B05300D88117 /* DefaultPhoto1.jpg */,
+				3BE09DFC0F53B9E200D88117 /* DefaultPhoto1_sm.jpg */,
+				3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */,
+				3BE09DFD0F53B9E200D88117 /* DefaultPhoto2_sm.jpg */,
 				3BF37B960F586EA00077EF8E /* DefaultPhoto3.jpg */,
 				3BF37B970F586EA00077EF8E /* DefaultPhoto3_sm.jpg */,
 				3BF37B980F586EA00077EF8E /* DefaultPhoto4.jpg */,
 				3BF37B990F586EA00077EF8E /* DefaultPhoto4_sm.jpg */,
-				3BE09DFC0F53B9E200D88117 /* DefaultPhoto1_sm.jpg */,
-				3BE09DFD0F53B9E200D88117 /* DefaultPhoto2_sm.jpg */,
-				3BE09CF30F53B05300D88117 /* Default.png */,
-				3BE09CF40F53B05300D88117 /* DefaultPhoto1.jpg */,
-				3BE09CF50F53B05300D88117 /* DefaultPhoto2.jpg */,
-				3BE09CF60F53B05300D88117 /* Icon.png */,
 				3BE09CF70F53B05300D88117 /* Photo.png */,
 				3BE09CF80F53B05300D88117 /* Board.png */,
 				3BE09CF90F53B05300D88117 /* Settings.png */,
+				3BE09CF30F53B05300D88117 /* Default.png */,
+				3BE09CF60F53B05300D88117 /* Icon.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -313,6 +311,7 @@
 				3BF37B9C0F586EA00077EF8E /* DefaultPhoto4.jpg in Resources */,
 				3BF37B9D0F586EA00077EF8E /* DefaultPhoto4_sm.jpg in Resources */,
 				3BE56CF00F9D971000B7A13F /* LICENSE in Resources */,
+				3B46F5F411DAE71F007616DC /* Screenshot 2010.06.29 21.42.29.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +334,6 @@
 				3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */,
 				3B78CC010F5B7CC20041A61D /* Util.m in Sources */,
 				3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */,
-				3B06CE0D11A97F2700C48CB4 /* ObjCoord.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,8 +87,8 @@
 	CGContextRelease(context);
 	
 	UIImageView *pausedView = [[UIImageView alloc] initWithFrame:frame];
-	pausedView.image = pausedImage;
-	pausedView.userInteractionEnabled = NO;
+	[pausedView setImage:pausedImage];
+	[pausedView setUserInteractionEnabled:NO];
 	[pausedView autorelease];
 	return pausedView;
 }
