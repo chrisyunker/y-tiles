@@ -108,8 +108,7 @@
 - (void)photoLibraryButtonAction
 {
 	// Check to make sure pictures are available
-	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] &&
-		![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
+	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
 	{		
 		UIAlertView *alert = [[UIAlertView alloc]
 							  initWithTitle:NSLocalizedString(@"NoPhotos", @"")
@@ -129,9 +128,7 @@
 	[imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 	
 	[self presentModalViewController:imagePicker animated:YES];
-	
-	//TODO: Why dont we release this?
-	//[imagePicker release];
+	[imagePicker release];
 }
 
 - (void)selectPhoto:(UIImage *)photo type:(int)type
@@ -155,10 +152,17 @@
 
 #pragma mark UIImagePickerControllerDelegate methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	DLog("size [%@]", board.frame);
-	
+	UIImage *image = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
+	DLog("image [%@]", image);
+	if (image == nil)
+	{
+		ALog(@"Invalid selected photo");
+		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+		return;
+	}
+
 	UIImage *resizedImage = [self resizeImage:image size:board.frame.size];
 	
 	NSString *path = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
@@ -170,7 +174,6 @@
 	[board setPhoto:resizedImage type:kBoardPhotoType];
 	
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
-	[picker release];
 	
 	[[self tabBarController] setSelectedIndex:0];
 }
@@ -178,7 +181,6 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
-	[picker release];
 }
 
 @end

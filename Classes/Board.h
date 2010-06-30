@@ -39,7 +39,7 @@
 
 @property (nonatomic, retain) UIImage *photo;
 @property (nonatomic, readonly) Configuration *config;
-@property (nonatomic, readonly) NSLock *tileLock;
+@property (readonly) NSLock *tileLock;
 @property (nonatomic, assign) GameState gameState;
 @property (nonatomic, retain) BoardController *boardController;
 

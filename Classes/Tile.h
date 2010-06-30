@@ -35,6 +35,7 @@
 @property (nonatomic, readonly) BOOL solved;
 @property (nonatomic, readwrite) Direction moveType;
 @property (nonatomic, assign) Tile *pushTile;
+//@property (readwrite) BOOL haveLock;
 
 + (Tile *)tileWithId:(int)aId board:(Board *)aBoard coord:(Coord)aCoord photo:(UIImage *)aPhoto;
 - (void)drawTile;

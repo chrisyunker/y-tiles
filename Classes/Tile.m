@@ -184,7 +184,7 @@ static int tileHeight = 0;
 	if (!moveType) return;
 	
 	// Get lock
-	if ([board.tileLock tryLock])
+	if ([[board tileLock] tryLock])
 	{
 		haveLock = YES;
 	}
@@ -290,9 +290,12 @@ static int tileHeight = 0;
 		[self moveInDirection:None];
 	}
 	
-	// Release lock
-	[board.tileLock unlock];
-	haveLock = NO;
+	if (haveLock)
+	{
+		// Release lock
+		[[board tileLock] unlock];
+		haveLock = NO;
+	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -302,8 +305,7 @@ static int tileHeight = 0;
 	if (haveLock)
 	{
 		DLog(@"Lock Released tileId:[%d]", tileId);
-		
-		[board.tileLock unlock];
+		[[board tileLock] unlock];
 		haveLock = NO;
 	}	
 }

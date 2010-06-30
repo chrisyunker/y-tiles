@@ -173,7 +173,6 @@
 	switch (gameState)
 	{
 		case GameNotStarted:
-			DLog("set GameNotStarted");
 		case GamePaused:
 			[self setUserInteractionEnabled:NO];
 			pausedView.alpha = 1.0f;
@@ -375,7 +374,14 @@
 		[self addSubview:tile];
 	}
 	
-	[self setGameState:GameNotStarted];
+	if (boardSaved)
+	{
+		[self setGameState:GamePaused];
+	}
+	else
+	{
+		[self setGameState:GameNotStarted];
+	}
 }
 
 - (void)scrambleBoard
@@ -410,12 +416,12 @@
 				int randomNum = arc4random() % numberArray.count;
 				
 #ifdef DEBUG
-				//				if (numberArray.count > 2)
-				//					randomNum = 0;
-				//				else if (numberArray.count == 2)
-				//					randomNum = 1;
-				//				else
-				//					randomNum = 0;
+								if (numberArray.count > 2)
+									randomNum = 0;
+								else if (numberArray.count == 2)
+									randomNum = 1;
+								else
+									randomNum = 0;
 #endif
 				
 				int index = [[numberArray objectAtIndex:randomNum] intValue];
