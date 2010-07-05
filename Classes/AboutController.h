@@ -13,10 +13,12 @@
 {
 	IBOutlet UILabel *versionLabel;
 	IBOutlet UIBarButtonItem *doneButton;
+	IBOutlet UIImageView *icon;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, retain) IBOutlet UIImageView *icon;
 
 - (IBAction)doneButtonAction;
 

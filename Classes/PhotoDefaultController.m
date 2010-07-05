@@ -104,6 +104,7 @@
 	[photoController selectPhoto:photo type:type];
 	[photo release];
 	
+	// Remove saved library photo (if exists)
 	NSString *boardPhoto = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	[fileManager removeItemAtPath:boardPhoto error:NULL];

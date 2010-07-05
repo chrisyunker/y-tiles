@@ -9,6 +9,8 @@
 
 #define kVersionMajor            1
 #define kVersionMinor            1
+#define kIconPhoto               @"IconPhoto"
+#define kIconPhotoType           @"png"
 
 // User Default Keys
 #define kKeySavedDefaults        @"savedDefaults"
@@ -20,14 +22,6 @@
 #define kKeySoundEnabled         @"soundEnabled"
 #define kKeyBoardSaved           @"boardSaved"
 #define kKeyBoardState           @"boardState"
-
-// Default Values
-#define kColumnsDefault          4
-#define kRowsDefault             4
-#define klastPhotoTypeDefault    0
-#define kPhotoEnabledDefault     YES
-#define kNumbersEnabledDefault   NO
-#define kSoundEnabledDefault     YES
 
 #define kBoardControllerIndex    0
 #define kPhotoControllerIndex    1
@@ -41,8 +35,6 @@
 #define kColumnsMin              3
 #define kColumnsMax              6
 
-#define kBoardX                  0
-#define kBoardY                  0
 #define kBoardHeight             411
 #define kBoardWidth              320
 
@@ -70,8 +62,7 @@
 #define kDefaultPhoto3Type       2
 #define kDefaultPhoto4Type       3
 #define kBoardPhotoType          4
-#define kWebUrl                  @"http://m.chrisyunker.com"
-#define kEmailUrl                @"mailto:ytiles@chrisyunker.com"
+#define kBoardPhotoInvalid       5
 
 #define kTileSpacingWidth        1.0f
 #define kTileCornerRadius        10.0f
@@ -100,7 +91,7 @@
 #define kNumberBgColorBlue       206.0f/255.0f
 #define kNumberBgColorAlpha      1.0f
 
-#define kNumberFontType          "Helvetica"
+#define kNumberFontType          "Helvetica Neue"
 #define kNumberFontSize          20
 
 // Photo Mode
@@ -118,5 +109,13 @@
 #define kPhotoBgOffset           10.0f
 #define kPhotoBgCornerRadius     5.0f
 
-#define kPhotoFontType           "Helvetica"
+#define kPhotoFontType           "Helvetica Neue"
 #define kPhotoFontSize           20
+
+// Default Values
+#define kColumnsDefault          4
+#define kRowsDefault             4
+#define klastPhotoTypeDefault    kDefaultPhoto1Type
+#define kPhotoEnabledDefault     YES
+#define kNumbersEnabledDefault   YES
+#define kSoundEnabledDefault     YES

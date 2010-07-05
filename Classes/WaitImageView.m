@@ -21,7 +21,17 @@
 {
 	if (self = [super initWithFrame:CGRectMake(kWaitViewX, kWaitViewY, kWaitViewWidth, kWaitViewHeight)])
 	{
-		[self setImage:[self createImage]];
+		
+		[self setBackgroundColor:[UIColor colorWithRed:kWaitBgColorRed
+												 green:kWaitBgColorGreen
+												  blue:kWaitBgColorBlue
+												 alpha:kWaitBgColorAlpha]];
+		
+		UIImageView *dialog = [[UIImageView alloc] initWithFrame:CGRectMake(kWaitViewDialogX,
+																			kWaitViewDialogY,
+																			kWaitViewDialogWidth,
+																			kWaitViewDialogHeight)];
+		[dialog setImage:[self createImage]];
 		
 		activityIndicator = [[UIActivityIndicatorView alloc]
 							 initWithFrame:CGRectMake(kWaitIndicatorX,
@@ -29,7 +39,10 @@
 													  kWaitIndicatorWidth,
 													  kWaitIndicatorHeight)];
 		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-		[self addSubview:activityIndicator];
+		[dialog addSubview:activityIndicator];
+		
+		[self addSubview:dialog];
+		[dialog release];
 	}
 	return self;
 }
@@ -53,20 +66,25 @@
 - (UIImage *)createImage
 {
 	// Wait View
-	CGContextRef context = [Util newBitmapContextForWidth:kWaitViewWidth height:kWaitViewHeight];
+	CGContextRef context = [Util newBitmapContextForWidth:kWaitViewDialogWidth height:kWaitViewDialogHeight];
 	
 	CGMutablePathRef pathRef = CGPathCreateMutable();
 	[Util drawRoundedRectForPath:pathRef
-							rect:CGRectMake(0, 0, kWaitViewWidth, kWaitViewHeight)
+							rect:CGRectMake(0, 0, kWaitViewDialogWidth, kWaitViewDialogHeight)
 						  radius:kTileCornerRadius];
 	CGContextAddPath(context, pathRef);
 	
-	CGContextSetRGBFillColor(context,
-							 kWaitViewBgColorRed,
-							 kWaitViewBgColorGreen,
-							 kWaitViewBgColorBlue,
-							 kWaitViewBgColorAlpha);
+	CGContextSetRGBFillColor(context, 0.0f, 0.0f, 0.0f, 1.0f);
 	CGContextFillPath(context);
+
+	[Util drawRoundedRectForPath:pathRef
+							rect:CGRectMake(0, 0, kWaitViewDialogWidth, kWaitViewDialogHeight)
+						  radius:kTileCornerRadius];
+	CGContextAddPath(context, pathRef);
+	
+	CGContextSetLineWidth(context, 3.0f);
+	CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
+	CGContextStrokePath(context);
 	
 	// Draw Label
 	CGContextSelectFont(context, kWaitViewFontType,  kWaitViewFontSize, kCGEncodingMacRoman);
@@ -79,16 +97,12 @@
 	CGPoint end = CGContextGetTextPosition(context);
 	float textWidth = end.x - start.x;
 	
-	CGContextSetRGBFillColor(context,
-							 kWaitViewFontColorRed,
-							 kWaitViewFontColorGreen,
-							 kWaitViewFontColorBlue,
-							 kWaitViewFontColorAlpha);
+	CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	
 	CGContextShowTextAtPoint(context,
-							 ((kWaitViewWidth - textWidth) * 0.5),
-							 ((kWaitViewHeight - kNumberFontSize) * 0.25),
+							 ((kWaitViewDialogWidth - textWidth) * 0.5),
+							 ((kWaitViewDialogHeight - kNumberFontSize) * 0.25),
 							 [label UTF8String],
 							 [label length]);
 	

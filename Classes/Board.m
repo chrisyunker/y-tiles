@@ -31,7 +31,7 @@
 
 - (id)init
 {
-	if (self = [super initWithFrame:CGRectMake(kBoardX, kBoardY, kBoardWidth, kBoardHeight)])
+	if (self = [super initWithFrame:CGRectMake(0, 0, kBoardWidth, kBoardHeight)])
 	{
 		config = [[Configuration alloc] initWithBoard:self];
 		[config load];

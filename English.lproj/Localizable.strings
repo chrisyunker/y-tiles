@@ -10,7 +10,6 @@
 "BoardTitle"         = "Board";
 "PhotoTitle"         = "Photo";
 "SettingsTitle"      = "Settings";
-"YTilesTitle"        = "Y-Tiles";
 
 // BoardController
 "StartButton"        = "Start";
@@ -21,21 +20,16 @@
 // PhotoController
 "PhotoLibraryButton" = "Library Photo";
 "PhotoDefaultButton" = "Default Photo";
-"CancelButton"       = "Cancel";
-"TakePhoto"          = "Take Photo";
-"ExistingPhoto"      = "Choose Existing Photo";
-"NoCamera"           = "No Camera Available";
 "NoPhotos"           = "No Photos Available";
+"InvalidPhoto"       = "Invalid Photo";
 
 // SettingsController
-"CancelButton"       = "Cancel Settings";
-"SaveButton"         = "Save Settings";
-"ColumnsLabel"       = "Columns";
-"RowsLabel"          = "Rows";
+"CancelSettingsButton" = "Cancel";
+"SaveSettingsButton"   = "Save";
+"ColumnsLabel"         = "Columns";
+"RowsLabel"            = "Rows";
 
 // AboutController
-"EmailButton"        = "ytiles@chrisyunker.com";
-"WebButton"          = "chrisyunker.com";
 "VersionLabel"       = "Version";
 
 "WaitImageLabel"     = "Processing";

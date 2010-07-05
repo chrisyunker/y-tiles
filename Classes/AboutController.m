@@ -12,6 +12,7 @@
 
 @synthesize versionLabel;
 @synthesize doneButton;
+@synthesize icon;
 
 - (void)dealloc
 {
@@ -19,6 +20,7 @@
 
 	[versionLabel release], versionLabel = nil;
 	[doneButton release], doneButton = nil;
+	[icon release], icon = nil;
     [super dealloc];
 }
 
@@ -37,6 +39,12 @@
 						 kVersionMajor,
 						 kVersionMinor];
 	[versionLabel setText:version];
+	
+	UIImage *iconImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+																  pathForResource:kIconPhoto
+																  ofType:kIconPhotoType]];
+	[icon setImage:iconImage];
+	[iconImage release];
 }
 
 - (void)setView:(UIView *)aView
@@ -45,8 +53,9 @@
 	{
 		DLog(@"Setting view to nil due to low memory");
 
-		self.versionLabel = nil;
-		self.doneButton = nil;
+		[self setVersionLabel:nil];
+		[self setDoneButton:nil];
+		[self setIcon:nil];
 	}
 	
     [super setView:aView];

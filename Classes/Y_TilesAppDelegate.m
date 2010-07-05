@@ -15,8 +15,11 @@
 
 @implementation Y_TilesAppDelegate
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application
-{
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{    
+//- (void)applicationDidFinishLaunching:(UIApplication *)application
+	
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	controllers = [[NSMutableArray alloc] init];
 	
@@ -52,25 +55,48 @@
 	UITabBarController *tabBarController = [[UITabBarController alloc] init];
 	[tabBarController setViewControllers:controllers];
 	[tabBarController setDelegate:boardController];
-	
+		
 	[window addSubview:tabBarController.view];
-	[window makeKeyAndVisible];
+    [window makeKeyAndVisible];
 	
 	[board createNewBoard];
+	
+    return YES;
+}
+
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+	DLog("applicationWillResignActive [%@]", application);	
+	[board saveBoard];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	DLog("applicationWillTerminate");
-	
+	DLog("applicationWillTerminate [%@]", application);
 	[board saveBoard];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-	DLog("applicationDidEnterBackground");
-	
+	DLog("applicationDidEnterBackground [%@]", application);
 	[board saveBoard];	
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+	DLog("applicationWillEnterForeground [%@]", application);
+}
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+	DLog("applicationDidBecomeActive [%@]", application);
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+	DLog("applicationDidReceiveMemoryWarning [%@]", application);
 }
 
 - (void)dealloc

@@ -13,6 +13,7 @@
 
 @synthesize photoLibraryButton;
 @synthesize photoDefaultButton;
+@synthesize selectImageView;
 
 - (id)initWithBoard:(Board *)aBoard
 {
@@ -31,9 +32,9 @@
 {
 	DLog(@"dealloc");
 	
-	[photoLibraryButton release];
-	[photoDefaultButton release];
-	[selectImageView release];
+	[photoLibraryButton release], photoLibraryButton = nil;
+	[photoDefaultButton release], photoDefaultButton = nil;
+	[selectImageView release], selectImageView = nil;
 	[board release];
     [super dealloc];
 }
@@ -49,7 +50,9 @@
 	if (aView == nil)
 	{
 		DLog(@"Setting view to nil due to low memory");
-		
+		[self setPhotoDefaultButton:nil];
+		[self setPhotoLibraryButton:nil];
+		[self setSelectImageView:nil];
 	}
 	[super setView:aView];
 }
@@ -76,26 +79,14 @@
 							  action:@selector(photoDefaultButtonAction)];
 	}
 	
+	if (selectImageView == nil)
+	{
+		selectImageView = [[UIImageView alloc] initWithImage:[board photo]];
+		[[self view] addSubview:selectImageView];
+	}
+	
 	[[self navigationItem] setLeftBarButtonItem:photoDefaultButton];
 	[[self navigationItem] setRightBarButtonItem:photoLibraryButton];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	DLog(@"-> viewWillAppear");
-	[super viewWillAppear:animated];
-	
-	selectImageView = [[UIImageView alloc] initWithImage:[board photo]];
-	[[self view] addSubview:selectImageView];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	DLog(@"<- viewDidDisappear");
-	[super viewDidDisappear:animated];
-	
-	[selectImageView removeFromSuperview];
-	[selectImageView release];
 }
 
 - (void)photoDefaultButtonAction
@@ -121,20 +112,44 @@
 		return;
 	}
 	
-	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-	[[imagePicker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
-	[imagePicker setAllowsEditing:NO];
-	[imagePicker setDelegate:self];
-	[imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-	
-	[self presentModalViewController:imagePicker animated:YES];
-	[imagePicker release];
+	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+	[[picker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
+	[picker shouldAutorotateToInterfaceOrientation:NO];
+	[picker setAllowsEditing:NO];
+	[picker setDelegate:self];
+	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+	[self presentModalViewController:picker animated:YES];
+	[picker release];
 }
 
 - (void)selectPhoto:(UIImage *)photo type:(int)type
 {
+	if (type == kBoardPhotoInvalid)
+	{
+		// NOTE: Seems to be an iphone SDK bug when calling UIAlertView from
+		// a UIImagePickerController delegate method.
+		// This is an unlikely error so it's probably OK to silently error
+		/*
+		UIAlertView *alert = [[UIAlertView alloc]
+							  initWithTitle:NSLocalizedString(@"InvalidPhoto", @"")
+							  message:nil
+							  delegate:self
+							  cancelButtonTitle:nil
+							  otherButtonTitles:@"OK", nil];
+		[alert show];
+		[alert release];
+		*/
+		
+		return;
+	}
+	
 	[board setPhoto:photo type:type];
-	[[self tabBarController] setSelectedIndex:0];
+	
+	[selectImageView removeFromSuperview];
+	[self setSelectImageView:[[[UIImageView alloc] initWithImage:[board photo]] autorelease]];
+	[[self view] addSubview:selectImageView];
+		
+	[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size
@@ -154,12 +169,14 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+	//DLog("picker [%@] info [%@]", picker, info);
+	
 	UIImage *image = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
-	DLog("image [%@]", image);
 	if (image == nil)
 	{
 		ALog(@"Invalid selected photo");
-		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+		[self selectPhoto:nil type:kBoardPhotoInvalid];
+		[self dismissModalViewControllerAnimated:YES];
 		return;
 	}
 
@@ -171,16 +188,19 @@
 		ALog(@"PhotoController: Failed to write file [%@]", path);
 	}
 	
-	[board setPhoto:resizedImage type:kBoardPhotoType];
-	
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
-	
-	[[self tabBarController] setSelectedIndex:0];
+	[self selectPhoto:resizedImage type:kBoardPhotoType];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
+
+//#pragma mark UIAlertViewDelegate methods
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{	
+//	[alertView release];
+//}
 
 @end

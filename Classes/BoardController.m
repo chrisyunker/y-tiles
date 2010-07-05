@@ -39,9 +39,9 @@
 	DLog(@"dealloc");
 	
 	[board release];
-	[startButton release];
-	[restartButton release];
-	[resumeButton release];
+	[startButton release], startButton = nil;
+	[restartButton release], restartButton = nil;
+	[resumeButton release], resumeButton = nil;
 	[accelerometer release];
 	[lastAcceleration release];
     [super dealloc];
@@ -58,7 +58,9 @@
 	if (aView == nil)
 	{
 		DLog(@"Setting view to nil due to low memory");
-		
+		[self setStartButton:nil];
+		[self setResumeButton:nil];
+		[self setRestartButton:nil];
 	}
 	[super setView:aView];
 }
@@ -100,19 +102,6 @@
 	
 	[[self view] addSubview:board];
 }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	DLog(@"-> viewWillAppear");	
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	DLog(@"<- viewDidDisappear");
-	[super viewDidDisappear:animated];
-}
-
 
 - (void)startButtonAction
 {
@@ -169,12 +158,11 @@
 }
 
 
-#pragma mark UITabBarControllerDelegate methods
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-	selectedViewController = [[viewController tabBarController] selectedIndex];
-}
+//#pragma mark UITabBarControllerDelegate methods
+//- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+//{
+//	selectedViewController = [[viewController tabBarController] selectedIndex];
+//}
 
 #pragma mark UIAccelerometerDelegate methods
 
@@ -203,13 +191,12 @@
 		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
 			shakeCount > kShakeCount)
 		{
-			if (selectedViewController == kBoardControllerIndex)
+			//if (selectedViewController == kBoardControllerIndex)
+			if ([board gameState] == GameInProgress)
 			{
-				if (board.gameState == GameInProgress)
-				{
-					board.gameState = GamePaused;
-					[self displayRestartMenu];
-				}
+				[board setGameState:GamePaused];
+				[self displayRestartMenu];
+				[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
 			}
 			
 			shakeCount = 0;

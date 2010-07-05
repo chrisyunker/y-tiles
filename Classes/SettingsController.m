@@ -57,7 +57,6 @@
 	if (aView == nil)
 	{
 		DLog(@"Setting view to nil due to low memory");
-		
 		[self setPickerView:nil];
 		[self setPhotoSwitch:nil];
 		[self setNumberSwitch:nil];
@@ -113,35 +112,24 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
-	DLog(@"-> viewWillAppear");
-	
+{	
 	[super viewWillAppear:animated];
 	[self updateControlsWithAnimation:NO];
 	[self enableButtons:NO];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-	DLog(@"<- viewDidDisappear");
-	
-	[super viewDidDisappear:animated];
-}
-
 - (void)viewDidLoad 
-{
-	DLog(@"-> viewDidLoad");
-	
+{	
     [super viewDidLoad];
 	
 	[self setSaveButton:[[[UIBarButtonItem alloc]
-						  initWithTitle:NSLocalizedString(@"SaveButton", @"")
+						  initWithTitle:NSLocalizedString(@"SaveSettingsButton", @"")
 						  style:UIBarButtonItemStylePlain
 						  target:self
 						  action:@selector(saveButtonAction)] autorelease]];
 	
 	[self setCancelButton:[[[UIBarButtonItem alloc]
-							initWithTitle:NSLocalizedString(@"CancelButton", @"")
+							initWithTitle:NSLocalizedString(@"CancelSettingsButton", @"")
 							style:UIBarButtonItemStylePlain
 							target:self
 							action:@selector(cancelButtonAction)] autorelease]];
@@ -162,7 +150,7 @@
 	[[board config] save];
 			
 	[self enableButtons:NO];
-	[[self tabBarController] setSelectedIndex:0];
+	[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (void)cancelButtonAction

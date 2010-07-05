@@ -79,7 +79,7 @@ static int tileHeight = 0;
 
 - (void)dealloc
 {
-	DLog(@"dealloc tileId:[%d]", tileId);
+	//DLog(@"dealloc tileId:[%d]", tileId);
 	
 	[photoImage release];
 	[numberedPhotoImage release];
