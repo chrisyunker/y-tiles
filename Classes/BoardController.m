@@ -75,7 +75,7 @@
 		DLog(@"create start button");
 
 		startButton = [[UIBarButtonItem alloc]
-					   initWithTitle:[NSString stringWithFormat:@"  %@  ", NSLocalizedString(@"StartButton", @"")]
+					   initWithTitle:NSLocalizedString(@"StartButton", @"")
 					   style:UIBarButtonItemStyleDone
 					   target:self
 					   action:@selector(startButtonAction)];
@@ -157,13 +157,6 @@
 	[alert release];
 }
 
-
-//#pragma mark UITabBarControllerDelegate methods
-//- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-//{
-//	selectedViewController = [[viewController tabBarController] selectedIndex];
-//}
-
 #pragma mark UIAccelerometerDelegate methods
 
 - (BOOL)thresholdShakeLast:(UIAcceleration *)last current:(UIAcceleration *)current threshold:(double)threshold
@@ -191,7 +184,6 @@
 		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
 			shakeCount > kShakeCount)
 		{
-			//if (selectedViewController == kBoardControllerIndex)
 			if ([board gameState] == GameInProgress)
 			{
 				[board setGameState:GamePaused];

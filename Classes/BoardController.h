@@ -11,7 +11,7 @@
 
 @class Board;
 
-@interface BoardController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate, UIAccelerometerDelegate>
+@interface BoardController : UIViewController <UIAlertViewDelegate, UIAccelerometerDelegate>
 {
 	Board *board;
 	UIBarButtonItem *startButton;
@@ -20,7 +20,6 @@
 	UIAccelerometer *accelerometer;
 	UIAcceleration *lastAcceleration;
 	int shakeCount;
-	int selectedViewController;
 }
 
 @property (nonatomic, retain) UIBarButtonItem *startButton;

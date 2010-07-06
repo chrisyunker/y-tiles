@@ -443,6 +443,7 @@
 {
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
 	[[[UIApplication sharedApplication] keyWindow] addSubview:waitImageView];
+	[[[UIApplication sharedApplication] keyWindow] bringSubviewToFront:waitImageView];
 	[waitImageView startAnimating];
 }
 

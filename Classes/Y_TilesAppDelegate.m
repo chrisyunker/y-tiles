@@ -54,7 +54,6 @@
 	
 	UITabBarController *tabBarController = [[UITabBarController alloc] init];
 	[tabBarController setViewControllers:controllers];
-	[tabBarController setDelegate:boardController];
 		
 	[window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
