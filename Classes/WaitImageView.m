@@ -49,6 +49,7 @@
 
 - (void)dealloc
 {
+	DLog("dealloc");
 	[activityIndicator release];
     [super dealloc];
 }

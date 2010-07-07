@@ -16,8 +16,7 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-
+	DLog("dealloc");
 	[versionLabel release], versionLabel = nil;
 	[doneButton release], doneButton = nil;
 	[icon release], icon = nil;
@@ -26,7 +25,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-	ALog(@"didReceiveMemoryWarning");
+	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 
@@ -51,7 +50,7 @@
 {
 	if (aView == nil)
 	{
-		DLog(@"Setting view to nil due to low memory");
+		DLog("Setting view to nil due to low memory");
 
 		[self setVersionLabel:nil];
 		[self setDoneButton:nil];

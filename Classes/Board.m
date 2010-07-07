@@ -14,6 +14,7 @@
 - (void)scrambleBoard;
 - (void)showWaitView;
 - (void)removeWaitView;
+- (void)showPausedView:(BOOL)enabled;
 - (void)createTilesInThread;
 - (void)drawBoard;
 - (void)restoreBoard;
@@ -42,7 +43,7 @@
 		grid = malloc(kColumnsMax * sizeof(Tile **));
 		if (grid == NULL)
 		{
-			ALog(@"Board:init Memory allocation error");
+			ALog("Board:init Memory allocation error");
 			return nil;
 		}
 		for (int x = 0; x < kColumnsMax; x++)
@@ -50,7 +51,7 @@
 			grid[x] = malloc(kRowsMax * sizeof(Tile *));
 			if (grid[x] == NULL)
 			{
-				ALog(@"Board:init Memory allocation error");
+				ALog("Board:init Memory allocation error");
 				return nil;
 			}
 		}
@@ -81,7 +82,7 @@
 				[self setPhoto:[UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]]];
 				if ([self photo] == nil)
 				{
-					ALog(@"Board:init Failed to load last board image [%@]",
+					ALog("Board:init Failed to load last board image [%@]",
 						  [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]);
 					
 					[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
@@ -105,7 +106,7 @@
 		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
 		NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
 		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
-		if (error) ALog(@"Board:init Failed to create sound for URL [%@]", url);
+		if (error) ALog("Board:init Failed to create sound for URL [%@]", url);
 		
 		[self setBackgroundColor:[UIColor blackColor]];
 		[self setMultipleTouchEnabled:NO];
@@ -118,6 +119,8 @@
 
 - (void)dealloc
 {
+	DLog("dealloc");
+	
 	// Free 2D grid array
 	for (int i = 0; i < kColumnsMax; i++)
 	{
@@ -165,7 +168,7 @@
 
 - (void)setGameState:(GameState)state
 {
-	DLog("Old State [%d] New State [%d]", gameState, state);
+	DLog("Old State [%d] -> New State [%d]", gameState, state);
 	
 	gameState = state;
 	
@@ -173,16 +176,12 @@
 	{
 		case GameNotStarted:
 		case GamePaused:
-			[self setUserInteractionEnabled:NO];
-			pausedView.alpha = 1.0f;
-			[self bringSubviewToFront:pausedView];
-			
+			[self showPausedView:YES];
+
 			break;
 		case GameInProgress:
-			[self setUserInteractionEnabled:YES];
-			pausedView.alpha = 0.0f;
-			[self sendSubviewToBack:pausedView];
-
+			[self showPausedView:NO];
+			
 			break;
 		default:
 			break;
@@ -407,12 +406,12 @@
 				int randomNum = arc4random() % numberArray.count;
 				
 #ifdef DEBUG
-								if (numberArray.count > 2)
-									randomNum = 0;
-								else if (numberArray.count == 2)
-									randomNum = 1;
-								else
-									randomNum = 0;
+//								if (numberArray.count > 2)
+//									randomNum = 0;
+//								else if (numberArray.count == 2)
+//									randomNum = 1;
+//								else
+//									randomNum = 0;
 #endif
 				
 				int index = [[numberArray objectAtIndex:randomNum] intValue];
@@ -430,7 +429,7 @@
 					empty.x = x;
 					empty.y = y;
 					
-					DLog(@"Empty slot [%d][%d]", empty.x, empty.y);
+					DLog("Empty slot [%d][%d]", empty.x, empty.y);
 				}
 			}
 		}
@@ -442,16 +441,18 @@
 - (void)showWaitView
 {
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-	[[[UIApplication sharedApplication] keyWindow] addSubview:waitImageView];
-	[[[UIApplication sharedApplication] keyWindow] bringSubviewToFront:waitImageView];
+	
+	[boardController removeMenu];
 	[waitImageView startAnimating];
+	[self addSubview:waitImageView];
+	
+	[[boardController tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (void)removeWaitView
 {	
 	[waitImageView removeFromSuperview];
 	[waitImageView stopAnimating];
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
 	
 	if (boardSaved)
 	{
@@ -461,6 +462,24 @@
 	else
 	{		
 		[boardController displayStartMenu];
+	}
+	
+	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
+}
+
+- (void)showPausedView:(BOOL)enabled
+{
+	if (enabled)
+	{
+		[self setUserInteractionEnabled:NO];
+		[pausedView setAlpha:1.0f];
+		[self bringSubviewToFront:pausedView];
+	}
+	else
+	{
+		[self setUserInteractionEnabled:YES];
+		[pausedView setAlpha:0.0f];
+		[self sendSubviewToBack:pausedView];
 	}
 }
 
@@ -488,7 +507,7 @@
 	
 	if (gameState != GameNotStarted)
 	{
-		DLog("saving board...");
+		DLog("Saving board...");
 
 		NSMutableArray *stateArray = [[NSMutableArray alloc] initWithCapacity:(config.columns * config.rows)];
 	
@@ -526,7 +545,7 @@
 	
 	if (boardSaved)
 	{
-		DLog("restoring board...");
+		DLog("Restoring board...");
 		
 		NSArray *stateArray = (NSArray *) [defaults objectForKey:kKeyBoardState];
 		

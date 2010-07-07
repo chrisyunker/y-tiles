@@ -32,4 +32,4 @@
 // AboutController
 "VersionLabel"       = "Version";
 
-"WaitImageLabel"     = "Processing";
+"WaitImageLabel"     = "Creating Board";

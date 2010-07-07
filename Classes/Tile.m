@@ -79,8 +79,7 @@ static int tileHeight = 0;
 
 - (void)dealloc
 {
-	//DLog(@"dealloc tileId:[%d]", tileId);
-	
+	//DLog("tileId:[%d]", tileId);
 	[photoImage release];
 	[numberedPhotoImage release];
 	[numberImage release];
@@ -300,11 +299,11 @@ static int tileHeight = 0;
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	DLog(@"touchesCancelled tileId:[%d]", tileId);
+	DLog("touchesCancelled tileId:[%d]", tileId);
 
 	if (haveLock)
 	{
-		DLog(@"Lock Released tileId:[%d]", tileId);
+		DLog("Lock Released tileId:[%d]", tileId);
 		[[board tileLock] unlock];
 		haveLock = NO;
 	}	

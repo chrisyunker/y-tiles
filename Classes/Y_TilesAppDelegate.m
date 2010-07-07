@@ -63,45 +63,26 @@
     return YES;
 }
 
-
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-	DLog("applicationWillResignActive [%@]", application);	
-	[board saveBoard];
-}
-
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	DLog("applicationWillTerminate [%@]", application);
+	DLog("applicationWillTerminate");
 	[board saveBoard];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-	DLog("applicationDidEnterBackground [%@]", application);
+	DLog("applicationDidEnterBackground");
 	[board saveBoard];	
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-	DLog("applicationWillEnterForeground [%@]", application);
-}
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-	DLog("applicationDidBecomeActive [%@]", application);
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-	DLog("applicationDidReceiveMemoryWarning [%@]", application);
+	DLog("applicationDidReceiveMemoryWarning");
 }
 
 - (void)dealloc
 {
-	DLog("Delegate Dealloc");
-
+	DLog("dealloc");
 	[board release];
 	[controllers release];
     [super dealloc];

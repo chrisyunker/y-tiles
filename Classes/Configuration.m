@@ -29,15 +29,14 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-	
+	DLog("dealloc");
 	[board release];
 	[super dealloc];
 }
 
 - (void)load
 {
-	DLog(@"Load Configuration");
+	DLog("Load Configuration");
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
@@ -68,7 +67,7 @@
 
 - (void)save
 {
-	DLog(@"Save Configuration");
+	DLog("Save Configuration");
 	BOOL restart = NO;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

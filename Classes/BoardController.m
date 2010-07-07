@@ -36,8 +36,7 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-	
+	DLog("dealloc");
 	[board release];
 	[startButton release], startButton = nil;
 	[restartButton release], restartButton = nil;
@@ -49,7 +48,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-	ALog(@"didReceiveMemoryWarning");
+	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 
@@ -57,7 +56,7 @@
 {
 	if (aView == nil)
 	{
-		DLog(@"Setting view to nil due to low memory");
+		DLog("Setting view to nil due to low memory");
 		[self setStartButton:nil];
 		[self setResumeButton:nil];
 		[self setRestartButton:nil];
@@ -72,7 +71,7 @@
 	
 	if (startButton == nil)
 	{
-		DLog(@"create start button");
+		DLog("Create start button");
 
 		startButton = [[UIBarButtonItem alloc]
 					   initWithTitle:NSLocalizedString(@"StartButton", @"")
@@ -123,7 +122,7 @@
 
 - (void)displayRestartMenu
 {
-	DLog(@"displayRestartMenu");
+	DLog("displayRestartMenu");
 	
 	[[self navigationItem] setLeftBarButtonItem:restartButton];
 	[[self navigationItem] setRightBarButtonItem:resumeButton];
@@ -132,11 +131,16 @@
 
 - (void)displayStartMenu
 {
-	DLog(@"displayStartMenu");
+	DLog("displayStartMenu");
 	
 	[[self navigationItem] setLeftBarButtonItem:startButton];
 	[[self navigationItem] setRightBarButtonItem:nil];
 	[[self navigationController] setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)removeMenu
+{
+	[[self navigationController] setNavigationBarHidden:YES animated:NO];	
 }
 
 - (void)displaySolvedMenu

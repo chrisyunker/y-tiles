@@ -34,8 +34,7 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-	
+	DLog("dealloc");
 	[defaultPhoto1 release], defaultPhoto1 = nil;
 	[defaultPhoto2 release], defaultPhoto2 = nil;
 	[defaultPhoto3 release], defaultPhoto3 = nil;
@@ -47,7 +46,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-	ALog(@"didReceiveMemoryWarning");
+	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 
@@ -55,7 +54,7 @@
 {	
 	if (aView == nil)
 	{
-		DLog(@"Setting view to nil due to low memory");
+		DLog("Setting view to nil due to low memory");
 
 		[self setDefaultPhoto1:nil];
 		[self setDefaultPhoto2:nil];

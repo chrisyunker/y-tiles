@@ -33,8 +33,7 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-	
+	DLog("dealloc");
 	[pickerView release], pickerView = nil;
 	[photoSwitch release], photoSwitch = nil;
 	[numberSwitch release], numberSwitch = nil;
@@ -48,7 +47,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-	ALog(@"didReceiveMemoryWarning");
+	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 
@@ -56,7 +55,7 @@
 {
 	if (aView == nil)
 	{
-		DLog(@"Setting view to nil due to low memory");
+		DLog("Setting view to nil due to low memory");
 		[self setPickerView:nil];
 		[self setPhotoSwitch:nil];
 		[self setNumberSwitch:nil];
@@ -150,7 +149,6 @@
 	[[board config] save];
 			
 	[self enableButtons:NO];
-	[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (void)cancelButtonAction

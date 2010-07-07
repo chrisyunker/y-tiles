@@ -34,5 +34,6 @@
 - (void)displayStartMenu;
 - (void)displayRestartMenu;
 - (void)displaySolvedMenu;
+- (void)removeMenu;
 
 @end

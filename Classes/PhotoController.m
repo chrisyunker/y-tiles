@@ -30,8 +30,7 @@
 
 - (void)dealloc
 {
-	DLog(@"dealloc");
-	
+	DLog("dealloc");
 	[photoLibraryButton release], photoLibraryButton = nil;
 	[photoDefaultButton release], photoDefaultButton = nil;
 	[selectImageView release], selectImageView = nil;
@@ -41,7 +40,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-	ALog(@"didReceiveMemoryWarning");
+	ALog("didReceiveMemoryWarning");
 	[super didReceiveMemoryWarning];
 }
 
@@ -49,7 +48,7 @@
 {
 	if (aView == nil)
 	{
-		DLog(@"Setting view to nil due to low memory");
+		DLog("Setting view to nil due to low memory");
 		[self setPhotoDefaultButton:nil];
 		[self setPhotoLibraryButton:nil];
 		[self setSelectImageView:nil];
@@ -148,8 +147,6 @@
 	[selectImageView removeFromSuperview];
 	[self setSelectImageView:[[[UIImageView alloc] initWithImage:[board photo]] autorelease]];
 	[[self view] addSubview:selectImageView];
-		
-	[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size
@@ -168,13 +165,11 @@
 #pragma mark UIImagePickerControllerDelegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-	//DLog("picker [%@] info [%@]", picker, info);
-	
+{	
 	UIImage *image = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
 	if (image == nil)
 	{
-		ALog(@"Invalid selected photo");
+		ALog("Invalid selected photo");
 		[self selectPhoto:nil type:kBoardPhotoInvalid];
 		[self dismissModalViewControllerAnimated:YES];
 		return;
@@ -185,7 +180,7 @@
 	NSString *path = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
 	if (![UIImageJPEGRepresentation(resizedImage, 1) writeToFile:path atomically:YES])
 	{
-		ALog(@"PhotoController: Failed to write file [%@]", path);
+		ALog("PhotoController: Failed to write file [%@]", path);
 	}
 	
 	[self selectPhoto:resizedImage type:kBoardPhotoType];
