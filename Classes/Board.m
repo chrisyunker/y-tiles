@@ -568,7 +568,7 @@
 		
 		for (int i = 0; i < stateArray.count; i++)
 		{
-			int y = i / config.rows;
+			int y = i / config.columns;
 			int x = i % config.columns;
 			
 			NSNumber *tileId = (NSNumber *) [stateArray objectAtIndex:i];
