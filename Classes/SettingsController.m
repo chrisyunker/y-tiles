@@ -141,8 +141,8 @@
 - (void)saveButtonAction
 {
 	// Save configuration values
-	[[board config] setColumns:([pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin)];
-	[[board config] setRows:([pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin)];
+	[[board config] setColumns:((int)[pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin)];
+	[[board config] setRows:((int)[pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin)];
 	[[board config] setPhotoEnabled:[photoSwitch isOn]];
 	[[board config] setNumbersEnabled:[numberSwitch isOn]];
 	[[board config] setSoundEnabled:[soundSwitch isOn]];
@@ -175,7 +175,7 @@
 - (IBAction)infoButtonAction
 {
 	AboutController *ac = [[AboutController alloc] initWithNibName:@"AboutView" bundle:nil];
-	[self presentModalViewController:ac animated:YES];
+    [self presentViewController:ac animated:YES completion:nil];
 	[ac release];
 }
 
@@ -208,10 +208,10 @@
 	switch(component)
 	{
 		case(COLUMN_INDEX):
-			return [NSString stringWithFormat:@"%d %@", (row + kRowsMin), NSLocalizedString(@"ColumnsLabel", @"")];
+			return [NSString stringWithFormat:@"%d %@", ((int)row + kRowsMin), NSLocalizedString(@"ColumnsLabel", @"")];
 			break;
 		case(ROW_INDEX):
-			return [NSString stringWithFormat:@"%d %@", (row + kRowsMin), NSLocalizedString(@"RowsLabel", @"")];
+			return [NSString stringWithFormat:@"%d %@", ((int)row + kRowsMin), NSLocalizedString(@"RowsLabel", @"")];
 			break;
 		default:
 			return [NSString stringWithFormat:@"Error"];

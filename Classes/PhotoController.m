@@ -91,7 +91,7 @@
 - (void)photoDefaultButtonAction
 {
 	PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithNibName:@"PhotoDefaultView" bundle:nil photoController:self];
-	[self presentModalViewController:pdc animated:YES];
+    [self presentViewController:pdc animated:YES completion:nil];
 	[pdc release];
 }
 
@@ -113,11 +113,11 @@
 	
 	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 	[[picker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
-	[picker shouldAutorotateToInterfaceOrientation:NO];
+	//[picker shouldAutorotateToInterfaceOrientation:NO];
 	[picker setAllowsEditing:NO];
 	[picker setDelegate:self];
 	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-	[self presentModalViewController:picker animated:YES];
+    [self presentViewController:picker animated:YES completion:nil];
 	[picker release];
 }
 
@@ -171,7 +171,7 @@
 	{
 		ALog("Invalid selected photo");
 		[self selectPhoto:nil type:kBoardPhotoInvalid];
-		[self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 		return;
 	}
 
@@ -184,12 +184,12 @@
 	}
 	
 	[self selectPhoto:resizedImage type:kBoardPhotoType];
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 //#pragma mark UIAlertViewDelegate methods

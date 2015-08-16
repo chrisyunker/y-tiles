@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F4426E53-7344-4941-A106-E045499E6794</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Y-Tiles</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>85944FFAF8E75EAFB6BC3194569A6CE66D032007</key>
+		<string>https://github.com/chrisyunker/y-tiles</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Y-Tiles.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>85944FFAF8E75EAFB6BC3194569A6CE66D032007</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/chrisyunker/y-tiles</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>85944FFAF8E75EAFB6BC3194569A6CE66D032007</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>85944FFAF8E75EAFB6BC3194569A6CE66D032007</string>
+			<key>IDESourceControlWCCName</key>
+			<string>y-tiles</string>
+		</dict>
+	</array>
+</dict>
+</plist>

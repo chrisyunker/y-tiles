@@ -103,10 +103,10 @@
 		[self addSubview:pausedView];
 
 		// Tile move tick sound
-		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
-		NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
-		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
-		if (error) ALog("Board:init Failed to create sound for URL [%@]", url);
+		//NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
+		//NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
+		//OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
+		//if (error) ALog("Board:init Failed to create sound for URL [%@]", url);
 		
 		[self setBackgroundColor:[UIColor blackColor]];
 		[self setMultipleTouchEnabled:NO];
@@ -558,8 +558,8 @@
 		// Check Size
 		if ([stateArray count] != tileCount)
 		{
-			ALog("Saved Board has been corrupted. Number of saves values [%d] different than expected [%d]",
-				 [stateArray count], tileCount); 
+			ALog("Saved Board has been corrupted. Number of saves values [%lu] different than expected [%d]",
+				 (unsigned long)[stateArray count], tileCount); 
 			boardSaved = NO;
 			return;
 		}

@@ -13,7 +13,8 @@
 @synthesize startButton;
 @synthesize restartButton;
 @synthesize resumeButton;
-@synthesize lastAcceleration;
+//@synthesize lastAccelerometerData;
+//@synthesize motionManager;
 
 - (id)initWithBoard:(Board *)aBoard
 {
@@ -27,9 +28,17 @@
 															 tag:kTabBarBoardTag] autorelease]];
 		
 		shakeCount = 0;
-		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
-		[accelerometer setDelegate:self];
-		[accelerometer setUpdateInterval:kUpdateInterval];
+        /*
+        motionManager = [[CMMotionManager alloc] init];
+        motionManager.accelerometerUpdateInterval = kUpdateInterval;
+        [motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+                                                 withHandler:^(CMAccelerometerData  *accelerometerData, NSError *error) {
+                                                     [self outputAccelertionData:accelerometerData];
+                                                     if(error){
+                                                         NSLog(@"%@", error);
+                                                     }
+                                                 }];
+         */
     }
     return self;
 }
@@ -41,8 +50,8 @@
 	[startButton release], startButton = nil;
 	[restartButton release], restartButton = nil;
 	[resumeButton release], resumeButton = nil;
-	[accelerometer release];
-	[lastAcceleration release];
+	//[motionManager release];
+	//[lastAccelerometerData release];
     [super dealloc];
 }
 
@@ -163,15 +172,16 @@
 
 #pragma mark UIAccelerometerDelegate methods
 
-- (BOOL)thresholdShakeLast:(UIAcceleration *)last current:(UIAcceleration *)current threshold:(double)threshold
+/*
+- (BOOL)thresholdShakeLast:(CMAccelerometerData *)last current:(CMAccelerometerData *)current threshold:(double)threshold
 {
-	double diffX = fabs(last.x - current.x);
-	double diffY = fabs(last.y - current.y);
-	double diffZ = fabs(last.z - current.z);
+	double diffX = fabs(last.acceleration.x - current.acceleration.x);
+	double diffY = fabs(last.acceleration.y - current.acceleration.y);
+	double diffZ = fabs(last.acceleration.z - current.acceleration.z);
 	
-	if ((diffX > threshold) && (diffY > threshold) ||
-		(diffY > threshold) && (diffZ > threshold) ||
-		(diffZ > threshold) && (diffX > threshold))
+	if (((diffX > threshold) && (diffY > threshold)) ||
+		((diffY > threshold) && (diffZ > threshold)) ||
+		((diffZ > threshold) && (diffX > threshold)))
 	{
 		return YES;
 	}
@@ -181,36 +191,39 @@
 	}
 }
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+- (void)outputAccelertionData:(CMAccelerometerData *)accelerometerData
 {
-	if (self.lastAcceleration)
-	{
-		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
-			shakeCount > kShakeCount)
-		{
-			if ([board gameState] == GameInProgress)
-			{
-				[board setGameState:GamePaused];
-				[self displayRestartMenu];
-				[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
-			}
-			
-			shakeCount = 0;
+    if (self.lastAccelerometerData)
+    {
+        if ([self thresholdShakeLast:self.lastAccelerometerData current:accelerometerData threshold:kShakeThresholdHigh] &&
+            shakeCount > kShakeCount)
+        {
+            if ([board gameState] == GameInProgress)
+            {
+                [board setGameState:GamePaused];
+                [self displayRestartMenu];
+                [[self tabBarController] setSelectedIndex:kBoardControllerIndex];
+            }
+            
+            shakeCount = 0;
         }
-		else if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh])
-		{
-			shakeCount += 1;
+        else if ([self thresholdShakeLast:self.lastAccelerometerData current:accelerometerData threshold:kShakeThresholdHigh])
+        {
+            shakeCount += 1;
         }
-		else if (![self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdLow])
-		{
-			if (shakeCount > 0)
-			{
-				shakeCount -= 1;
-			}
+        else if (![self thresholdShakeLast:self.lastAccelerometerData current:accelerometerData threshold:kShakeThresholdLow])
+        {
+            if (shakeCount > 0)
+            {
+                shakeCount -= 1;
+            }
         }
-	}
-	
-	self.lastAcceleration = acceleration;
+
+    
+    }
+    
+    self.lastAccelerometerData = accelerometerData;
 }
+*/
 
 @end

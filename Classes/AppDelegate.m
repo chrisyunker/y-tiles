@@ -6,20 +6,25 @@
 //  Copyright Chris Yunker 2009. All rights reserved.
 //
 
-#import "Y_TilesAppDelegate.h"
+#import "AppDelegate.h"
 #import "Constants.h"
 #import "BoardController.h"
 #import "PhotoController.h"
 #import "SettingsController.h"
 #import "Board.h"
 
-@implementation Y_TilesAppDelegate
+@interface AppDelegate ()
 
+@end
+
+
+@implementation AppDelegate
+
+@synthesize controllers;
+@synthesize board;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
-//- (void)applicationDidFinishLaunching:(UIApplication *)application
-	
+{
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	controllers = [[NSMutableArray alloc] init];
 	
@@ -63,29 +68,36 @@
     return YES;
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-	DLog("applicationWillTerminate");
-	[board saveBoard];
+- (void)applicationWillResignActive:(UIApplication *)application {
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-	DLog("applicationDidEnterBackground");
-	[board saveBoard];	
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    DLog("applicationDidEnterBackground");
+    [board saveBoard];
 }
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    DLog("applicationWillTerminate");
+    [board saveBoard];
+}
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
 	DLog("applicationDidReceiveMemoryWarning");
 }
 
-- (void)dealloc
-{
-	DLog("dealloc");
-	[board release];
-	[controllers release];
-    [super dealloc];
-}
 
 @end

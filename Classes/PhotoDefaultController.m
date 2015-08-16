@@ -108,7 +108,7 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	[fileManager removeItemAtPath:boardPhoto error:NULL];
 	
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)selectPhoto1Action
@@ -133,7 +133,7 @@
 
 - (IBAction)cancelButtonAction
 {
-	[self dismissModalViewControllerAnimated:YES];	
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

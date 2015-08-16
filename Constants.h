@@ -44,7 +44,8 @@
 #define kShakeThresholdHigh      0.5f
 #define kShakeThresholdLow       0.2f
 #define kShakeCount              3
-#define kUpdateInterval          1.0f/30.0f
+//#define kUpdateInterval          1.0f/30.0f
+#define kUpdateInterval          0.2f
 
 #define kDocumentsDir            [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
 #define kPhotoType               @"jpg"

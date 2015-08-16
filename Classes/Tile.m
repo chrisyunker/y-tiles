@@ -171,8 +171,10 @@ static int tileHeight = 0;
 		case Down:
 			frame.origin.y += distance;
 			break;
+        case None:
+            break;
 	}
-	[self setFrame:frame];	
+	[self setFrame:frame];
 }
 
 
@@ -339,13 +341,13 @@ static int tileHeight = 0;
 	
 	// Create tile ID number 
 	
-	CGContextSelectFont(context, kPhotoFontType,  kPhotoFontSize, kCGEncodingMacRoman);
+	//CGContextSelectFont(context, kPhotoFontType,  kPhotoFontSize, kCGEncodingMacRoman);
 	NSString *number = [NSString stringWithFormat:@"%d", tileId];
 	
 	// Calculate text width
 	CGPoint start = CGContextGetTextPosition(context);
 	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [number UTF8String], [number length]);
+	//CGContextShowText(context, [number UTF8String], [number length]);
 	CGPoint end = CGContextGetTextPosition(context);
 	float textWidth = end.x - start.x;
 	
@@ -372,11 +374,18 @@ static int tileHeight = 0;
 							 kPhotoFontColorAlpha);
 	
 	CGContextSetTextDrawingMode(context, kCGTextFill);
-	CGContextShowTextAtPoint(context,
-							 (tileWidth - textWidth - kPhotoBgBorder - kPhotoBgOffset),
-							 (tileHeight - kPhotoFontSize - kPhotoBgOffset),
-							 [number UTF8String],
-							 [number length]);	
+	//CGContextShowTextAtPoint(context,
+	//						 (tileWidth - textWidth - kPhotoBgBorder - kPhotoBgOffset),
+	//						 (tileHeight - kPhotoFontSize - kPhotoBgOffset),
+	//						 [number UTF8String],
+	//						 [number length]);
+    
+    [number drawAtPoint:CGPointMake((tileWidth - textWidth - kPhotoBgBorder - kPhotoBgOffset),
+                                    (tileHeight - kPhotoFontSize - kPhotoBgOffset))
+        withAttributes:@{NSFontAttributeName:[UIFont fontWithName:@kPhotoFontType
+                                                             size:kPhotoFontSize]
+                         }];
+
 	
 	CGImageRef numberedPhotoImageRef = CGBitmapContextCreateImage(context);
 	numberedPhotoImage = [[UIImage imageWithCGImage:numberedPhotoImageRef] retain];
@@ -401,13 +410,13 @@ static int tileHeight = 0;
 	CGContextFillPath(context);
 	
 	// Draw font
-	CGContextSelectFont(context, kNumberFontType,  kNumberFontSize, kCGEncodingMacRoman);
+	//CGContextSelectFont(context, kNumberFontType,  kNumberFontSize, kCGEncodingMacRoman);
 	NSString *number = [NSString stringWithFormat:@"%d", tileId];
 	
 	// Calculate text width
 	CGPoint start = CGContextGetTextPosition(context);
 	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [number UTF8String], [number length]);
+	//CGContextShowText(context, [number UTF8String], [number length]);
 	CGPoint end = CGContextGetTextPosition(context);
 	float textWidth = end.x - start.x;
 	
@@ -418,11 +427,17 @@ static int tileHeight = 0;
 							 kNumberFontColorAlpha);
 	
 	CGContextSetTextDrawingMode(context, kCGTextFill);
-	CGContextShowTextAtPoint(context,
-							 ((tileWidth - textWidth) * 0.5),
-							 ((tileHeight - kNumberFontSize) * 0.5),
-							 [number UTF8String],
-							 [number length]);
+	//CGContextShowTextAtPoint(context,
+	//						 ((tileWidth - textWidth) * 0.5),
+	//						 ((tileHeight - kNumberFontSize) * 0.5),
+	//						 [number UTF8String],
+	//						 [number length]);
+    
+    [number drawAtPoint:CGPointMake(((tileWidth - textWidth) * 0.5),
+                                    ((tileHeight - kNumberFontSize) * 0.5))
+         withAttributes:@{NSFontAttributeName:[UIFont fontWithName:@kNumberFontType
+                                                              size:kNumberFontSize]
+                          }];
 	
 	CGImageRef numberImageRef = CGBitmapContextCreateImage(context);
 	

@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* Y_TilesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -20,6 +20,10 @@
 		3B78CCFA0F5B95BD0041A61D /* WaitImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78CCF90F5B95BD0041A61D /* WaitImageView.m */; };
 		3B799C5E0F57AC73001BCAEC /* PhotoDefaultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */; };
 		3B799D000F57BE53001BCAEC /* PhotoDefaultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B799CFF0F57BE53001BCAEC /* PhotoDefaultView.xib */; };
+		3B92D2701B8935CC000A1C2A /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B92D26F1B8935CC000A1C2A /* CoreMotion.framework */; };
+		3B92D2721B8947D2000A1C2A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B92D2711B8947D2000A1C2A /* Default-568h@2x.png */; };
+		3B92D2761B8A196B000A1C2A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B92D2751B8A196B000A1C2A /* Entitlements.plist */; };
+		3B9A5CE21B8A2D910066E541 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9A5CE11B8A2D910066E541 /* Images.xcassets */; };
 		3BAA736211E265B100E9EB36 /* IconPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAA736111E265B100E9EB36 /* IconPhoto.png */; };
 		3BAA736411E265C600E9EB36 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAA736311E265C600E9EB36 /* Default@2x.png */; };
 		3BE09CD10F53AE3E00D88117 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE09CC10F53AE3E00D88117 /* AboutController.m */; };
@@ -51,8 +55,8 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* Y_TilesAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_TilesAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Y_TilesAppDelegate.m; sourceTree = "<group>"; };
+		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Y-Tiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Y-Tiles.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -69,6 +73,10 @@
 		3B799C5C0F57AC73001BCAEC /* PhotoDefaultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDefaultController.h; sourceTree = "<group>"; };
 		3B799C5D0F57AC73001BCAEC /* PhotoDefaultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDefaultController.m; sourceTree = "<group>"; };
 		3B799CB00F57B96A001BCAEC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PhotoDefaultView.xib; sourceTree = "<group>"; };
+		3B92D26F1B8935CC000A1C2A /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		3B92D2711B8947D2000A1C2A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3B92D2751B8A196B000A1C2A /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		3B9A5CE11B8A2D910066E541 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Y-Tiles/Images.xcassets"; sourceTree = "<group>"; };
 		3BAA736111E265B100E9EB36 /* IconPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconPhoto.png; path = Images/IconPhoto.png; sourceTree = "<group>"; };
 		3BAA736311E265C600E9EB36 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images/Default@2x.png"; sourceTree = "<group>"; };
 		3BE09CC00F53AE3E00D88117 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -113,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B92D2701B8935CC000A1C2A /* CoreMotion.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -130,8 +139,8 @@
 				3B6E3DB111CD152B00DE3DEE /* Photo */,
 				3B6E3DB011CD14F900DE3DEE /* Settings */,
 				3B6E3DAF11CD14E600DE3DEE /* Board */,
-				1D3623240D0F684500981E51 /* Y_TilesAppDelegate.h */,
-				1D3623250D0F684500981E51 /* Y_TilesAppDelegate.m */,
+				1D3623240D0F684500981E51 /* AppDelegate.h */,
+				1D3623250D0F684500981E51 /* AppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -147,6 +156,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				3B92D2751B8A196B000A1C2A /* Entitlements.plist */,
+				3B92D2711B8947D2000A1C2A /* Default-568h@2x.png */,
 				3BE09CF10F53B03D00D88117 /* Images */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -171,6 +182,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3B9A5CE11B8A2D910066E541 /* Images.xcassets */,
 				3B03F18911E543B2000D4F03 /* iTunesArtwork */,
 				3B799CFF0F57BE53001BCAEC /* PhotoDefaultView.xib */,
 				3BE09D710F53B1C500D88117 /* AboutView.xib */,
@@ -184,6 +196,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B92D26F1B8935CC000A1C2A /* CoreMotion.framework */,
 				3BE09D660F53B19E00D88117 /* AudioToolbox.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -291,9 +304,21 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 3D8ND6RR7P;
+					};
+				};
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Y-Tiles" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -312,10 +337,12 @@
 				3BE09CFC0F53B05300D88117 /* DefaultPhoto1.jpg in Resources */,
 				3BE09CFD0F53B05300D88117 /* DefaultPhoto2.jpg in Resources */,
 				3BE09CFE0F53B05300D88117 /* Icon.png in Resources */,
+				3B92D2761B8A196B000A1C2A /* Entitlements.plist in Resources */,
 				3BE09CFF0F53B05300D88117 /* Photo.png in Resources */,
 				3BE09D000F53B05300D88117 /* Board.png in Resources */,
 				3BE09D010F53B05300D88117 /* Settings.png in Resources */,
 				3BE09D720F53B1C500D88117 /* AboutView.xib in Resources */,
+				3B9A5CE21B8A2D910066E541 /* Images.xcassets in Resources */,
 				3BE09D740F53B1D000D88117 /* Localizable.strings in Resources */,
 				3BE09D760F53B1DC00D88117 /* SettingsView.xib in Resources */,
 				3BE09DFE0F53B9E200D88117 /* DefaultPhoto1_sm.jpg in Resources */,
@@ -331,6 +358,7 @@
 				3B5EB16811DBFFA400C56C72 /* Icon@2x.png in Resources */,
 				3BAA736211E265B100E9EB36 /* IconPhoto.png in Resources */,
 				3BAA736411E265C600E9EB36 /* Default@2x.png in Resources */,
+				3B92D2721B8947D2000A1C2A /* Default-568h@2x.png in Resources */,
 				3B03F18A11E543B2000D4F03 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,7 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* Y_TilesAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				3BE09CD10F53AE3E00D88117 /* AboutController.m in Sources */,
 				3BE09CD20F53AE3E00D88117 /* Board.m in Sources */,
 				3BE09CD30F53AE3E00D88117 /* BoardController.m in Sources */,
@@ -399,9 +427,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chris Yunker";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -409,11 +439,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "Y-Tiles";
-				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4AF595A-AE5B-40FD-B2E7-8313FE3B8417";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -421,26 +453,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = "~/Xcode/y-tiles/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "Y-Tiles";
-				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "59C64B03-A55B-4FD2-ACB5-148C0F06F71D";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		3BCA861B11E428F7001D06F2 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -450,7 +485,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				SYMROOT = build;
 			};
 			name = Distribution;
@@ -459,26 +494,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = "~/Xcode/y-tiles/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chris Yunker";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "Y-Tiles";
-				PROVISIONING_PROFILE = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "09991978-08DA-4B71-93FB-F707252AD861";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "1AA9D502-5B05-4B31-808D-29573C5F7DEC";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
@@ -489,7 +527,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				SYMROOT = build;
 			};
 			name = Debug;
@@ -497,7 +535,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -507,7 +544,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				SYMROOT = build;
 			};
 			name = Release;

@@ -88,24 +88,31 @@
 	CGContextStrokePath(context);
 	
 	// Draw Label
-	CGContextSelectFont(context, kWaitViewFontType,  kWaitViewFontSize, kCGEncodingMacRoman);
+	//CGContextSelectFont(context, kWaitViewFontType,  kWaitViewFontSize, kCGEncodingMacRoman);
 	NSString *label = [NSString stringWithFormat:@"%@", NSLocalizedString(@"WaitImageLabel", @"")];
 	
 	// Calculate text width
 	CGPoint start = CGContextGetTextPosition(context);
 	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [label UTF8String], [label length]);
+	//CGContextShowText(context, [label UTF8String], [label length]);
 	CGPoint end = CGContextGetTextPosition(context);
 	float textWidth = end.x - start.x;
 	
 	CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	
-	CGContextShowTextAtPoint(context,
-							 ((kWaitViewDialogWidth - textWidth) * 0.5),
-							 ((kWaitViewDialogHeight - kNumberFontSize) * 0.25),
-							 [label UTF8String],
-							 [label length]);
+	//CGContextShowTextAtPoint(context,
+	//						 ((kWaitViewDialogWidth - textWidth) * 0.5),
+	//						 ((kWaitViewDialogHeight - kNumberFontSize) * 0.25),
+	//						 [label UTF8String],
+	//						 [label length]);
+
+    
+    [label drawAtPoint:CGPointMake(((kWaitViewDialogWidth - textWidth) * 0.5),
+                                                ((kWaitViewDialogHeight - kNumberFontSize) * 0.25))
+                     withAttributes:@{NSFontAttributeName:[UIFont fontWithName:@kWaitViewFontType
+                                                                          size:kWaitViewFontSize]
+                                      }];
 	
 	CGImageRef imageRef = CGBitmapContextCreateImage(context);
 	UIImage *image = [UIImage imageWithCGImage:imageRef];

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreMotion/CoreMotion.h>
 #include "Board.h"
 
 @class Board;
@@ -17,15 +18,18 @@
 	UIBarButtonItem *startButton;
 	UIBarButtonItem *restartButton;
 	UIBarButtonItem *resumeButton;
-	UIAccelerometer *accelerometer;
-	UIAcceleration *lastAcceleration;
+    //CMMotionManager *motionManager;
+    //CMAccelerometerData *lastAccelerometerData;
 	int shakeCount;
 }
 
 @property (nonatomic, retain) UIBarButtonItem *startButton;
 @property (nonatomic, retain) UIBarButtonItem *restartButton;
 @property (nonatomic, retain) UIBarButtonItem *resumeButton;
-@property (nonatomic, retain) UIAcceleration *lastAcceleration;
+//@property (nonatomic, strong) CMAccelerometerData *lastAccelerometerData;
+//@property (readonly) CMMotionManager *motionManager;
+
+
 
 - (id)initWithBoard:(Board *)aBoard;
 - (void)startButtonAction;
