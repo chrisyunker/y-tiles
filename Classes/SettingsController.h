@@ -22,8 +22,9 @@
 	IBOutlet UISwitch *numberSwitch;
 	IBOutlet UISwitch *soundSwitch;
 	IBOutlet UIButton *infoButton;
-	UIBarButtonItem *saveButton;
-	UIBarButtonItem *cancelButton;
+    IBOutlet UIButton *restartButton;
+	IBOutlet UIBarButtonItem *saveButton;
+	IBOutlet UIBarButtonItem *cancelButton;
 	Board *board;
 }
 
@@ -32,12 +33,13 @@
 @property (nonatomic, retain) IBOutlet UISwitch *numberSwitch;
 @property (nonatomic, retain) IBOutlet UISwitch *soundSwitch;
 @property (nonatomic, retain) IBOutlet UIButton *infoButton;
-@property (nonatomic, retain) UIBarButtonItem *saveButton;
-@property (nonatomic, retain) UIBarButtonItem *cancelButton;
+@property (nonatomic, retain) IBOutlet UIButton *restartButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *cancelButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil board:(Board *)aBoard;
-- (void)saveButtonAction;
-- (void)cancelButtonAction;
+- (IBAction)saveButtonAction;
+- (IBAction)cancelButtonAction;
 - (IBAction)photoSwitchAction;
 - (IBAction)numberSwitchAction;
 - (IBAction)soundSwitchAction;

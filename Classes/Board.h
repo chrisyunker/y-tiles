@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVFoundation.h>
 #import "Tile.h"
 #import "Configuration.h"
 #import "Constants.h"
@@ -22,6 +22,7 @@
 
 @interface Board : UIView
 {
+    CGSize size;
 	GameState gameState;
 	Configuration *config;
 	NSMutableArray *tiles;
@@ -35,6 +36,7 @@
 	WaitImageView *waitImageView;
 	NSMutableDictionary *boardState;
 	BOOL boardSaved;
+    AVAudioPlayer *player;
 }
 
 @property (nonatomic, retain) UIImage *photo;
@@ -42,12 +44,16 @@
 @property (readonly) NSLock *tileLock;
 @property (nonatomic, assign) GameState gameState;
 @property (nonatomic, retain) BoardController *boardController;
+@property (nonatomic, readonly) CGSize size;
 
+- (id)initWithSize:(CGSize)aSize;
 - (void)createNewBoard;
+- (void)restart;
 - (void)start;
 - (void)pause;
 - (void)resume;
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType;
+- (void)cropPhoto:(UIImage *)image;
 - (void)configChanged:(BOOL)restart;
 - (void)moveTileFromCoordinate:(Coord)coord1 toCoordinate:(Coord)coord2;
 - (void)updateGrid;

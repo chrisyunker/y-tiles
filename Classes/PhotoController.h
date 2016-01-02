@@ -29,5 +29,4 @@
 - (void)photoDefaultButtonAction;
 - (void)selectPhoto:(UIImage *)photo type:(int)type;
 
-
 @end

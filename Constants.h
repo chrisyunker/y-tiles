@@ -7,10 +7,12 @@
 //
 
 
-#define kVersionMajor            1
-#define kVersionMinor            1
+#define kVersionMajor            2
+#define kVersionMinor            0
+#define kCopyrightYear           2016
 #define kIconPhoto               @"IconPhoto"
 #define kIconPhotoType           @"png"
+#define kNavBarHeight            44
 
 // User Default Keys
 #define kKeySavedDefaults        @"savedDefaults"
@@ -35,12 +37,6 @@
 #define kColumnsMin              3
 #define kColumnsMax              6
 
-#define kBoardHeight             411
-#define kBoardWidth              320
-
-#define kTileSoundName           @"Tock"
-#define kTileSoundType           @"aiff"
-
 #define kShakeThresholdHigh      0.5f
 #define kShakeThresholdLow       0.2f
 #define kShakeCount              3
@@ -63,6 +59,8 @@
 #define kDefaultPhoto4Type       3
 #define kBoardPhotoType          4
 #define kBoardPhotoInvalid       5
+#define kDefPhotoButtonW         136
+#define kDefPhotoButtonH         221
 
 #define kTileSpacingWidth        1.0f
 #define kTileCornerRadius        10.0f
@@ -91,7 +89,7 @@
 #define kNumberBgColorBlue       206.0f/255.0f
 #define kNumberBgColorAlpha      1.0f
 
-#define kNumberFontType          "Helvetica Neue"
+#define kNumberFontType          "HelveticaNeue"
 #define kNumberFontSize          20
 
 // Photo Mode
@@ -109,8 +107,30 @@
 #define kPhotoBgOffset           10.0f
 #define kPhotoBgCornerRadius     5.0f
 
-#define kPhotoFontType           "Helvetica Neue"
+#define kPhotoFontType           "HelveticaNeue"
 #define kPhotoFontSize           20
+
+// Wait View
+#define kWaitViewX               0.0f
+#define kWaitViewY               0.0f
+
+#define kWaitViewDialogX         60.0f
+#define kWaitViewDialogY         145.0f
+#define kWaitViewDialogWidth     200.0f
+#define kWaitViewDialogHeight    120.0f
+
+#define kWaitIndicatorX          82.0f
+#define kWaitIndicatorY          30.0f
+#define kWaitIndicatorWidth      37.0f
+#define kWaitIndicatorHeight     37.0f
+
+#define kWaitBgColorRed          0.0f
+#define kWaitBgColorGreen        0.0f
+#define kWaitBgColorBlue         0.0f
+#define kWaitBgColorAlpha        1.0f
+
+#define kWaitViewFontType        "HelveticaNeue"
+#define kWaitViewFontSize        26
 
 // Default Values
 #define kColumnsDefault          4

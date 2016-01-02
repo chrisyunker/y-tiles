@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 #import "Constants.h"
 #import "Board.h"
 #import "DataTypes.h"

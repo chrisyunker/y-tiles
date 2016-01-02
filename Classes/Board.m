@@ -8,20 +8,6 @@
 
 #import "Board.h"
 
-@interface Board (Private)
-
-- (void)createTiles;
-- (void)scrambleBoard;
-- (void)showWaitView;
-- (void)removeWaitView;
-- (void)showPausedView:(BOOL)enabled;
-- (void)createTilesInThread;
-- (void)drawBoard;
-- (void)restoreBoard;
-
-@end
-
-
 @implementation Board
 
 @synthesize photo;
@@ -29,10 +15,14 @@
 @synthesize tileLock;
 @synthesize gameState;
 @synthesize boardController;
+@synthesize size;
 
-- (id)init
+- (id)initWithSize:(CGSize)aSize;
 {
-	if (self = [super initWithFrame:CGRectMake(0, 0, kBoardWidth, kBoardHeight)])
+    size = aSize;
+    DLog("Create board size width:%f, height:%f", size.width, size.height);
+    
+	if (self = [super initWithFrame:CGRectMake(0, 0, size.width, size.height)])
 	{
 		config = [[Configuration alloc] initWithBoard:self];
 		[config load];
@@ -56,61 +46,59 @@
 			}
 		}
 		
-		switch ([config photoType])
-		{
-			case kDefaultPhoto1Type:
-				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		 pathForResource:kDefaultPhoto1
-																		 ofType:kPhotoType]] autorelease]];
-				break;
-			case kDefaultPhoto2Type:
-				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		 pathForResource:kDefaultPhoto2
-																		 ofType:kPhotoType]] autorelease]];
-				break;
-			case kDefaultPhoto3Type:
-				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		 pathForResource:kDefaultPhoto3
-																		 ofType:kPhotoType]] autorelease]];
-				break;
-			case kDefaultPhoto4Type:
-				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		 pathForResource:kDefaultPhoto4
-																		 ofType:kPhotoType]] autorelease]];
-				break;
-			case kBoardPhotoType:
-				[self setPhoto:[UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]]];
-				if ([self photo] == nil)
-				{
-					ALog("Board:init Failed to load last board image [%@]",
-						  [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]);
-					
-					[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		   pathForResource:kDefaultPhoto1
-																		   ofType:kPhotoType]] autorelease]];
-				}
-				break;
-			default:
-				[self setPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																		 pathForResource:kDefaultPhoto1
-																		 ofType:kPhotoType]] autorelease]];
-		}
+        switch ([config photoType])
+        {
+            case kDefaultPhoto1Type:
+                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                           pathForResource:kDefaultPhoto1
+                                                                           ofType:kPhotoType]] autorelease]];
+                break;
+            case kDefaultPhoto2Type:
+                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                           pathForResource:kDefaultPhoto2
+                                                                           ofType:kPhotoType]] autorelease]];
+                break;
+            case kDefaultPhoto3Type:
+                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                           pathForResource:kDefaultPhoto3
+                                                                           ofType:kPhotoType]] autorelease]];
+                break;
+            case kDefaultPhoto4Type:
+                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                           pathForResource:kDefaultPhoto4
+                                                                           ofType:kPhotoType]] autorelease]];
+                break;
+            case kBoardPhotoType:
+                [self cropPhoto:[UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]]];
+                if ([self photo] == nil)
+                {
+                    ALog("Board:init Failed to load last board image [%@]",
+                         [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]);
+                    
+                    [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                               pathForResource:kDefaultPhoto1
+                                                                               ofType:kPhotoType]] autorelease]];
+                }
+                break;
+            default:
+                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                           pathForResource:kDefaultPhoto1
+                                                                           ofType:kPhotoType]] autorelease]];
+        }
 		
 		[self restoreBoard];
 				
-		waitImageView = [[WaitImageView alloc] init];
+        waitImageView = [[WaitImageView alloc] initWithSize:size];
 		pausedView = [Util createPausedViewWithFrame:[self frame]];
 		[self addSubview:pausedView];
-
+        
 		// Tile move tick sound
-		NSBundle *uiKitBundle = [NSBundle bundleWithIdentifier:@"com.apple.UIKit"];
-		NSURL *url = [NSURL fileURLWithPath:[uiKitBundle pathForResource:kTileSoundName ofType:kTileSoundType]];
-		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef) url, &tockSSID);
-		if (error) ALog("Board:init Failed to create sound for URL [%@]", url);
-		
+        NSURL *tockUrl = [NSURL URLWithString:@"/System/Library/Audio/UISounds/Tock.caf"];
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:tockUrl error:NULL];
+        [player setVolume:1.0];
+        		
 		[self setBackgroundColor:[UIColor blackColor]];
 		[self setMultipleTouchEnabled:NO];
-		
 		[self setGameState:GameNotStarted];
 	}
 	
@@ -128,7 +116,6 @@
 	}
 	if (grid) free(grid);
 		
-	AudioServicesDisposeSystemSoundID(tockSSID);
 	[config release];
 	[pausedView release];
 	[waitImageView release];
@@ -137,15 +124,25 @@
 	[tileLock release];
 	[boardController release];
 	[boardState release];
+    [player release];
 	[super dealloc];
 }
 
 - (void)createNewBoard
 {
 	[self showWaitView];
-	[NSThread detachNewThreadSelector:@selector(createTilesInThread)
-							 toTarget:self
-						   withObject:nil];
+    [self createTiles];
+    [self removeWaitView];
+}
+
+- (void)restart
+{
+    if ([self gameState] == GameInProgress)
+    {
+        [self setGameState:GamePaused];
+        [boardController displayRestartMenu];
+    }
+    [[boardController tabBarController] setSelectedIndex:kBoardControllerIndex];
 }
 
 - (void)start
@@ -202,13 +199,24 @@
 
 - (void)setPhoto:(UIImage *)aPhoto type:(int)aType
 {
-	[self setPhoto:aPhoto];
+	[self cropPhoto:aPhoto];
 	
 	[config setPhotoType:aType];
 	[config setPhotoEnabled:YES];
 	[config save];
 	
 	[self createNewBoard];
+}
+
+- (void)cropPhoto:(UIImage *)image
+{
+    CGFloat x = MAX(0, image.size.width - self.size.width) / 2;
+    CGFloat y = MAX(0, image.size.height - self.size.height) / 2;
+    CGRect cropRect = CGRectMake(x, y, self.size.width, self.size.height);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
+    self.photo = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
 }
 
 
@@ -219,7 +227,7 @@
 	// Make click sound
 	if (config.soundEnabled)
 	{
-		AudioServicesPlaySystemSound(tockSSID);
+        [player play];
 	}
 
 	bool solved = YES;
@@ -298,14 +306,13 @@
 	}
 	[tiles removeAllObjects];
 	[tiles release];
-		
-	
-	CGImageRef imageRef = [photo CGImage];
-	
-	// Calculate tile size
-	CGSize tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
-						  trunc(self.frame.size.height / config.rows));
-	
+
+    CGImageRef imageRef = CGImageCreateWithImageInRect([photo CGImage], CGRectMake(0, 0, self.frame.size.width, self.frame.size.height));
+	    
+    // Calculate tile size
+    CGSize tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
+                                 trunc(self.frame.size.height / config.rows));
+    
 	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
 	
 	Coord coord = { 0, 0 };
@@ -316,11 +323,12 @@
 		CGImageRef tileRef = CGImageCreateWithImageInRect(imageRef, tileRect);
 		UIImage *tilePhoto = [UIImage imageWithCGImage:tileRef];
 		CGImageRelease(tileRef);
-				
+                
 		Tile *tile = [[Tile tileWithId:tileId
 								 board:self
 								 coord:coord
 								 photo:tilePhoto] retain];
+        
 		[tiles addObject:tile];
 		[tile release];
 		
@@ -329,7 +337,9 @@
 			coord.x = 0;
 			coord.y++;
 		}
+        
 		tileId++;
+        
 	} while (coord.x < config.columns && (coord.y < config.rows));
 	
 	// Removed last tile
@@ -444,6 +454,7 @@
 	
 	[boardController removeMenu];
 	[waitImageView startAnimating];
+    
 	[self addSubview:waitImageView];
 	
 	[[boardController tabBarController] setSelectedIndex:kBoardControllerIndex];
@@ -460,7 +471,7 @@
 		[boardController displayRestartMenu];
 	}
 	else
-	{		
+	{
 		[boardController displayStartMenu];
 	}
 	
@@ -488,6 +499,7 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	[self createTiles];
+    
 	[self performSelectorOnMainThread:@selector(removeWaitView) withObject:self waitUntilDone:NO];
 	
 	[pool release];
@@ -558,8 +570,8 @@
 		// Check Size
 		if ([stateArray count] != tileCount)
 		{
-			ALog("Saved Board has been corrupted. Number of saves values [%d] different than expected [%d]",
-				 [stateArray count], tileCount); 
+			ALog("Saved Board has been corrupted. Number of saves values [%lu] different than expected [%d]",
+				 (unsigned long)[stateArray count], tileCount);
 			boardSaved = NO;
 			return;
 		}

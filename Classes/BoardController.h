@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreMotion/CoreMotion.h>
+#import <AudioToolbox/AudioServices.h>
 #include "Board.h"
 
 @class Board;
@@ -17,15 +19,12 @@
 	UIBarButtonItem *startButton;
 	UIBarButtonItem *restartButton;
 	UIBarButtonItem *resumeButton;
-	UIAccelerometer *accelerometer;
-	UIAcceleration *lastAcceleration;
-	int shakeCount;
 }
 
 @property (nonatomic, retain) UIBarButtonItem *startButton;
 @property (nonatomic, retain) UIBarButtonItem *restartButton;
 @property (nonatomic, retain) UIBarButtonItem *resumeButton;
-@property (nonatomic, retain) UIAcceleration *lastAcceleration;
+
 
 - (id)initWithBoard:(Board *)aBoard;
 - (void)startButtonAction;

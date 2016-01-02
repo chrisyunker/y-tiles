@@ -11,6 +11,7 @@
 @implementation AboutController
 
 @synthesize versionLabel;
+@synthesize copyrightLabel;
 @synthesize doneButton;
 @synthesize icon;
 
@@ -18,6 +19,7 @@
 {
 	DLog("dealloc");
 	[versionLabel release], versionLabel = nil;
+    [copyrightLabel release], copyrightLabel = nil;
 	[doneButton release], doneButton = nil;
 	[icon release], icon = nil;
     [super dealloc];
@@ -29,6 +31,11 @@
     [super didReceiveMemoryWarning];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
@@ -38,6 +45,11 @@
 						 kVersionMajor,
 						 kVersionMinor];
 	[versionLabel setText:version];
+    
+    NSString *copyrightYear = [NSString stringWithFormat:@"%@ © %d",
+                               NSLocalizedString(@"CopyrightLabel", @""),
+                               kCopyrightYear];
+    [copyrightLabel setText:copyrightYear];
 	
 	UIImage *iconImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
 																  pathForResource:kIconPhoto
@@ -51,8 +63,8 @@
 	if (aView == nil)
 	{
 		DLog("Setting view to nil due to low memory");
-
 		[self setVersionLabel:nil];
+        [self setCopyrightLabel:nil];
 		[self setDoneButton:nil];
 		[self setIcon:nil];
 	}
@@ -62,7 +74,7 @@
 
 - (IBAction)doneButtonAction
 {
-	[self dismissModalViewControllerAnimated:YES];	
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

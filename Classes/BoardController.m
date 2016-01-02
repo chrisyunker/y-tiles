@@ -13,7 +13,6 @@
 @synthesize startButton;
 @synthesize restartButton;
 @synthesize resumeButton;
-@synthesize lastAcceleration;
 
 - (id)initWithBoard:(Board *)aBoard
 {
@@ -21,15 +20,9 @@
 	{		
 		board = [aBoard retain];
 		[board setBoardController:self];
-		
-		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
-														   image:[UIImage imageNamed:@"Board.png"]
-															 tag:kTabBarBoardTag] autorelease]];
-		
-		shakeCount = 0;
-		accelerometer = [[UIAccelerometer sharedAccelerometer] retain];
-		[accelerometer setDelegate:self];
-		[accelerometer setUpdateInterval:kUpdateInterval];
+        [self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
+                                                           image:[UIImage imageNamed:@"Board"]
+                                                             tag:kTabBarBoardTag] autorelease]];
     }
     return self;
 }
@@ -41,8 +34,6 @@
 	[startButton release], startButton = nil;
 	[restartButton release], restartButton = nil;
 	[resumeButton release], resumeButton = nil;
-	[accelerometer release];
-	[lastAcceleration release];
     [super dealloc];
 }
 
@@ -50,6 +41,11 @@
 {
 	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)setView:(UIView *)aView
@@ -97,8 +93,8 @@
 						target:self
 						action:@selector(resumeButtonAction)];
 	}
-
-	
+    
+    [board createNewBoard];
 	[[self view] addSubview:board];
 }
 
@@ -122,7 +118,7 @@
 
 - (void)displayRestartMenu
 {
-	DLog("displayRestartMenu");
+	//DLog("displayRestartMenu");
 	
 	[[self navigationItem] setLeftBarButtonItem:restartButton];
 	[[self navigationItem] setRightBarButtonItem:resumeButton];
@@ -131,7 +127,7 @@
 
 - (void)displayStartMenu
 {
-	DLog("displayStartMenu");
+	//DLog("displayStartMenu");
 	
 	[[self navigationItem] setLeftBarButtonItem:startButton];
 	[[self navigationItem] setRightBarButtonItem:nil];
@@ -150,67 +146,15 @@
 	[[self navigationController] setNavigationBarHidden:NO animated:YES];
 		
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	
-	UIAlertView *alert = [[UIAlertView alloc]
-						  initWithTitle:NSLocalizedString(@"TilesSolved", @"")
-						  message:nil
-						  delegate:self
-						  cancelButtonTitle:nil
-						  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
-}
-
-#pragma mark UIAccelerometerDelegate methods
-
-- (BOOL)thresholdShakeLast:(UIAcceleration *)last current:(UIAcceleration *)current threshold:(double)threshold
-{
-	double diffX = fabs(last.x - current.x);
-	double diffY = fabs(last.y - current.y);
-	double diffZ = fabs(last.z - current.z);
-	
-	if ((diffX > threshold) && (diffY > threshold) ||
-		(diffY > threshold) && (diffZ > threshold) ||
-		(diffZ > threshold) && (diffX > threshold))
-	{
-		return YES;
-	}
-	else
-	{
-		return NO;
-	}
-}
-
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
-{
-	if (self.lastAcceleration)
-	{
-		if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh] &&
-			shakeCount > kShakeCount)
-		{
-			if ([board gameState] == GameInProgress)
-			{
-				[board setGameState:GamePaused];
-				[self displayRestartMenu];
-				[[self tabBarController] setSelectedIndex:kBoardControllerIndex];
-			}
-			
-			shakeCount = 0;
-        }
-		else if ([self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdHigh])
-		{
-			shakeCount += 1;
-        }
-		else if (![self thresholdShakeLast:self.lastAcceleration current:acceleration threshold:kShakeThresholdLow])
-		{
-			if (shakeCount > 0)
-			{
-				shakeCount -= 1;
-			}
-        }
-	}
-	
-	self.lastAcceleration = acceleration;
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"TilesSolved", @"")
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end

@@ -8,20 +8,12 @@
 
 #import "WaitImageView.h"
 
-@interface WaitImageView (Private)
-
-- (UIImage *)createImage;
-
-@end
-
-
 @implementation WaitImageView
 
-- (id)init
+- (id)initWithSize:(CGSize)size
 {
-	if (self = [super initWithFrame:CGRectMake(kWaitViewX, kWaitViewY, kWaitViewWidth, kWaitViewHeight)])
+	if (self = [super initWithFrame:CGRectMake(kWaitViewX, kWaitViewY, size.width, size.height)])
 	{
-		
 		[self setBackgroundColor:[UIColor colorWithRed:kWaitBgColorRed
 												 green:kWaitBgColorGreen
 												  blue:kWaitBgColorBlue
@@ -88,25 +80,35 @@
 	CGContextStrokePath(context);
 	
 	// Draw Label
-	CGContextSelectFont(context, kWaitViewFontType,  kWaitViewFontSize, kCGEncodingMacRoman);
-	NSString *label = [NSString stringWithFormat:@"%@", NSLocalizedString(@"WaitImageLabel", @"")];
-	
-	// Calculate text width
-	CGPoint start = CGContextGetTextPosition(context);
-	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [label UTF8String], [label length]);
-	CGPoint end = CGContextGetTextPosition(context);
-	float textWidth = end.x - start.x;
-	
-	CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
-	CGContextSetTextDrawingMode(context, kCGTextFill);
-	
-	CGContextShowTextAtPoint(context,
-							 ((kWaitViewDialogWidth - textWidth) * 0.5),
-							 ((kWaitViewDialogHeight - kNumberFontSize) * 0.25),
-							 [label UTF8String],
-							 [label length]);
-	
+    CFStringRef waitLable = CFStringCreateWithFormat(NULL, NULL, CFSTR("%@"), NSLocalizedString(@"WaitImageLabel", @""));
+    CFStringRef fontName = CFStringCreateWithFormat(NULL, NULL, CFSTR("%s"), kWaitViewFontType);
+    CTFontRef font = CTFontCreateWithName(fontName, kWaitViewFontSize, NULL);
+    CGFloat fontColorComponents[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+    CGColorRef fontColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), fontColorComponents);
+    
+    CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
+    CFTypeRef values[] = { font, fontColor };
+    CFDictionaryRef attributes = CFDictionaryCreate(kCFAllocatorDefault, (const void **) &keys,
+                                                    (const void **) &values, sizeof(keys) / sizeof(keys[0]),
+                                                    &kCFTypeDictionaryKeyCallBacks,
+                                                    &kCFTypeDictionaryValueCallBacks);
+    CFAttributedStringRef attrString = CFAttributedStringCreate(kCFAllocatorDefault, waitLable, attributes);
+    CFRelease(font);
+    CFRelease(fontName);
+    CFRelease(fontColor);
+    CFRelease(waitLable);
+    CFRelease(attributes);
+    
+    CTLineRef line = CTLineCreateWithAttributedString(attrString);
+    CGRect waitBounds = CTLineGetImageBounds(line, context);
+    
+    CGContextSetTextPosition(context,
+                             ((kWaitViewDialogWidth - waitBounds.size.width) * 0.5),
+                             ((kWaitViewDialogHeight - kNumberFontSize) * 0.25));
+    CTLineDraw(line, context);
+    CFRelease(line);
+    CFRelease(attrString);
+    
 	CGImageRef imageRef = CGBitmapContextCreateImage(context);
 	UIImage *image = [UIImage imageWithCGImage:imageRef];
 	

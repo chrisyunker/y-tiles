@@ -22,7 +22,7 @@
 		board = [aBoard retain];
 		
 		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
-														   image:[UIImage imageNamed:@"Photo.png"]
+														   image:[UIImage imageNamed:@"Photo"]
 															 tag:kTabBarPhotoTag] autorelease]];
 	}
 	return self;
@@ -42,6 +42,11 @@
 {
 	ALog("didReceiveMemoryWarning");
 	[super didReceiveMemoryWarning];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)setView:(UIView *)aView
@@ -83,42 +88,48 @@
 		selectImageView = [[UIImageView alloc] initWithImage:[board photo]];
 		[[self view] addSubview:selectImageView];
 	}
-	
+    
 	[[self navigationItem] setLeftBarButtonItem:photoDefaultButton];
 	[[self navigationItem] setRightBarButtonItem:photoLibraryButton];
 }
 
 - (void)photoDefaultButtonAction
 {
-	PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithNibName:@"PhotoDefaultView" bundle:nil photoController:self];
-	[self presentModalViewController:pdc animated:YES];
-	[pdc release];
+    PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithPhotoController:self];
+    [self presentViewController:pdc animated:YES completion:nil];
+    [pdc release];
 }
 
 - (void)photoLibraryButtonAction
 {
 	// Check to make sure pictures are available
+    // NOTE: Not sure this can ever happen
 	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
-	{		
-		UIAlertView *alert = [[UIAlertView alloc]
-							  initWithTitle:NSLocalizedString(@"NoPhotos", @"")
-							  message:nil
-							  delegate:self
-							  cancelButtonTitle:nil
-							  otherButtonTitles:@"OK", nil];
-		[alert show];
-		[alert release];
+	{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"NoPhotos", @"")
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        [alert release];
 		return;
 	}
 	
 	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 	[[picker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
-	[picker shouldAutorotateToInterfaceOrientation:NO];
 	[picker setAllowsEditing:NO];
 	[picker setDelegate:self];
 	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-	[self presentModalViewController:picker animated:YES];
+    [self presentViewController:picker animated:YES completion:nil];
 	[picker release];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [viewController prefersStatusBarHidden];
 }
 
 - (void)selectPhoto:(UIImage *)photo type:(int)type
@@ -151,7 +162,7 @@
 
 - (UIImage *)resizeImage:(UIImage *)image size:(CGSize)size
 {
-	UIGraphicsBeginImageContext(size);
+    UIGraphicsBeginImageContext(size);
 
 	[image drawInRect:CGRectMake(0, 0, size.width, size.height)];
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -165,17 +176,17 @@
 #pragma mark UIImagePickerControllerDelegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{	
+{
 	UIImage *image = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
 	if (image == nil)
 	{
 		ALog("Invalid selected photo");
 		[self selectPhoto:nil type:kBoardPhotoInvalid];
-		[self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 		return;
 	}
-
-	UIImage *resizedImage = [self resizeImage:image size:board.frame.size];
+    
+    UIImage *resizedImage = [self resizeImage:image size:board.frame.size];
 	
 	NSString *path = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];
 	if (![UIImageJPEGRepresentation(resizedImage, 1) writeToFile:path atomically:YES])
@@ -184,18 +195,12 @@
 	}
 	
 	[self selectPhoto:resizedImage type:kBoardPhotoType];
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-//#pragma mark UIAlertViewDelegate methods
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{	
-//	[alertView release];
-//}
 
 @end

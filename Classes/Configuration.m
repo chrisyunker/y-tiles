@@ -36,20 +36,20 @@
 
 - (void)load
 {
-	DLog("Load Configuration");
+	//DLog("Load Configuration");
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	bool savedDefaults = [defaults boolForKey:kKeySavedDefaults];
 	if (savedDefaults)
 	{
-		columns = [defaults integerForKey:kKeyColumns];
+		columns = (int)[defaults integerForKey:kKeyColumns];
 		if (columns == 0) columns = kColumnsDefault;
 		
-		rows = [defaults integerForKey:kKeyRows];
+		rows = (int)[defaults integerForKey:kKeyRows];
 		if (rows == 0) rows = kRowsDefault;
 		
-		photoType = [defaults integerForKey:kKeylastPhotoType];
+		photoType = (int)[defaults integerForKey:kKeylastPhotoType];
 		photoEnabled = [defaults boolForKey:kKeyPhotoEnabled];
 		numbersEnabled = [defaults boolForKey:kKeyNumbersEnabled];
 		soundEnabled = [defaults boolForKey:kKeySoundEnabled];
@@ -67,7 +67,7 @@
 
 - (void)save
 {
-	DLog("Save Configuration");
+	//DLog("Save Configuration");
 	BOOL restart = NO;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

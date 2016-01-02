@@ -15,6 +15,7 @@
 @synthesize numberSwitch;
 @synthesize soundSwitch;
 @synthesize infoButton;
+@synthesize restartButton;
 @synthesize saveButton;
 @synthesize cancelButton;
 
@@ -23,9 +24,8 @@
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{		
 		board = [aBoard retain];
-		
 		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
-														   image:[UIImage imageNamed:@"Settings.png"]
+														   image:[UIImage imageNamed:@"Settings"]
 															 tag:kTabBarSettingsTag] autorelease]];
 	}
 	return self;
@@ -49,6 +49,11 @@
 {
 	ALog("didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)setView:(UIView *)aView
@@ -120,29 +125,14 @@
 - (void)viewDidLoad 
 {	
     [super viewDidLoad];
-	
-	[self setSaveButton:[[[UIBarButtonItem alloc]
-						  initWithTitle:NSLocalizedString(@"SaveSettingsButton", @"")
-						  style:UIBarButtonItemStylePlain
-						  target:self
-						  action:@selector(saveButtonAction)] autorelease]];
-	
-	[self setCancelButton:[[[UIBarButtonItem alloc]
-							initWithTitle:NSLocalizedString(@"CancelSettingsButton", @"")
-							style:UIBarButtonItemStylePlain
-							target:self
-							action:@selector(cancelButtonAction)] autorelease]];
-		
-	[[self navigationItem] setLeftBarButtonItem:cancelButton];
-	[[self navigationItem] setRightBarButtonItem:saveButton];
 	[self enableButtons:NO];
 }
 
-- (void)saveButtonAction
+- (IBAction)saveButtonAction
 {
 	// Save configuration values
-	[[board config] setColumns:([pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin)];
-	[[board config] setRows:([pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin)];
+    [[board config] setColumns:((int)[pickerView selectedRowInComponent:COLUMN_INDEX] + kColumnsMin)];
+    [[board config] setRows:((int)[pickerView selectedRowInComponent:ROW_INDEX] + kRowsMin)];
 	[[board config] setPhotoEnabled:[photoSwitch isOn]];
 	[[board config] setNumbersEnabled:[numberSwitch isOn]];
 	[[board config] setSoundEnabled:[soundSwitch isOn]];
@@ -151,7 +141,7 @@
 	[self enableButtons:NO];
 }
 
-- (void)cancelButtonAction
+- (IBAction)cancelButtonAction
 {		
 	[self updateControlsWithAnimation:YES];
 	[self enableButtons:NO];
@@ -175,8 +165,13 @@
 - (IBAction)infoButtonAction
 {
 	AboutController *ac = [[AboutController alloc] initWithNibName:@"AboutView" bundle:nil];
-	[self presentModalViewController:ac animated:YES];
+    [self presentViewController:ac animated:YES completion:nil];
 	[ac release];
+}
+
+- (IBAction)restartAction
+{
+    [board restart];
 }
 
 
@@ -208,10 +203,10 @@
 	switch(component)
 	{
 		case(COLUMN_INDEX):
-			return [NSString stringWithFormat:@"%d %@", (row + kRowsMin), NSLocalizedString(@"ColumnsLabel", @"")];
+            return [NSString stringWithFormat:@"%d %@", ((int)row + kRowsMin), NSLocalizedString(@"ColumnsLabel", @"")];
 			break;
 		case(ROW_INDEX):
-			return [NSString stringWithFormat:@"%d %@", (row + kRowsMin), NSLocalizedString(@"RowsLabel", @"")];
+            return [NSString stringWithFormat:@"%d %@", ((int)row + kRowsMin), NSLocalizedString(@"RowsLabel", @"")];
 			break;
 		default:
 			return [NSString stringWithFormat:@"Error"];

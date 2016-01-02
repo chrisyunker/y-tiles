@@ -8,13 +8,6 @@
 
 #import "PhotoDefaultController.h"
 
-@interface PhotoDefaultController (Private)
-
-- (void)selectPhotoWithPath:(NSString *)path type:(int)type;
-
-@end
-
-
 @implementation PhotoDefaultController
 
 @synthesize defaultPhoto1;
@@ -22,11 +15,12 @@
 @synthesize defaultPhoto3;
 @synthesize defaultPhoto4;
 @synthesize cancelButton;
+@synthesize navBar;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil photoController:(PhotoController *)aPhotoController
+- (id)initWithPhotoController:(PhotoController *)aPhotoController
 {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
-	{
+    if (self = [super init])
+    {
 		photoController = [aPhotoController retain];
 	}
 	return self;
@@ -40,6 +34,7 @@
 	[defaultPhoto3 release], defaultPhoto3 = nil;
 	[defaultPhoto4 release], defaultPhoto4 = nil;
 	[cancelButton release], cancelButton = nil;
+    [navBar release], navBar = nil;
 	[photoController release];
     [super dealloc];
 }
@@ -50,49 +45,148 @@
     [super didReceiveMemoryWarning];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)setView:(UIView *)aView
 {	
 	if (aView == nil)
 	{
 		DLog("Setting view to nil due to low memory");
-
 		[self setDefaultPhoto1:nil];
 		[self setDefaultPhoto2:nil];
 		[self setDefaultPhoto3:nil];
 		[self setDefaultPhoto4:nil];
 		[self setCancelButton:nil];
+        [self setNavBar:nil];
 	}
-	
+    
     [super setView:aView];
 }
 
-- (void)viewDidLoad 
-{	
-	[super viewDidLoad];
-	
-	UIImage *photo1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															   pathForResource:kDefaultPhotoSmall1
-															   ofType:kPhotoType]];
-	[defaultPhoto1 setBackgroundImage:photo1 forState:UIControlStateNormal];
-	[photo1 release];
-	
-	UIImage *photo2 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															   pathForResource:kDefaultPhotoSmall2
-															   ofType:kPhotoType]];
-	[defaultPhoto2 setBackgroundImage:photo2 forState:UIControlStateNormal];
-	[photo2 release];
+- (void)loadView
+{
+    [super loadView];
 
-	UIImage *photo3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															   pathForResource:kDefaultPhotoSmall3
-															   ofType:kPhotoType]];
-	[defaultPhoto3 setBackgroundImage:photo3 forState:UIControlStateNormal];
-	[photo3 release];
+    self.view.opaque = YES;
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    int photoW = kDefPhotoButtonW;
+    int photoH = kDefPhotoButtonH;
+    if (screenRect.size.height - kNavBarHeight < 2*photoH)
+    {
+        photoH = (screenRect.size.height - kNavBarHeight - 30) / 2;
+    }
+    
+    int hSpace = (int) (screenRect.size.width - 2 * photoW) / 3;
+    int vSpace = (int) (screenRect.size.height - kNavBarHeight - 2 * photoH) / 3;
+    
+    if (cancelButton == nil)
+    {
+        cancelButton = [[UIBarButtonItem alloc]
+                        initWithTitle:NSLocalizedString(@"DefaultCancelButton", @"")
+                        style:UIBarButtonItemStyleDone
+                        target:self
+                        action:@selector(cancelButtonAction)];
+    }
+    if (navBar == nil)
+    {
+        navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kNavBarHeight)];
+        navBar.translucent = NO;
+        navBar.barTintColor = [UIColor colorWithRed:0.196f green:0.196f blue:0.196f alpha:1];
+        
+        UINavigationItem *navItem = [[UINavigationItem alloc] init];
+        navItem.rightBarButtonItem = cancelButton;
+        navBar.items = @[ navItem ];
+        [navItem release];
+        
+        [self.view addSubview:navBar];
+    }
+    if (defaultPhoto1 == nil)
+    {
+        UIImage *photo1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                   pathForResource:kDefaultPhotoSmall1
+                                                                   ofType:kPhotoType]];
+        
+        defaultPhoto1 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        [defaultPhoto1 addTarget:self
+                       action:@selector(selectPhoto1Action)
+             forControlEvents:UIControlEventTouchUpInside];
+        [defaultPhoto1 setFrame:CGRectMake(hSpace,
+                                           (vSpace + kNavBarHeight),
+                                           photoW,
+                                           photoH)];
+        [defaultPhoto1 setImage:photo1 forState:UIControlStateNormal];
+        [[self view] addSubview:defaultPhoto1];
+        
+        [photo1 release];
+    }
+    if (defaultPhoto2 == nil)
+    {
+        UIImage *photo2 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                   pathForResource:kDefaultPhotoSmall2
+                                                                   ofType:kPhotoType]];
+        
+        defaultPhoto2 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        [defaultPhoto2 addTarget:self
+                          action:@selector(selectPhoto2Action)
+                forControlEvents:UIControlEventTouchUpInside];
+        [defaultPhoto2 setFrame:CGRectMake((hSpace * 2 + photoW),
+                                           (vSpace + kNavBarHeight),
+                                           photoW,
+                                           photoH)];
+        [defaultPhoto2 setBackgroundImage:photo2 forState:UIControlStateNormal];
+        [[self view] addSubview:defaultPhoto2];
+        
+        [photo2 release];
+    }
+    if (defaultPhoto3 == nil)
+    {
+        UIImage *photo3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                   pathForResource:kDefaultPhotoSmall3
+                                                                   ofType:kPhotoType]];
+        
+        defaultPhoto3 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        [defaultPhoto3 addTarget:self
+                          action:@selector(selectPhoto3Action)
+                forControlEvents:UIControlEventTouchUpInside];
+        [defaultPhoto3 setFrame:CGRectMake(hSpace,
+                                           (vSpace * 2 + photoH + kNavBarHeight),
+                                           photoW,
+                                           photoH)];
+        [defaultPhoto3 setBackgroundImage:photo3 forState:UIControlStateNormal];
+        [[self view] addSubview:defaultPhoto3];
+        
+        [photo3 release];
+    }
+    if (defaultPhoto4 == nil)
+    {
+        UIImage *photo4 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                                                                   pathForResource:kDefaultPhotoSmall4
+                                                                   ofType:kPhotoType]];
+        
+        defaultPhoto4 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        [defaultPhoto4 addTarget:self
+                          action:@selector(selectPhoto4Action)
+                forControlEvents:UIControlEventTouchUpInside];
+        [defaultPhoto4 setFrame:CGRectMake((hSpace * 2 + photoW),
+                                           (vSpace * 2 + photoH + kNavBarHeight),
+                                           photoW,
+                                           photoH)];
+        [defaultPhoto4 setBackgroundImage:photo4 forState:UIControlStateNormal];
+        [[self view] addSubview:defaultPhoto4];
+        
+        [photo4 release];
+    }
+}
 
-	UIImage *photo4 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-															   pathForResource:kDefaultPhotoSmall4
-															   ofType:kPhotoType]];
-	[defaultPhoto4 setBackgroundImage:photo4 forState:UIControlStateNormal];
-	[photo4 release];
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [viewController prefersStatusBarHidden];
 }
 
 - (void)selectPhotoWithPath:(NSString *)path type:(int)type
@@ -108,32 +202,32 @@
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	[fileManager removeItemAtPath:boardPhoto error:NULL];
 	
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)selectPhoto1Action
+- (void)selectPhoto1Action
 {
 	[self selectPhotoWithPath:kDefaultPhoto1 type:kDefaultPhoto1Type];
 }
 
-- (IBAction)selectPhoto2Action
+- (void)selectPhoto2Action
 {
 	[self selectPhotoWithPath:kDefaultPhoto2 type:kDefaultPhoto2Type];
 }
 
-- (IBAction)selectPhoto3Action
+- (void)selectPhoto3Action
 {
 	[self selectPhotoWithPath:kDefaultPhoto3 type:kDefaultPhoto3Type];
 }
 
-- (IBAction)selectPhoto4Action
+- (void)selectPhoto4Action
 {
 	[self selectPhotoWithPath:kDefaultPhoto4 type:kDefaultPhoto4Type];
 }
 
-- (IBAction)cancelButtonAction
+- (void)cancelButtonAction
 {
-	[self dismissModalViewControllerAnimated:YES];	
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

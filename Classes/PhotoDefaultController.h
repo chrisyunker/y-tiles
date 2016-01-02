@@ -14,25 +14,27 @@
 
 @interface PhotoDefaultController : UIViewController
 {
-	PhotoController *photoController;
-	IBOutlet UIButton *defaultPhoto1;
-	IBOutlet UIButton *defaultPhoto2;
-	IBOutlet UIButton *defaultPhoto3;
-	IBOutlet UIButton *defaultPhoto4;
-	IBOutlet UIBarButtonItem *cancelButton;
+    PhotoController *photoController;
+    UIButton *defaultPhoto1;
+    UIButton *defaultPhoto2;
+    UIButton *defaultPhoto3;
+    UIButton *defaultPhoto4;
+    UIBarButtonItem *cancelButton;
+    UINavigationBar *navBar;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *defaultPhoto1;
-@property (nonatomic, retain) IBOutlet UIButton *defaultPhoto2;
-@property (nonatomic, retain) IBOutlet UIButton *defaultPhoto3;
-@property (nonatomic, retain) IBOutlet UIButton *defaultPhoto4;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *cancelButton;
+@property (nonatomic, retain)  UIButton *defaultPhoto1;
+@property (nonatomic, retain)  UIButton *defaultPhoto2;
+@property (nonatomic, retain)  UIButton *defaultPhoto3;
+@property (nonatomic, retain)  UIButton *defaultPhoto4;
+@property (nonatomic, retain)  UIBarButtonItem *cancelButton;
+@property (nonatomic, retain)  UINavigationBar *navBar;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil photoController:(PhotoController *)aPhotoController;
-- (IBAction)selectPhoto1Action;
-- (IBAction)selectPhoto2Action;
-- (IBAction)selectPhoto3Action;
-- (IBAction)selectPhoto4Action;
-- (IBAction)cancelButtonAction;
+- (id)initWithPhotoController:(PhotoController *)aPhotoController;
+- (void)selectPhoto1Action;
+- (void)selectPhoto2Action;
+- (void)selectPhoto3Action;
+- (void)selectPhoto4Action;
+- (void)cancelButtonAction;
 
 @end

@@ -12,11 +12,13 @@
 @interface AboutController : UIViewController
 {
 	IBOutlet UILabel *versionLabel;
+    IBOutlet UILabel *copyrightLabel;
 	IBOutlet UIBarButtonItem *doneButton;
 	IBOutlet UIImageView *icon;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *copyrightLabel;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, retain) IBOutlet UIImageView *icon;
 

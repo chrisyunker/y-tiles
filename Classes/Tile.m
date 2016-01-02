@@ -8,19 +8,6 @@
 
 #import "Tile.h"
 
-@interface Tile (Private)
-
-+ (void)setTilePhotoBorderPath;
-+ (void)setTileNumberBorderPath;
-- (id)initWithBoard:(Board *)aBoard tileId:(int)aTileId coord:(Coord)aCoord photo:(UIImage *)aPhoto;
-- (void)createPhotoImage;
-- (void)createNumberImage;
-- (void)updateFrame;
-- (CGMutablePathRef)newNumberBorderPathForTextWidth:(float)textWidth;
-
-@end
-
-
 @implementation Tile
 
 @synthesize tileId;
@@ -46,7 +33,7 @@ static int tileHeight = 0;
 		[Tile setTilePhotoBorderPath];
 		[Tile setTileNumberBorderPath];
 	}
-	
+    
 	return [[[Tile alloc] initWithBoard:aBoard tileId:aId coord:aCoord photo:aPhoto] autorelease];
 }
 
@@ -66,7 +53,7 @@ static int tileHeight = 0;
 		moveType = None;
 		solved = YES;
 		haveLock = NO;
-		
+        
 		[self createNumberImage];
 		[self createPhotoImage];
 		[self drawTile];
@@ -74,12 +61,12 @@ static int tileHeight = 0;
 		[self setUserInteractionEnabled:YES];
 		[self setMultipleTouchEnabled:NO];
 	}
+    
 	return self;
 }
 
 - (void)dealloc
 {
-	//DLog("tileId:[%d]", tileId);
 	[photoImage release];
 	[numberedPhotoImage release];
 	[numberImage release];
@@ -171,8 +158,10 @@ static int tileHeight = 0;
 		case Down:
 			frame.origin.y += distance;
 			break;
+        case None:
+            break;
 	}
-	[self setFrame:frame];	
+	[self setFrame:frame];
 }
 
 
@@ -254,7 +243,7 @@ static int tileHeight = 0;
 	CGRect frame = [self frame];
 	if ((frame.origin.x == startOrigin.x) && (frame.origin.y == startOrigin.y))
 	{
-		// Do nothing
+		// NOP
 	}
 	else if ((frame.origin.x - startOrigin.x) > (tileWidth / 2))
 	{		
@@ -309,24 +298,18 @@ static int tileHeight = 0;
 	}	
 }
 
-
-#pragma mark Private methods
-
 - (void)createPhotoImage
 {
 	CGContextRef context = [Util newBitmapContextForWidth:tileWidth height:tileHeight];
 
-	// Create photo with rounded boarder
-	
+	// Create photo with rounded border
 	CGImageRef baseImageRef = [photoImage CGImage];
 	CGContextDrawImage(context, [self frame], baseImageRef);
-	
 	CGContextSetRGBFillColor(context,
 							 kBgColorRed,
 							 kBgColorGreen,
 							 kBgColorBlue,
 							 kBgColorAlpha);
-	
 	CGContextAddPath(context, tilePhotoBorderPath);
 	CGContextEOFillPath(context);
 	
@@ -336,47 +319,56 @@ static int tileHeight = 0;
 	photoImage = [[UIImage imageWithCGImage:photoImageRef] retain];
 	CGImageRelease(photoImageRef);
 	
-	
-	// Create tile ID number 
-	
-	CGContextSelectFont(context, kPhotoFontType,  kPhotoFontSize, kCGEncodingMacRoman);
-	NSString *number = [NSString stringWithFormat:@"%d", tileId];
-	
-	// Calculate text width
-	CGPoint start = CGContextGetTextPosition(context);
-	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [number UTF8String], [number length]);
-	CGPoint end = CGContextGetTextPosition(context);
-	float textWidth = end.x - start.x;
-	
-	
+	// Create tile ID number
+    
+    // Create number string
+    CFStringRef number = CFStringCreateWithFormat(NULL, NULL, CFSTR("%d"), tileId);
+    CFStringRef fontName = CFStringCreateWithFormat(NULL, NULL, CFSTR("%s"), kPhotoFontType);
+    CTFontRef font = CTFontCreateWithName(fontName, kPhotoFontSize, NULL);
+    CGFloat fontColorComponents[4] = {
+        kPhotoFontColorRed,
+        kPhotoFontColorGreen,
+        kPhotoFontColorBlue,
+        kPhotoFontColorAlpha};
+    CGColorRef fontColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), fontColorComponents);
+    
+    CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
+    CFTypeRef values[] = { font, fontColor };
+    CFDictionaryRef attributes = CFDictionaryCreate(kCFAllocatorDefault, (const void **) &keys,
+                                                    (const void **) &values, sizeof(keys) / sizeof(keys[0]),
+                                                    &kCFTypeDictionaryKeyCallBacks,
+                                                    &kCFTypeDictionaryValueCallBacks);
+    CFAttributedStringRef attrString = CFAttributedStringCreate(kCFAllocatorDefault, number, attributes);
+    CFRelease(number);
+    CFRelease(fontName);
+    CFRelease(font);
+    CFRelease(fontColor);
+    CFRelease(attributes);
+    
+    CTLineRef line = CTLineCreateWithAttributedString(attrString);
+    CGRect numberBounds = CTLineGetImageBounds(line, context);
+
 	// Draw background
 	CGContextSetRGBFillColor(context,
 							 kPhotoBgColorRed,
 							 kPhotoBgColorGreen,
 							 kPhotoBgColorBlue,
 							 kPhotoBgColorAlpha);
-	
-	CGContextSetTextDrawingMode(context, kCGTextFill);
-	
-	CGMutablePathRef numberBorderPath = [self newNumberBorderPathForTextWidth:textWidth];
-	
+    CGContextSetTextDrawingMode(context, kCGTextFill);
+	CGMutablePathRef numberBorderPath = [self newNumberBorderPathForTextWidth:numberBounds.size.width];
 	CGContextAddPath(context, numberBorderPath);
 	CGContextFillPath(context);
 	
 	// Draw number
-	CGContextSetRGBFillColor(context,
-							 kPhotoFontColorRed,
-							 kPhotoFontColorGreen,
-							 kPhotoFontColorBlue,
-							 kPhotoFontColorAlpha);
-	
-	CGContextSetTextDrawingMode(context, kCGTextFill);
-	CGContextShowTextAtPoint(context,
-							 (tileWidth - textWidth - kPhotoBgBorder - kPhotoBgOffset),
-							 (tileHeight - kPhotoFontSize - kPhotoBgOffset),
-							 [number UTF8String],
-							 [number length]);	
+    //DLog("T NUMBER %d  (%f x %f) (%f x %f)", tileId, numberBounds.size.width, numberBounds.size.height,
+    //     (tileWidth - numberBounds.size.width - kPhotoBgBorder - kPhotoBgOffset),
+    //     (tileHeight - kPhotoFontSize - kPhotoBgOffset));
+    CGContextSetTextPosition(context,
+                             (tileWidth - numberBounds.size.width - kPhotoBgBorder - kPhotoBgOffset),
+                             (tileHeight - kPhotoFontSize - kPhotoBgOffset));
+    CTLineDraw(line, context);
+    CFRelease(line);
+    CFRelease(attrString);
 	
 	CGImageRef numberedPhotoImageRef = CGBitmapContextCreateImage(context);
 	numberedPhotoImage = [[UIImage imageWithCGImage:numberedPhotoImageRef] retain];
@@ -388,9 +380,9 @@ static int tileHeight = 0;
 
 - (void)createNumberImage
 {
-	CGContextRef context = [Util newBitmapContextForWidth:tileWidth height:tileHeight];
-	
-	// Draw tile
+    CGContextRef context = [Util newBitmapContextForWidth:tileWidth height:tileHeight];
+    
+    // Create tile background
 	CGContextSetRGBFillColor(context,
 							 kNumberBgColorRed,
 							 kNumberBgColorGreen,
@@ -399,37 +391,46 @@ static int tileHeight = 0;
 	
 	CGContextAddPath(context, tileNumberBorderPath);
 	CGContextFillPath(context);
+    
+    // Create number string
+    CFStringRef number = CFStringCreateWithFormat(NULL, NULL, CFSTR("%d"), tileId);
+    CFStringRef fontName = CFStringCreateWithFormat(NULL, NULL, CFSTR("%s"), kNumberFontType);
+    CTFontRef font = CTFontCreateWithName(fontName, kNumberFontSize, NULL);
+    CGFloat fontColorComponents[4] = {kNumberFontColorRed,
+                                      kNumberFontColorGreen,
+                                      kNumberFontColorBlue,
+                                      kNumberFontColorAlpha};
+    CGColorRef fontColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), fontColorComponents);
+    
+    CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
+    CFTypeRef values[] = { font, fontColor };
+    CFDictionaryRef attributes = CFDictionaryCreate(kCFAllocatorDefault, (const void **) &keys,
+                                                    (const void **) &values, sizeof(keys) / sizeof(keys[0]),
+                                                    &kCFTypeDictionaryKeyCallBacks,
+                                                    &kCFTypeDictionaryValueCallBacks);
+    CFAttributedStringRef attrString = CFAttributedStringCreate(kCFAllocatorDefault, number, attributes);
+    CFRelease(font);
+    CFRelease(fontName);
+    CFRelease(fontColor);
+    CFRelease(number);
+    CFRelease(attributes);
 	
-	// Draw font
-	CGContextSelectFont(context, kNumberFontType,  kNumberFontSize, kCGEncodingMacRoman);
-	NSString *number = [NSString stringWithFormat:@"%d", tileId];
-	
-	// Calculate text width
-	CGPoint start = CGContextGetTextPosition(context);
-	CGContextSetTextDrawingMode(context, kCGTextInvisible);
-	CGContextShowText(context, [number UTF8String], [number length]);
-	CGPoint end = CGContextGetTextPosition(context);
-	float textWidth = end.x - start.x;
-	
-	CGContextSetRGBFillColor(context,
-							 kNumberFontColorRed,
-							 kNumberFontColorGreen,
-							 kNumberFontColorBlue,
-							 kNumberFontColorAlpha);
-	
-	CGContextSetTextDrawingMode(context, kCGTextFill);
-	CGContextShowTextAtPoint(context,
-							 ((tileWidth - textWidth) * 0.5),
-							 ((tileHeight - kNumberFontSize) * 0.5),
-							 [number UTF8String],
-							 [number length]);
-	
-	CGImageRef numberImageRef = CGBitmapContextCreateImage(context);
-	
-	numberImage = [[UIImage imageWithCGImage:numberImageRef] retain];
-	
-	CGImageRelease(numberImageRef);
-	
+    // Center and render number string
+    CTLineRef line = CTLineCreateWithAttributedString(attrString);
+    CGRect numberBounds = CTLineGetImageBounds(line, context);
+    //DLog("NUMBER %d  %f x %f", tileId, numberBounds.size.width, numberBounds.size.height);
+    CGContextSetTextPosition(context,
+                             ((tileWidth - numberBounds.size.width) * 0.5),
+                             ((tileHeight - kPhotoFontSize) * 0.5));
+    CTLineDraw(line, context);
+    CFRelease(line);
+    CFRelease(attrString);
+
+    // Create number tile image
+    CGImageRef numberImageRef = CGBitmapContextCreateImage(context);
+    numberImage = [[UIImage imageWithCGImage:numberImageRef] retain];
+    CGImageRelease(numberImageRef);
+    
 	CGContextRelease(context);
 }
 
@@ -477,13 +478,11 @@ static int tileHeight = 0;
 
 + (void)setTilePhotoBorderPath
 {
-	DLog("setTilePhotoBorderPath");
-		 
 	if (tilePhotoBorderPath != NULL)
 	{
 		CGPathRelease(tilePhotoBorderPath);
 	}
-	
+    
 	tilePhotoBorderPath = CGPathCreateMutable();
 	
 	CGPathMoveToPoint(tilePhotoBorderPath, NULL, 0, 0);
@@ -497,26 +496,24 @@ static int tileHeight = 0;
 											kTileSpacingWidth,
 											tileWidth,
 											tileHeight)
-						  radius:kTileCornerRadius];	
+						  radius:kTileCornerRadius];
 }
 
 + (void)setTileNumberBorderPath
 {
-	DLog("setTileNumberBorderPath");
-
 	if (tileNumberBorderPath != NULL)
 	{
 		CGPathRelease(tileNumberBorderPath);
 	}
 	
 	tileNumberBorderPath = CGPathCreateMutable();
-	
+    
 	[Util drawRoundedRectForPath:tileNumberBorderPath
 							rect:CGRectMake(kTileSpacingWidth,
 											kTileSpacingWidth,
 											(tileWidth - (2 * kTileSpacingWidth)),
 											(tileHeight - (2 * kTileSpacingWidth)))
-						  radius:kTileCornerRadius];	
+						  radius:kTileCornerRadius];
 }
 
 @end
