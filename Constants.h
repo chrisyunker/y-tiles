@@ -3,13 +3,13 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 1/3/09.
-//  Copyright Chris Yunker 2009. All rights reserved.
+//  Copyright Chris Yunker 2025. All rights reserved.
 //
 
 
 #define kVersionMajor            2
 #define kVersionMinor            0
-#define kCopyrightYear           2016
+#define kCopyrightYear           2025
 #define kIconPhoto               @"IconPhoto"
 #define kIconPhotoType           @"png"
 #define kNavBarHeight            44

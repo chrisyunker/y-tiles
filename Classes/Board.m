@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 12/15/08.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import "Board.h"
@@ -394,9 +394,9 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-		for (int y = 0; y < config.rows; y++)
+        for (int y = 0; y < self->config.rows; y++)
 		{
-			for (int x = 0; x < config.columns; x++)
+            for (int x = 0; x < self->config.columns; x++)
 			{
 				if (numberArray.count > 0)
 				{
@@ -413,20 +413,20 @@
 					
 					int index = [[numberArray objectAtIndex:randomNum] intValue];
 					[numberArray removeObjectAtIndex:randomNum];
-					if (index < tiles.count)
+                    if (index < self->tiles.count)
 					{
-						Tile *tile = [tiles objectAtIndex:index];
-						grid[x][y] = tile;
+                        Tile *tile = [self->tiles objectAtIndex:index];
+                        self->grid[x][y] = tile;
 											
 						[tile moveToCoordX:x coordY:y];
 					}
 					else
 					{
 						// Empty slot
-						empty.x = x;
-						empty.y = y;
+                        self->empty.x = x;
+                        self->empty.y = y;
 						
-						DLog("Empty slot [%d][%d]", empty.x, empty.y);
+                        DLog("Empty slot [%d][%d]", self->empty.x, self->empty.y);
 					}
 				}
 			}

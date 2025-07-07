@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 2/26/09.
-//  Copyright 2009 chrisyunker.com. All rights reserved.
+//  Copyright 2025 chrisyunker.com. All rights reserved.
 //
 
 #import "PhotoDefaultController.h"
