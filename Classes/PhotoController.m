@@ -112,7 +112,7 @@
 	}
 	
 	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-	[[picker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
+	[[picker navigationBar] setBarStyle:UIBarStyleBlack];
 	[picker setAllowsEditing:NO];
 	[picker setDelegate:self];
 	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];

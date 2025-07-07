@@ -42,11 +42,11 @@
     
     navController = [[UINavigationController alloc] initWithRootViewController:boardController];
     [navController setNavigationBarHidden:YES];
-    [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
+    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
     [controllers addObject:navController];
     
     navController = [[UINavigationController alloc] initWithRootViewController:photoController];
-    [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
+    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
     [controllers addObject:navController];
     
     navController = [[UINavigationController alloc] initWithRootViewController:settingsController];

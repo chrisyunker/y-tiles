@@ -390,18 +390,18 @@
 	}
 	
 	// Scramble Animation
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:kTileScrambleTime];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut]; 
-	
-	for (int y = 0; y < config.rows; y++)
-	{
-		for (int x = 0; x < config.columns; x++)
+	[UIView animateWithDuration:kTileScrambleTime
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+		for (int y = 0; y < config.rows; y++)
 		{
-			if (numberArray.count > 0)
+			for (int x = 0; x < config.columns; x++)
 			{
-				int randomNum = arc4random() % numberArray.count;
-				
+				if (numberArray.count > 0)
+				{
+					int randomNum = arc4random() % numberArray.count;
+					
 #ifdef DEBUG
 //								if (numberArray.count > 2)
 //									randomNum = 0;
@@ -410,34 +410,33 @@
 //								else
 //									randomNum = 0;
 #endif
-				
-				int index = [[numberArray objectAtIndex:randomNum] intValue];
-				[numberArray removeObjectAtIndex:randomNum];
-				if (index < tiles.count)
-				{
-					Tile *tile = [tiles objectAtIndex:index];
-					grid[x][y] = tile;
-										
-					[tile moveToCoordX:x coordY:y];
-				}
-				else
-				{
-					// Empty slot
-					empty.x = x;
-					empty.y = y;
 					
-					DLog("Empty slot [%d][%d]", empty.x, empty.y);
+					int index = [[numberArray objectAtIndex:randomNum] intValue];
+					[numberArray removeObjectAtIndex:randomNum];
+					if (index < tiles.count)
+					{
+						Tile *tile = [tiles objectAtIndex:index];
+						grid[x][y] = tile;
+											
+						[tile moveToCoordX:x coordY:y];
+					}
+					else
+					{
+						// Empty slot
+						empty.x = x;
+						empty.y = y;
+						
+						DLog("Empty slot [%d][%d]", empty.x, empty.y);
+					}
 				}
 			}
 		}
-	}
-	
-	[UIView commitAnimations];	
+	} completion:nil];	
 }
 
 - (void)showWaitView
 {
-	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+	[self setUserInteractionEnabled:NO];
 	
 	[boardController removeMenu];
 	[waitImageView startAnimating];
@@ -462,7 +461,7 @@
 		[boardController displayStartMenu];
 	}
 	
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
+	[self setUserInteractionEnabled:YES];
 }
 
 - (void)showPausedView:(BOOL)enabled

@@ -30,7 +30,7 @@
 													  kWaitIndicatorY,
 													  kWaitIndicatorWidth,
 													  kWaitIndicatorHeight)];
-		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleLarge];
 		[dialog addSubview:activityIndicator];
 		
 		[self addSubview:dialog];
