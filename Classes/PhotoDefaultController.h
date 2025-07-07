@@ -23,12 +23,12 @@
     UINavigationBar *navBar;
 }
 
-@property (nonatomic, retain)  UIButton *defaultPhoto1;
-@property (nonatomic, retain)  UIButton *defaultPhoto2;
-@property (nonatomic, retain)  UIButton *defaultPhoto3;
-@property (nonatomic, retain)  UIButton *defaultPhoto4;
-@property (nonatomic, retain)  UIBarButtonItem *cancelButton;
-@property (nonatomic, retain)  UINavigationBar *navBar;
+@property (nonatomic, strong)  UIButton *defaultPhoto1;
+@property (nonatomic, strong)  UIButton *defaultPhoto2;
+@property (nonatomic, strong)  UIButton *defaultPhoto3;
+@property (nonatomic, strong)  UIButton *defaultPhoto4;
+@property (nonatomic, strong)  UIBarButtonItem *cancelButton;
+@property (nonatomic, strong)  UINavigationBar *navBar;
 
 - (id)initWithPhotoController:(PhotoController *)aPhotoController;
 - (void)selectPhoto1Action;

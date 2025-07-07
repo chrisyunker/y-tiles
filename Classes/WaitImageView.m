@@ -34,7 +34,6 @@
 		[dialog addSubview:activityIndicator];
 		
 		[self addSubview:dialog];
-		[dialog release];
 	}
 	return self;
 }
@@ -42,8 +41,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[activityIndicator release];
-    [super dealloc];
 }
 
 - (void)startAnimating

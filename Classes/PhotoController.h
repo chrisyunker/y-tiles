@@ -12,7 +12,7 @@
 
 @class Board;
 
-@interface PhotoController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
+@interface PhotoController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
 	UIBarButtonItem *photoLibraryButton;
 	UIBarButtonItem *photoDefaultButton;
@@ -20,9 +20,9 @@
 	Board *board;
 }
 
-@property (nonatomic, retain) UIBarButtonItem *photoLibraryButton;
-@property (nonatomic, retain) UIBarButtonItem *photoDefaultButton;
-@property (nonatomic, retain) UIImageView *selectImageView;
+@property (nonatomic, strong) UIBarButtonItem *photoLibraryButton;
+@property (nonatomic, strong) UIBarButtonItem *photoDefaultButton;
+@property (nonatomic, strong) UIImageView *selectImageView;
 
 - (id)initWithBoard:(Board *)aBoard;
 - (void)photoLibraryButtonAction;

@@ -23,10 +23,10 @@
 {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{		
-		board = [aBoard retain];
-		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
+		board = aBoard;
+		[self setTabBarItem:[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTitle", @"")
 														   image:[UIImage imageNamed:@"Settings"]
-															 tag:kTabBarSettingsTag] autorelease]];
+															 tag:kTabBarSettingsTag]];
 	}
 	return self;
 }
@@ -34,15 +34,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[pickerView release], pickerView = nil;
-	[photoSwitch release], photoSwitch = nil;
-	[numberSwitch release], numberSwitch = nil;
-	[soundSwitch release], soundSwitch = nil;
-	[infoButton release], infoButton = nil;
-	[saveButton release];
-	[cancelButton release];
-	[board release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -166,7 +157,6 @@
 {
 	AboutController *ac = [[AboutController alloc] initWithNibName:@"AboutView" bundle:nil];
     [self presentViewController:ac animated:YES completion:nil];
-	[ac release];
 }
 
 - (IBAction)restartAction

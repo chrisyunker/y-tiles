@@ -19,11 +19,11 @@
 {
 	if (self = [super init])
 	{
-		board = [aBoard retain];
+		board = aBoard;
 		
-		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
+		[self setTabBarItem:[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
 														   image:[UIImage imageNamed:@"Photo"]
-															 tag:kTabBarPhotoTag] autorelease]];
+															 tag:kTabBarPhotoTag]];
 	}
 	return self;
 }
@@ -31,11 +31,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[photoLibraryButton release], photoLibraryButton = nil;
-	[photoDefaultButton release], photoDefaultButton = nil;
-	[selectImageView release], selectImageView = nil;
-	[board release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,7 +92,6 @@
 {
     PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithPhotoController:self];
     [self presentViewController:pdc animated:YES completion:nil];
-    [pdc release];
 }
 
 - (void)photoLibraryButtonAction
@@ -114,7 +108,6 @@
                                                               handler:^(UIAlertAction * action) {}];
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
-        [alert release];
 		return;
 	}
 	
@@ -124,7 +117,6 @@
 	[picker setDelegate:self];
 	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     [self presentViewController:picker animated:YES completion:nil];
-	[picker release];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -156,7 +148,7 @@
 	[board setPhoto:photo type:type];
 	
 	[selectImageView removeFromSuperview];
-	[self setSelectImageView:[[[UIImageView alloc] initWithImage:[board photo]] autorelease]];
+	[self setSelectImageView:[[UIImageView alloc] initWithImage:[board photo]]];
 	[[self view] addSubview:selectImageView];
 }
 

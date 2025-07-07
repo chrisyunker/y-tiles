@@ -18,11 +18,11 @@
 {
 	if (self = [super init])
 	{		
-		board = [aBoard retain];
+		board = aBoard;
 		[board setBoardController:self];
-        [self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
+        [self setTabBarItem:[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"BoardTitle", @"")
                                                            image:[UIImage imageNamed:@"Board"]
-                                                             tag:kTabBarBoardTag] autorelease]];
+                                                             tag:kTabBarBoardTag]];
     }
     return self;
 }
@@ -30,11 +30,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[board release];
-	[startButton release], startButton = nil;
-	[restartButton release], restartButton = nil;
-	[resumeButton release], resumeButton = nil;
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning

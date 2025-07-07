@@ -18,11 +18,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[versionLabel release], versionLabel = nil;
-    [copyrightLabel release], copyrightLabel = nil;
-	[doneButton release], doneButton = nil;
-	[icon release], icon = nil;
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +50,6 @@
 																  pathForResource:kIconPhoto
 																  ofType:kIconPhotoType]];
 	[icon setImage:iconImage];
-	[iconImage release];
 }
 
 - (void)setView:(UIView *)aView

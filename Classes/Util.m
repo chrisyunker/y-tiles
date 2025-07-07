@@ -89,7 +89,6 @@
 	UIImageView *pausedView = [[UIImageView alloc] initWithFrame:frame];
 	[pausedView setImage:pausedImage];
 	[pausedView setUserInteractionEnabled:NO];
-	[pausedView autorelease];
 	return pausedView;
 }
 

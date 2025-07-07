@@ -43,21 +43,14 @@
     [navController setNavigationBarHidden:YES];
     [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
     [controllers addObject:navController];
-    [navController release];
     
     navController = [[UINavigationController alloc] initWithRootViewController:photoController];
     [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
     [controllers addObject:navController];
-    [navController release];
     
     navController = [[UINavigationController alloc] initWithRootViewController:settingsController];
     [navController setNavigationBarHidden:YES];
     [controllers addObject:navController];
-    [navController release];
-    
-    [boardController release];
-    [photoController release];
-    [settingsController release];
     
     [tabBarController setViewControllers:controllers];
     

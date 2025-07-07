@@ -22,7 +22,7 @@
 {
 	if (self = [super init])
 	{
-		board = [aBoard retain];
+		board = aBoard;
 	}
 	return self;
 }
@@ -30,8 +30,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[board release];
-	[super dealloc];
 }
 
 - (void)load

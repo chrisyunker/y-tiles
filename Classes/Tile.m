@@ -34,7 +34,7 @@ static int tileHeight = 0;
 		[Tile setTileNumberBorderPath];
 	}
     
-	return [[[Tile alloc] initWithBoard:aBoard tileId:aId coord:aCoord photo:aPhoto] autorelease];
+	return [[Tile alloc] initWithBoard:aBoard tileId:aId coord:aCoord photo:aPhoto];
 }
 
 
@@ -44,8 +44,8 @@ static int tileHeight = 0;
 	
 	if (self = [super initWithFrame:rect])
 	{		
-		board = [aBoard retain];
-		photoImage = [aPhoto retain];
+		board = aBoard;
+		photoImage = aPhoto;
 		
 		tileId = aTileId;
 		homeCoord = aCoord;
@@ -67,11 +67,6 @@ static int tileHeight = 0;
 
 - (void)dealloc
 {
-	[photoImage release];
-	[numberedPhotoImage release];
-	[numberImage release];
-	[board release];
-    [super dealloc];
 }
 
 - (void)drawTile
@@ -313,10 +308,9 @@ static int tileHeight = 0;
 	CGContextAddPath(context, tilePhotoBorderPath);
 	CGContextEOFillPath(context);
 	
-	[photoImage release];
 	
 	CGImageRef photoImageRef = CGBitmapContextCreateImage(context);
-	photoImage = [[UIImage imageWithCGImage:photoImageRef] retain];
+	photoImage = [UIImage imageWithCGImage:photoImageRef];
 	CGImageRelease(photoImageRef);
 	
 	// Create tile ID number
@@ -371,7 +365,7 @@ static int tileHeight = 0;
     CFRelease(attrString);
 	
 	CGImageRef numberedPhotoImageRef = CGBitmapContextCreateImage(context);
-	numberedPhotoImage = [[UIImage imageWithCGImage:numberedPhotoImageRef] retain];
+	numberedPhotoImage = [UIImage imageWithCGImage:numberedPhotoImageRef];
 	CGPathRelease(numberBorderPath);
 	CGImageRelease(numberedPhotoImageRef);
 	
@@ -428,7 +422,7 @@ static int tileHeight = 0;
 
     // Create number tile image
     CGImageRef numberImageRef = CGBitmapContextCreateImage(context);
-    numberImage = [[UIImage imageWithCGImage:numberImageRef] retain];
+    numberImage = [UIImage imageWithCGImage:numberImageRef];
     CGImageRelease(numberImageRef);
     
 	CGContextRelease(context);
