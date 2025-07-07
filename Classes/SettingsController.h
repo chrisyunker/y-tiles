@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 1/3/09.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -25,17 +25,23 @@
     IBOutlet UIButton *restartButton;
 	IBOutlet UIBarButtonItem *saveButton;
 	IBOutlet UIBarButtonItem *cancelButton;
+	IBOutlet UINavigationBar *settingsNavigationBar;
+	UIButton *customSaveButton;
+	UIButton *customCancelButton;
 	Board *board;
 }
 
-@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
-@property (nonatomic, retain) IBOutlet UISwitch *photoSwitch;
-@property (nonatomic, retain) IBOutlet UISwitch *numberSwitch;
-@property (nonatomic, retain) IBOutlet UISwitch *soundSwitch;
-@property (nonatomic, retain) IBOutlet UIButton *infoButton;
-@property (nonatomic, retain) IBOutlet UIButton *restartButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *saveButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *cancelButton;
+@property (nonatomic, strong) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, strong) IBOutlet UISwitch *photoSwitch;
+@property (nonatomic, strong) IBOutlet UISwitch *numberSwitch;
+@property (nonatomic, strong) IBOutlet UISwitch *soundSwitch;
+@property (nonatomic, strong) IBOutlet UIButton *infoButton;
+@property (nonatomic, strong) IBOutlet UIButton *restartButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *saveButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *cancelButton;
+@property (nonatomic, strong) IBOutlet UINavigationBar *settingsNavigationBar;
+@property (nonatomic, strong) UIButton *customSaveButton;
+@property (nonatomic, strong) UIButton *customCancelButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil board:(Board *)aBoard;
 - (IBAction)saveButtonAction;

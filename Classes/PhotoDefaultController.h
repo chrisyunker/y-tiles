@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 2/26/09.
-//  Copyright 2009 chrisyunker.com. All rights reserved.
+//  Copyright 2025 chrisyunker.com. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,7 +12,7 @@
 
 @class PhotoController;
 
-@interface PhotoDefaultController : UIViewController
+@interface PhotoDefaultController : UIViewController <UINavigationControllerDelegate>
 {
     PhotoController *photoController;
     UIButton *defaultPhoto1;
@@ -20,15 +20,13 @@
     UIButton *defaultPhoto3;
     UIButton *defaultPhoto4;
     UIBarButtonItem *cancelButton;
-    UINavigationBar *navBar;
 }
 
-@property (nonatomic, retain)  UIButton *defaultPhoto1;
-@property (nonatomic, retain)  UIButton *defaultPhoto2;
-@property (nonatomic, retain)  UIButton *defaultPhoto3;
-@property (nonatomic, retain)  UIButton *defaultPhoto4;
-@property (nonatomic, retain)  UIBarButtonItem *cancelButton;
-@property (nonatomic, retain)  UINavigationBar *navBar;
+@property (nonatomic, strong)  UIButton *defaultPhoto1;
+@property (nonatomic, strong)  UIButton *defaultPhoto2;
+@property (nonatomic, strong)  UIButton *defaultPhoto3;
+@property (nonatomic, strong)  UIButton *defaultPhoto4;
+@property (nonatomic, strong)  UIBarButtonItem *cancelButton;
 
 - (id)initWithPhotoController:(PhotoController *)aPhotoController;
 - (void)selectPhoto1Action;

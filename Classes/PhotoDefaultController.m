@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 2/26/09.
-//  Copyright 2009 chrisyunker.com. All rights reserved.
+//  Copyright 2025 chrisyunker.com. All rights reserved.
 //
 
 #import "PhotoDefaultController.h"
@@ -15,13 +15,12 @@
 @synthesize defaultPhoto3;
 @synthesize defaultPhoto4;
 @synthesize cancelButton;
-@synthesize navBar;
 
 - (id)initWithPhotoController:(PhotoController *)aPhotoController
 {
     if (self = [super init])
     {
-		photoController = [aPhotoController retain];
+		photoController = aPhotoController;
 	}
 	return self;
 }
@@ -29,14 +28,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[defaultPhoto1 release], defaultPhoto1 = nil;
-	[defaultPhoto2 release], defaultPhoto2 = nil;
-	[defaultPhoto3 release], defaultPhoto3 = nil;
-	[defaultPhoto4 release], defaultPhoto4 = nil;
-	[cancelButton release], cancelButton = nil;
-    [navBar release], navBar = nil;
-	[photoController release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,9 +51,8 @@
 		[self setDefaultPhoto3:nil];
 		[self setDefaultPhoto4:nil];
 		[self setCancelButton:nil];
-        [self setNavBar:nil];
+        //[self setNavBar:nil];
 	}
-    
     [super setView:aView];
 }
 
@@ -87,32 +77,41 @@
     
     if (cancelButton == nil)
     {
-        cancelButton = [[UIBarButtonItem alloc]
-                        initWithTitle:NSLocalizedString(@"DefaultCancelButton", @"")
-                        style:UIBarButtonItemStyleDone
-                        target:self
-                        action:@selector(cancelButtonAction)];
-    }
-    if (navBar == nil)
-    {
-        navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kNavBarHeight)];
-        navBar.translucent = NO;
-        navBar.barTintColor = [UIColor colorWithRed:0.196f green:0.196f blue:0.196f alpha:1];
+        DLog("Create cancel button");
         
-        UINavigationItem *navItem = [[UINavigationItem alloc] init];
-        navItem.rightBarButtonItem = cancelButton;
-        navBar.items = @[ navItem ];
-        [navItem release];
+        UIButton *customCancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [customCancelButton addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
         
-        [self.view addSubview:navBar];
+        // Set button size
+        customCancelButton.frame = CGRectMake(0, 0, 80, 32);
+        
+        UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
+        config.title = NSLocalizedString(@"DefaultCancelButton", @"");
+        config.baseForegroundColor = [UIColor whiteColor];
+        config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+        config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+            NSMutableDictionary *attrs = [textAttributes mutableCopy];
+            attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+            return attrs;
+        };
+        
+        // Use the same blue color as the Start button
+        config.background.backgroundColor = [UIColor systemBlueColor];
+        config.background.cornerRadius = 10.0;
+        
+        customCancelButton.configuration = config;
+        
+        cancelButton = [[UIBarButtonItem alloc] initWithCustomView:customCancelButton];
+        [[self navigationItem] setLeftBarButtonItem:cancelButton];
     }
+    
     if (defaultPhoto1 == nil)
     {
         UIImage *photo1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                    pathForResource:kDefaultPhotoSmall1
                                                                    ofType:kPhotoType]];
         
-        defaultPhoto1 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        defaultPhoto1 = [UIButton buttonWithType: UIButtonTypeCustom];
         [defaultPhoto1 addTarget:self
                        action:@selector(selectPhoto1Action)
              forControlEvents:UIControlEventTouchUpInside];
@@ -122,8 +121,6 @@
                                            photoH)];
         [defaultPhoto1 setImage:photo1 forState:UIControlStateNormal];
         [[self view] addSubview:defaultPhoto1];
-        
-        [photo1 release];
     }
     if (defaultPhoto2 == nil)
     {
@@ -131,7 +128,7 @@
                                                                    pathForResource:kDefaultPhotoSmall2
                                                                    ofType:kPhotoType]];
         
-        defaultPhoto2 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        defaultPhoto2 = [UIButton buttonWithType: UIButtonTypeCustom];
         [defaultPhoto2 addTarget:self
                           action:@selector(selectPhoto2Action)
                 forControlEvents:UIControlEventTouchUpInside];
@@ -141,8 +138,6 @@
                                            photoH)];
         [defaultPhoto2 setBackgroundImage:photo2 forState:UIControlStateNormal];
         [[self view] addSubview:defaultPhoto2];
-        
-        [photo2 release];
     }
     if (defaultPhoto3 == nil)
     {
@@ -150,7 +145,7 @@
                                                                    pathForResource:kDefaultPhotoSmall3
                                                                    ofType:kPhotoType]];
         
-        defaultPhoto3 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        defaultPhoto3 = [UIButton buttonWithType: UIButtonTypeCustom];
         [defaultPhoto3 addTarget:self
                           action:@selector(selectPhoto3Action)
                 forControlEvents:UIControlEventTouchUpInside];
@@ -160,8 +155,6 @@
                                            photoH)];
         [defaultPhoto3 setBackgroundImage:photo3 forState:UIControlStateNormal];
         [[self view] addSubview:defaultPhoto3];
-        
-        [photo3 release];
     }
     if (defaultPhoto4 == nil)
     {
@@ -169,7 +162,7 @@
                                                                    pathForResource:kDefaultPhotoSmall4
                                                                    ofType:kPhotoType]];
         
-        defaultPhoto4 = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+        defaultPhoto4 = [UIButton buttonWithType: UIButtonTypeCustom];
         [defaultPhoto4 addTarget:self
                           action:@selector(selectPhoto4Action)
                 forControlEvents:UIControlEventTouchUpInside];
@@ -179,8 +172,6 @@
                                            photoH)];
         [defaultPhoto4 setBackgroundImage:photo4 forState:UIControlStateNormal];
         [[self view] addSubview:defaultPhoto4];
-        
-        [photo4 release];
     }
 }
 
@@ -195,7 +186,6 @@
 															  pathForResource:path
 															  ofType:kPhotoType]];
 	[photoController selectPhoto:photo type:type];
-	[photo release];
 	
 	// Remove saved library photo (if exists)
 	NSString *boardPhoto = [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto];

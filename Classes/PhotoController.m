@@ -3,11 +3,12 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 12/15/08.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import "PhotoController.h"
 #import "Util.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation PhotoController
 
@@ -19,11 +20,17 @@
 {
 	if (self = [super init])
 	{
-		board = [aBoard retain];
+		board = aBoard;
 		
-		[self setTabBarItem:[[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
-														   image:[UIImage imageNamed:@"Photo"]
-															 tag:kTabBarPhotoTag] autorelease]];
+		// Use SF Symbol for modern appearance
+		UIImage *photoImage = [UIImage systemImageNamed:@"photo"];
+		if (!photoImage) {
+			// Fallback to original image if SF Symbols not available
+			photoImage = [UIImage imageNamed:@"Photo"];
+		}
+		[self setTabBarItem:[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
+														   image:photoImage
+															 tag:kTabBarPhotoTag]];
 	}
 	return self;
 }
@@ -31,11 +38,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[photoLibraryButton release], photoLibraryButton = nil;
-	[photoDefaultButton release], photoDefaultButton = nil;
-	[selectImageView release], selectImageView = nil;
-	[board release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,20 +69,60 @@
 
 	if (photoLibraryButton == nil)
 	{
-		photoLibraryButton = [[UIBarButtonItem alloc]
-							 initWithTitle:NSLocalizedString(@"PhotoLibraryButton", @"")
-							 style:UIBarButtonItemStyleDone
-							 target:self
-							 action:@selector(photoLibraryButtonAction)];
+		// Create a custom photo library button with semi-opaque background
+		UIButton *customLibraryButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customLibraryButton addTarget:self action:@selector(photoLibraryButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customLibraryButton.frame = CGRectMake(0, 0, 110, 32);
+		
+		// Use modern UIButtonConfiguration with photo styling
+		UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
+		config.title = NSLocalizedString(@"PhotoLibraryButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+		config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+			NSMutableDictionary *attrs = [textAttributes mutableCopy];
+			attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+			return attrs;
+		};
+		
+		// Library button with same blue color as Start button
+		config.background.backgroundColor = [UIColor systemBlueColor];
+		config.background.cornerRadius = 10.0;
+		
+		customLibraryButton.configuration = config;
+		
+		photoLibraryButton = [[UIBarButtonItem alloc] initWithCustomView:customLibraryButton];
 	}
 	
 	if (photoDefaultButton == nil)
 	{
-		photoDefaultButton = [[UIBarButtonItem alloc]
-							  initWithTitle:NSLocalizedString(@"PhotoDefaultButton", @"")
-							  style:UIBarButtonItemStyleDone
-							  target:self
-							  action:@selector(photoDefaultButtonAction)];
+		// Create a custom default photo button with semi-opaque background
+		UIButton *customDefaultButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customDefaultButton addTarget:self action:@selector(photoDefaultButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customDefaultButton.frame = CGRectMake(0, 0, 110, 32);
+		
+		// Use modern UIButtonConfiguration with default photo styling
+		UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
+		config.title = NSLocalizedString(@"PhotoDefaultButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+		config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+			NSMutableDictionary *attrs = [textAttributes mutableCopy];
+			attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+			return attrs;
+		};
+		
+		// Default photo button with same blue color as Start button
+		config.background.backgroundColor = [UIColor systemBlueColor];
+		config.background.cornerRadius = 10.0;
+		
+		customDefaultButton.configuration = config;
+		
+		photoDefaultButton = [[UIBarButtonItem alloc] initWithCustomView:customDefaultButton];
 	}
 	
 	if (selectImageView == nil)
@@ -96,8 +138,8 @@
 - (void)photoDefaultButtonAction
 {
     PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithPhotoController:self];
-    [self presentViewController:pdc animated:YES completion:nil];
-    [pdc release];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pdc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)photoLibraryButtonAction
@@ -114,17 +156,15 @@
                                                               handler:^(UIAlertAction * action) {}];
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
-        [alert release];
 		return;
 	}
 	
 	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-	[[picker navigationBar] setBarStyle:UIBarStyleBlackOpaque];
+	[[picker navigationBar] setBarStyle:UIBarStyleBlack];
 	[picker setAllowsEditing:NO];
 	[picker setDelegate:self];
 	[picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     [self presentViewController:picker animated:YES completion:nil];
-	[picker release];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -156,7 +196,7 @@
 	[board setPhoto:photo type:type];
 	
 	[selectImageView removeFromSuperview];
-	[self setSelectImageView:[[[UIImageView alloc] initWithImage:[board photo]] autorelease]];
+	[self setSelectImageView:[[UIImageView alloc] initWithImage:[board photo]]];
 	[[self view] addSubview:selectImageView];
 }
 

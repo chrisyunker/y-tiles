@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 3/1/09.
-//  Copyright 2009 chrisyunker.com. All rights reserved.
+//  Copyright 2025 chrisyunker.com. All rights reserved.
 //
 
 #import "Util.h"
@@ -89,7 +89,6 @@
 	UIImageView *pausedView = [[UIImageView alloc] initWithFrame:frame];
 	[pausedView setImage:pausedImage];
 	[pausedView setUserInteractionEnabled:NO];
-	[pausedView autorelease];
 	return pausedView;
 }
 

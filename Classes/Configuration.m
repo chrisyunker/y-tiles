@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 2/16/09.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import "Configuration.h"
@@ -22,7 +22,7 @@
 {
 	if (self = [super init])
 	{
-		board = [aBoard retain];
+		board = aBoard;
 	}
 	return self;
 }
@@ -30,8 +30,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[board release];
-	[super dealloc];
 }
 
 - (void)load

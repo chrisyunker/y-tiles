@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 12/15/08.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -26,7 +26,7 @@
 	GameState gameState;
 	Configuration *config;
 	NSMutableArray *tiles;
-	Tile ***grid;
+	Tile * __strong **grid;
 	UIImage *photo;
 	Coord empty;
 	NSLock *tileLock;
@@ -39,11 +39,11 @@
     AVAudioPlayer *player;
 }
 
-@property (nonatomic, retain) UIImage *photo;
+@property (nonatomic, strong) UIImage *photo;
 @property (nonatomic, readonly) Configuration *config;
 @property (readonly) NSLock *tileLock;
 @property (nonatomic, assign) GameState gameState;
-@property (nonatomic, retain) BoardController *boardController;
+@property (nonatomic, strong) BoardController *boardController;
 @property (nonatomic, readonly) CGSize size;
 
 - (id)initWithSize:(CGSize)aSize;

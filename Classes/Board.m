@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 12/15/08.
-//  Copyright 2009 Chris Yunker. All rights reserved.
+//  Copyright 2025 Chris Yunker. All rights reserved.
 //
 
 #import "Board.h"
@@ -30,7 +30,7 @@
 		tileLock = [[NSLock alloc] init];
 		
 		// Create grid to handle largest possible configuration
-		grid = malloc(kColumnsMax * sizeof(Tile **));
+		grid = (__strong Tile ***)malloc(kColumnsMax * sizeof(Tile **));
 		if (grid == NULL)
 		{
 			ALog("Board:init Memory allocation error");
@@ -38,7 +38,7 @@
 		}
 		for (int x = 0; x < kColumnsMax; x++)
 		{
-			grid[x] = malloc(kRowsMax * sizeof(Tile *));
+			grid[x] = (__strong Tile **)malloc(kRowsMax * sizeof(Tile *));
 			if (grid[x] == NULL)
 			{
 				ALog("Board:init Memory allocation error");
@@ -49,24 +49,24 @@
         switch ([config photoType])
         {
             case kDefaultPhoto1Type:
-                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                            pathForResource:kDefaultPhoto1
-                                                                           ofType:kPhotoType]] autorelease]];
+                                                                           ofType:kPhotoType]]];
                 break;
             case kDefaultPhoto2Type:
-                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                            pathForResource:kDefaultPhoto2
-                                                                           ofType:kPhotoType]] autorelease]];
+                                                                           ofType:kPhotoType]]];
                 break;
             case kDefaultPhoto3Type:
-                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                            pathForResource:kDefaultPhoto3
-                                                                           ofType:kPhotoType]] autorelease]];
+                                                                           ofType:kPhotoType]]];
                 break;
             case kDefaultPhoto4Type:
-                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                            pathForResource:kDefaultPhoto4
-                                                                           ofType:kPhotoType]] autorelease]];
+                                                                           ofType:kPhotoType]]];
                 break;
             case kBoardPhotoType:
                 [self cropPhoto:[UIImage imageWithContentsOfFile:[kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]]];
@@ -75,15 +75,15 @@
                     ALog("Board:init Failed to load last board image [%@]",
                          [kDocumentsDir stringByAppendingPathComponent:kBoardPhoto]);
                     
-                    [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                    [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                                pathForResource:kDefaultPhoto1
-                                                                               ofType:kPhotoType]] autorelease]];
+                                                                               ofType:kPhotoType]]];
                 }
                 break;
             default:
-                [self cropPhoto:[[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
+                [self cropPhoto:[[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
                                                                            pathForResource:kDefaultPhoto1
-                                                                           ofType:kPhotoType]] autorelease]];
+                                                                           ofType:kPhotoType]]];
         }
 		
 		[self restoreBoard];
@@ -115,17 +115,6 @@
 		if (grid[i]) free(grid[i]);
 	}
 	if (grid) free(grid);
-		
-	[config release];
-	[pausedView release];
-	[waitImageView release];
-	[photo release];
-	[tiles release];
-	[tileLock release];
-	[boardController release];
-	[boardState release];
-    [player release];
-	[super dealloc];
 }
 
 - (void)createNewBoard
@@ -305,7 +294,6 @@
 		[tile removeFromSuperview];
 	}
 	[tiles removeAllObjects];
-	[tiles release];
 
     CGImageRef imageRef = CGImageCreateWithImageInRect([photo CGImage], CGRectMake(0, 0, self.frame.size.width, self.frame.size.height));
 	    
@@ -313,7 +301,7 @@
     CGSize tileSize = CGSizeMake(trunc(self.frame.size.width / config.columns),
                                  trunc(self.frame.size.height / config.rows));
     
-	tiles = [[NSMutableArray arrayWithCapacity:(config.columns * config.rows)] retain];
+	tiles = [NSMutableArray arrayWithCapacity:(config.columns * config.rows)];
 	
 	Coord coord = { 0, 0 };
 	int tileId = 1;
@@ -324,13 +312,12 @@
 		UIImage *tilePhoto = [UIImage imageWithCGImage:tileRef];
 		CGImageRelease(tileRef);
                 
-		Tile *tile = [[Tile tileWithId:tileId
+		Tile *tile = [Tile tileWithId:tileId
 								 board:self
 								 coord:coord
-								 photo:tilePhoto] retain];
+								 photo:tilePhoto];
         
 		[tiles addObject:tile];
-		[tile release];
 		
 		if (++coord.x >= config.columns)
 		{
@@ -403,18 +390,18 @@
 	}
 	
 	// Scramble Animation
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:kTileScrambleTime];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut]; 
-	
-	for (int y = 0; y < config.rows; y++)
-	{
-		for (int x = 0; x < config.columns; x++)
+	[UIView animateWithDuration:kTileScrambleTime
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+        for (int y = 0; y < self->config.rows; y++)
 		{
-			if (numberArray.count > 0)
+            for (int x = 0; x < self->config.columns; x++)
 			{
-				int randomNum = arc4random() % numberArray.count;
-				
+				if (numberArray.count > 0)
+				{
+					int randomNum = arc4random() % numberArray.count;
+					
 #ifdef DEBUG
 //								if (numberArray.count > 2)
 //									randomNum = 0;
@@ -423,34 +410,33 @@
 //								else
 //									randomNum = 0;
 #endif
-				
-				int index = [[numberArray objectAtIndex:randomNum] intValue];
-				[numberArray removeObjectAtIndex:randomNum];
-				if (index < tiles.count)
-				{
-					Tile *tile = [tiles objectAtIndex:index];
-					grid[x][y] = tile;
-										
-					[tile moveToCoordX:x coordY:y];
-				}
-				else
-				{
-					// Empty slot
-					empty.x = x;
-					empty.y = y;
 					
-					DLog("Empty slot [%d][%d]", empty.x, empty.y);
+					int index = [[numberArray objectAtIndex:randomNum] intValue];
+					[numberArray removeObjectAtIndex:randomNum];
+                    if (index < self->tiles.count)
+					{
+                        Tile *tile = [self->tiles objectAtIndex:index];
+                        self->grid[x][y] = tile;
+											
+						[tile moveToCoordX:x coordY:y];
+					}
+					else
+					{
+						// Empty slot
+                        self->empty.x = x;
+                        self->empty.y = y;
+						
+                        DLog("Empty slot [%d][%d]", self->empty.x, self->empty.y);
+					}
 				}
 			}
 		}
-	}
-	
-	[UIView commitAnimations];	
+	} completion:nil];	
 }
 
 - (void)showWaitView
 {
-	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+	[self setUserInteractionEnabled:NO];
 	
 	[boardController removeMenu];
 	[waitImageView startAnimating];
@@ -475,7 +461,7 @@
 		[boardController displayStartMenu];
 	}
 	
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
+	[self setUserInteractionEnabled:YES];
 }
 
 - (void)showPausedView:(BOOL)enabled
@@ -496,13 +482,11 @@
 
 - (void)createTilesInThread
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	[self createTiles];
-    
-	[self performSelectorOnMainThread:@selector(removeWaitView) withObject:self waitUntilDone:NO];
-	
-	[pool release];
+	@autoreleasepool {
+		[self createTiles];
+		
+		[self performSelectorOnMainThread:@selector(removeWaitView) withObject:self waitUntilDone:NO];
+	}
 }
 
 - (void)drawBoard
@@ -543,8 +527,6 @@
 		[defaults setObject:stateArray forKey:kKeyBoardState];
 		[defaults setBool:YES forKey:kKeyBoardSaved];
 		[defaults synchronize];
-	
-		[stateArray release];
 	}
 }
 
@@ -584,10 +566,9 @@
 			int x = i % config.columns;
 			
 			NSNumber *tileId = (NSNumber *) [stateArray objectAtIndex:i];
-			NSArray *coord = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil];
+			NSArray *coord = @[[NSNumber numberWithInt:x], [NSNumber numberWithInt:y]];
 
 			[boardState setObject:coord forKey:tileId];
-			[coord release];
 		}
 	}
 }

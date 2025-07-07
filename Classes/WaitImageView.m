@@ -3,7 +3,7 @@
 //  Y-Tiles
 //
 //  Created by Chris Yunker on 3/1/09.
-//  Copyright 2009 chrisyunker.com. All rights reserved.
+//  Copyright 2025 chrisyunker.com. All rights reserved.
 //
 
 #import "WaitImageView.h"
@@ -30,11 +30,10 @@
 													  kWaitIndicatorY,
 													  kWaitIndicatorWidth,
 													  kWaitIndicatorHeight)];
-		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		[activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleLarge];
 		[dialog addSubview:activityIndicator];
 		
 		[self addSubview:dialog];
-		[dialog release];
 	}
 	return self;
 }
@@ -42,8 +41,6 @@
 - (void)dealloc
 {
 	DLog("dealloc");
-	[activityIndicator release];
-    [super dealloc];
 }
 
 - (void)startAnimating
