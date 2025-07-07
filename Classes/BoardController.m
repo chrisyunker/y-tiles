@@ -7,6 +7,7 @@
 //
 
 #import "BoardController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation BoardController
 
@@ -64,29 +65,74 @@
 	{
 		DLog("Create start button");
 
-		startButton = [[UIBarButtonItem alloc]
-					   initWithTitle:NSLocalizedString(@"StartButton", @"")
-					   style:UIBarButtonItemStyleDone
-					   target:self
-					   action:@selector(startButtonAction)];
+		// Create a custom button with semi-opaque background
+		UIButton *customStartButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customStartButton addTarget:self action:@selector(startButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customStartButton.frame = CGRectMake(0, 0, 80, 32);
+		
+		// Use modern UIButtonConfiguration for iOS 15+
+		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		config.title = NSLocalizedString(@"StartButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		
+		// Add semi-opaque background
+		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+		config.background.cornerRadius = 8.0;
+		
+		customStartButton.configuration = config;
+		
+		startButton = [[UIBarButtonItem alloc] initWithCustomView:customStartButton];
 	}
 	
 	if (restartButton == nil)
 	{
-		restartButton = [[UIBarButtonItem alloc]
-						 initWithTitle:NSLocalizedString(@"RestartButton", @"")
-						 style:UIBarButtonItemStyleDone
-						 target:self
-						 action:@selector(restartButtonAction)];
+		// Create a custom restart button with semi-opaque background
+		UIButton *customRestartButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customRestartButton addTarget:self action:@selector(restartButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customRestartButton.frame = CGRectMake(0, 0, 80, 32);
+		
+		// Use modern UIButtonConfiguration
+		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		config.title = NSLocalizedString(@"RestartButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		
+		// Add semi-opaque background
+		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+		config.background.cornerRadius = 8.0;
+		
+		customRestartButton.configuration = config;
+		
+		restartButton = [[UIBarButtonItem alloc] initWithCustomView:customRestartButton];
 	}
 	
 	if (resumeButton == nil)
 	{
-		resumeButton = [[UIBarButtonItem alloc]
-						initWithTitle:NSLocalizedString(@"ResumeButton", @"")
-						style:UIBarButtonItemStyleDone
-						target:self
-						action:@selector(resumeButtonAction)];
+		// Create a custom resume button with semi-opaque background
+		UIButton *customResumeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customResumeButton addTarget:self action:@selector(resumeButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customResumeButton.frame = CGRectMake(0, 0, 80, 32);
+		
+		// Use modern UIButtonConfiguration
+		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		config.title = NSLocalizedString(@"ResumeButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		
+		// Add semi-opaque background
+		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+		config.background.cornerRadius = 8.0;
+		
+		customResumeButton.configuration = config;
+		
+		resumeButton = [[UIBarButtonItem alloc] initWithCustomView:customResumeButton];
 	}
     
     [board createNewBoard];

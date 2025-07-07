@@ -8,6 +8,7 @@
 
 #import "PhotoController.h"
 #import "Util.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation PhotoController
 
@@ -62,20 +63,50 @@
 
 	if (photoLibraryButton == nil)
 	{
-		photoLibraryButton = [[UIBarButtonItem alloc]
-							 initWithTitle:NSLocalizedString(@"PhotoLibraryButton", @"")
-							 style:UIBarButtonItemStyleDone
-							 target:self
-							 action:@selector(photoLibraryButtonAction)];
+		// Create a custom photo library button with semi-opaque background
+		UIButton *customLibraryButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customLibraryButton addTarget:self action:@selector(photoLibraryButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customLibraryButton.frame = CGRectMake(0, 0, 110, 32);
+		
+		// Use modern UIButtonConfiguration
+		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		config.title = NSLocalizedString(@"PhotoLibraryButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		
+		// Add semi-opaque background
+		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+		config.background.cornerRadius = 8.0;
+		
+		customLibraryButton.configuration = config;
+		
+		photoLibraryButton = [[UIBarButtonItem alloc] initWithCustomView:customLibraryButton];
 	}
 	
 	if (photoDefaultButton == nil)
 	{
-		photoDefaultButton = [[UIBarButtonItem alloc]
-							  initWithTitle:NSLocalizedString(@"PhotoDefaultButton", @"")
-							  style:UIBarButtonItemStyleDone
-							  target:self
-							  action:@selector(photoDefaultButtonAction)];
+		// Create a custom default photo button with semi-opaque background
+		UIButton *customDefaultButton = [UIButton buttonWithType:UIButtonTypeSystem];
+		[customDefaultButton addTarget:self action:@selector(photoDefaultButtonAction) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Set button size
+		customDefaultButton.frame = CGRectMake(0, 0, 110, 32);
+		
+		// Use modern UIButtonConfiguration
+		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		config.title = NSLocalizedString(@"PhotoDefaultButton", @"");
+		config.baseForegroundColor = [UIColor whiteColor];
+		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		
+		// Add semi-opaque background
+		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+		config.background.cornerRadius = 8.0;
+		
+		customDefaultButton.configuration = config;
+		
+		photoDefaultButton = [[UIBarButtonItem alloc] initWithCustomView:customDefaultButton];
 	}
 	
 	if (selectImageView == nil)
