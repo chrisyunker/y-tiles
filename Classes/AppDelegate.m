@@ -15,6 +15,7 @@
 
 @implementation AppDelegate
 
+@synthesize window;
 @synthesize controllers;
 @synthesize board;
 
@@ -26,7 +27,7 @@
     CGSize boardSize = CGSizeMake(screenRect.size.width,
                                   screenRect.size.height - tabBarController.tabBar.bounds.size.height);
 
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     controllers = [[NSMutableArray alloc] init];
     
     board = [[Board alloc] initWithSize:boardSize];
@@ -54,8 +55,8 @@
     
     [tabBarController setViewControllers:controllers];
     
-    [window setRootViewController:tabBarController];
-    [window makeKeyAndVisible];
+    [self.window setRootViewController:tabBarController];
+    [self.window makeKeyAndVisible];
         
     return YES;
 }

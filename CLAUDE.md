@@ -77,3 +77,5 @@ The project has been fully upgraded for iOS 18 compatibility:
 - Updated property declarations from `retain` to `strong`
 - Fixed ARC ownership issues with triple pointers (`Tile * __strong **grid`)
 - Removed deprecated UIAccelerometerDelegate references
+- Fixed window management in AppDelegate for proper iOS 18 compatibility
+- Added scene delegate configuration to prevent snapshot errors
