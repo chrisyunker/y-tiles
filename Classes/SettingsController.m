@@ -111,6 +111,11 @@
 	[super viewWillAppear:animated];
 	[self updateControlsWithAnimation:NO];
 	[self enableButtons:NO];
+	
+	// Ensure tab bar is properly configured and visible
+	[[[self tabBarController] tabBar] setHidden:NO];
+	[[[self tabBarController] tabBar] setUserInteractionEnabled:YES];
+	[[[self tabBarController] tabBar] setAlpha:1.0];
 }
 
 - (void)viewDidLoad 

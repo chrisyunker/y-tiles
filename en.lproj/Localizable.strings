@@ -9,6 +9,7 @@
 // Navigation Titles
 "BoardTitle"         = "Board";
 "PhotoTitle"         = "Photo";
+"SettingsTitle"      = "Settings";
 
 // BoardController
 "StartButton"        = "Start";

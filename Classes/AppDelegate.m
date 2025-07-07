@@ -51,9 +51,43 @@
     
     navController = [[UINavigationController alloc] initWithRootViewController:settingsController];
     [navController setNavigationBarHidden:YES];
+    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
     [controllers addObject:navController];
     
     [tabBarController setViewControllers:controllers];
+    
+    // Configure tab bar appearance
+    [[tabBarController tabBar] setBarStyle:UIBarStyleBlack];
+    [[tabBarController tabBar] setTranslucent:NO];
+    
+    // Make unselected tab bar items more legible
+    if (@available(iOS 13.0, *)) {
+        UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
+        [appearance configureWithOpaqueBackground];
+        appearance.backgroundColor = [UIColor blackColor];
+        
+        // Configure normal (unselected) state - darker text for better readability
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor colorWithWhite:0.7 alpha:1.0]
+        };
+        appearance.stackedLayoutAppearance.normal.iconColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+        
+        // Configure selected state - white for contrast
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor]
+        };
+        appearance.stackedLayoutAppearance.selected.iconColor = [UIColor whiteColor];
+        
+        [[tabBarController tabBar] setStandardAppearance:appearance];
+        if (@available(iOS 15.0, *)) {
+            [[tabBarController tabBar] setScrollEdgeAppearance:appearance];
+        }
+    } else {
+        // Fallback for iOS 12 and earlier
+        [[UITabBar appearance] setUnselectedItemTintColor:[UIColor colorWithWhite:0.7 alpha:1.0]];
+        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    }
     
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];
