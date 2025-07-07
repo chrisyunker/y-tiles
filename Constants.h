@@ -7,7 +7,7 @@
 //
 
 
-#define kVersionMajor            2
+#define kVersionMajor            3
 #define kVersionMinor            0
 #define kCopyrightYear           2025
 #define kIconPhoto               @"IconPhoto"
