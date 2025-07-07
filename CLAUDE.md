@@ -35,10 +35,10 @@ Y-Tiles is an iOS sliding puzzle game written in Objective-C. The app allows use
 This is an Xcode project that should be built using:
 
 ```bash
-# Build for simulator
-xcodebuild -project Y-Tiles.xcodeproj -scheme Y-Tiles -destination 'platform=iOS Simulator,name=iPhone 14' build
+# Build for simulator (iOS 18)
+xcodebuild -project Y-Tiles.xcodeproj -scheme Y-Tiles -destination 'platform=iOS Simulator,name=iPhone 16' build
 
-# Build for device
+# Build for device (iOS 18)
 xcodebuild -project Y-Tiles.xcodeproj -scheme Y-Tiles -destination 'generic/platform=iOS' build
 ```
 
@@ -60,9 +60,20 @@ All game constants are defined in `Constants.h`:
 
 ## Development Notes
 
-- Uses legacy iOS frameworks (pre-iOS 9.2 deployment target)
-- Manual memory management with retain/release patterns
+- **iOS 18 Compatible**: Updated deployment target to iOS 18.0
+- **ARC Enabled**: Converted from manual memory management to Automatic Reference Counting
+- **Modern APIs**: Updated deprecated UIAlertView to UIAlertController
 - XIB files for Settings and About views
 - Localization support via `Localizable.strings`
 - Asset catalog for app icons and launch images
 - Sound effects using AudioToolbox framework
+
+## iOS 18 Upgrade Notes
+
+The project has been fully upgraded for iOS 18 compatibility:
+- Deployment target updated from iOS 9.2 to iOS 18.0
+- Enabled ARC (Automatic Reference Counting)
+- Removed all manual retain/release calls
+- Updated property declarations from `retain` to `strong`
+- Fixed ARC ownership issues with triple pointers (`Tile * __strong **grid`)
+- Removed deprecated UIAccelerometerDelegate references

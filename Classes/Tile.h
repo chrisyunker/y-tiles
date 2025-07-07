@@ -26,7 +26,7 @@
 	UIImage *numberedPhotoImage;
 	UIImage *numberImage;
 	Direction moveType;
-	Tile *pushTile;
+	__weak Tile *pushTile;
 	BOOL solved;
 	BOOL haveLock;
 	Board *board;
@@ -35,7 +35,7 @@
 @property (nonatomic, readonly) int tileId;
 @property (nonatomic, readonly) BOOL solved;
 @property (nonatomic, readwrite) Direction moveType;
-@property (nonatomic, assign) Tile *pushTile;
+@property (nonatomic, weak) Tile *pushTile;
 //@property (readwrite) BOOL haveLock;
 
 + (Tile *)tileWithId:(int)aId board:(Board *)aBoard coord:(Coord)aCoord photo:(UIImage *)aPhoto;

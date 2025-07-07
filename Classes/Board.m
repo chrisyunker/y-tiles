@@ -30,7 +30,7 @@
 		tileLock = [[NSLock alloc] init];
 		
 		// Create grid to handle largest possible configuration
-		grid = malloc(kColumnsMax * sizeof(Tile **));
+		grid = (__strong Tile ***)malloc(kColumnsMax * sizeof(Tile **));
 		if (grid == NULL)
 		{
 			ALog("Board:init Memory allocation error");
@@ -38,7 +38,7 @@
 		}
 		for (int x = 0; x < kColumnsMax; x++)
 		{
-			grid[x] = malloc(kRowsMax * sizeof(Tile *));
+			grid[x] = (__strong Tile **)malloc(kRowsMax * sizeof(Tile *));
 			if (grid[x] == NULL)
 			{
 				ALog("Board:init Memory allocation error");

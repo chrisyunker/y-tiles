@@ -26,7 +26,7 @@
 	GameState gameState;
 	Configuration *config;
 	NSMutableArray *tiles;
-	Tile ***grid;
+	Tile * __strong **grid;
 	UIImage *photo;
 	Coord empty;
 	NSLock *tileLock;
