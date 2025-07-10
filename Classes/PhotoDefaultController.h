@@ -12,7 +12,7 @@
 
 @class PhotoController;
 
-@interface PhotoDefaultController : UIViewController
+@interface PhotoDefaultController : UIViewController <UINavigationControllerDelegate>
 {
     PhotoController *photoController;
     UIButton *defaultPhoto1;
@@ -20,7 +20,6 @@
     UIButton *defaultPhoto3;
     UIButton *defaultPhoto4;
     UIBarButtonItem *cancelButton;
-    UINavigationBar *navBar;
 }
 
 @property (nonatomic, strong)  UIButton *defaultPhoto1;
@@ -28,7 +27,6 @@
 @property (nonatomic, strong)  UIButton *defaultPhoto3;
 @property (nonatomic, strong)  UIButton *defaultPhoto4;
 @property (nonatomic, strong)  UIBarButtonItem *cancelButton;
-@property (nonatomic, strong)  UINavigationBar *navBar;
 
 - (id)initWithPhotoController:(PhotoController *)aPhotoController;
 - (void)selectPhoto1Action;

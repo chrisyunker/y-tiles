@@ -42,41 +42,41 @@
     
     navController = [[UINavigationController alloc] initWithRootViewController:boardController];
     [navController setNavigationBarHidden:YES];
-    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
+    [self configureNavigationBar:navController];
     [controllers addObject:navController];
     
     navController = [[UINavigationController alloc] initWithRootViewController:photoController];
-    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
+    [self configureNavigationBar:navController];
     [controllers addObject:navController];
     
     navController = [[UINavigationController alloc] initWithRootViewController:settingsController];
     [navController setNavigationBarHidden:YES];
-    [[navController navigationBar] setBarStyle:UIBarStyleBlack];
+    [self configureNavigationBar:navController];
     [controllers addObject:navController];
     
     [tabBarController setViewControllers:controllers];
     
-    // Configure tab bar appearance
-    [[tabBarController tabBar] setBarStyle:UIBarStyleBlack];
+    // Configure modern tab bar appearance
     [[tabBarController tabBar] setTranslucent:NO];
     
-    // Make unselected tab bar items more legible
     if (@available(iOS 13.0, *)) {
         UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
         [appearance configureWithOpaqueBackground];
-        appearance.backgroundColor = [UIColor blackColor];
+        appearance.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]; // Consistent with nav bar
         
-        // Configure normal (unselected) state - darker text for better readability
+        // Configure normal (unselected) state with improved legibility
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = @{
-            NSForegroundColorAttributeName: [UIColor colorWithWhite:0.7 alpha:1.0]
+            NSForegroundColorAttributeName: [UIColor colorWithWhite:0.75 alpha:1.0],
+            NSFontAttributeName: [UIFont systemFontOfSize:10 weight:UIFontWeightMedium]
         };
-        appearance.stackedLayoutAppearance.normal.iconColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+        appearance.stackedLayoutAppearance.normal.iconColor = [UIColor colorWithWhite:0.75 alpha:1.0];
         
-        // Configure selected state - white for contrast
+        // Configure selected state with modern accent color
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = @{
-            NSForegroundColorAttributeName: [UIColor whiteColor]
+            NSForegroundColorAttributeName: [UIColor systemBlueColor],
+            NSFontAttributeName: [UIFont systemFontOfSize:10 weight:UIFontWeightSemibold]
         };
-        appearance.stackedLayoutAppearance.selected.iconColor = [UIColor whiteColor];
+        appearance.stackedLayoutAppearance.selected.iconColor = [UIColor systemBlueColor];
         
         [[tabBarController tabBar] setStandardAppearance:appearance];
         if (@available(iOS 15.0, *)) {
@@ -84,15 +84,40 @@
         }
     } else {
         // Fallback for iOS 12 and earlier
-        [[UITabBar appearance] setUnselectedItemTintColor:[UIColor colorWithWhite:0.7 alpha:1.0]];
-        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-        [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+        [[tabBarController tabBar] setBarStyle:UIBarStyleBlack];
+        [[UITabBar appearance] setUnselectedItemTintColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+        [[UITabBar appearance] setTintColor:[UIColor systemBlueColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]];
     }
     
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];
         
     return YES;
+}
+
+- (void)configureNavigationBar:(UINavigationController *)navController
+{
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithOpaqueBackground];
+        appearance.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]; // Modern dark gray
+        appearance.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont systemFontOfSize:18 weight:UIFontWeightMedium]
+        };
+        
+        navController.navigationBar.standardAppearance = appearance;
+        navController.navigationBar.scrollEdgeAppearance = appearance;
+        navController.navigationBar.compactAppearance = appearance;
+    } else {
+        // Fallback for earlier iOS versions
+        [[navController navigationBar] setBarStyle:UIBarStyleBlack];
+        [[navController navigationBar] setBarTintColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]];
+        [[navController navigationBar] setTitleTextAttributes:@{
+            NSForegroundColorAttributeName: [UIColor whiteColor]
+        }];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

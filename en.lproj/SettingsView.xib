@@ -7,11 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsController">
             <connections>
-                <outlet property="cancelButton" destination="PGG-ZG-dIg" id="JAn-FA-Vdt"/>
                 <outlet property="numberSwitch" destination="vvg-CR-dH0" id="KxM-XD-8bO"/>
                 <outlet property="photoSwitch" destination="fRe-QS-VgU" id="X5m-zq-QyM"/>
                 <outlet property="pickerView" destination="w9c-5k-D4X" id="lCr-bp-RdJ"/>
-                <outlet property="saveButton" destination="eXE-Ev-035" id="a9K-dc-XQu"/>
+                <outlet property="restartButton" destination="11e-H2-AC5" id="RestartButtonRef"/>
+                <outlet property="settingsNavigationBar" destination="lAW-Ih-5LQ" id="Nav-Bar-Ref"/>
                 <outlet property="soundSwitch" destination="sn9-kY-bXV" id="gfc-4Q-xke"/>
                 <outlet property="view" destination="kGV-rT-B9S" id="5oD-MS-utH"/>
             </connections>
@@ -25,17 +25,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                     <color key="barTintColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                     <items>
-                        <navigationItem title="Settings" id="fNJ-DZ-dne">
-                            <barButtonItem key="leftBarButtonItem" title="Cancel" id="PGG-ZG-dIg">
-                                <connections>
-                                    <action selector="cancelButtonAction" destination="-1" id="WTu-xY-dSd"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem key="rightBarButtonItem" title="Save" id="eXE-Ev-035">
-                                <connections>
-                                    <action selector="saveButtonAction" destination="-1" id="Aya-Tw-mZm"/>
-                                </connections>
-                            </barButtonItem>
+                        <navigationItem id="fNJ-DZ-dne">
                         </navigationItem>
                     </items>
                 </navigationBar>

@@ -22,8 +22,14 @@
 	{
 		board = aBoard;
 		
+		// Use SF Symbol for modern appearance
+		UIImage *photoImage = [UIImage systemImageNamed:@"photo"];
+		if (!photoImage) {
+			// Fallback to original image if SF Symbols not available
+			photoImage = [UIImage imageNamed:@"Photo"];
+		}
 		[self setTabBarItem:[[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"PhotoTitle", @"")
-														   image:[UIImage imageNamed:@"Photo"]
+														   image:photoImage
 															 tag:kTabBarPhotoTag]];
 	}
 	return self;
@@ -70,15 +76,20 @@
 		// Set button size
 		customLibraryButton.frame = CGRectMake(0, 0, 110, 32);
 		
-		// Use modern UIButtonConfiguration
-		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		// Use modern UIButtonConfiguration with photo styling
+		UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
 		config.title = NSLocalizedString(@"PhotoLibraryButton", @"");
 		config.baseForegroundColor = [UIColor whiteColor];
-		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+		config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+			NSMutableDictionary *attrs = [textAttributes mutableCopy];
+			attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+			return attrs;
+		};
 		
-		// Add semi-opaque background
-		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
-		config.background.cornerRadius = 8.0;
+		// Library button with same blue color as Start button
+		config.background.backgroundColor = [UIColor systemBlueColor];
+		config.background.cornerRadius = 10.0;
 		
 		customLibraryButton.configuration = config;
 		
@@ -94,15 +105,20 @@
 		// Set button size
 		customDefaultButton.frame = CGRectMake(0, 0, 110, 32);
 		
-		// Use modern UIButtonConfiguration
-		UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
+		// Use modern UIButtonConfiguration with default photo styling
+		UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
 		config.title = NSLocalizedString(@"PhotoDefaultButton", @"");
 		config.baseForegroundColor = [UIColor whiteColor];
-		config.contentInsets = NSDirectionalEdgeInsetsMake(6, 12, 6, 12);
+		config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+		config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+			NSMutableDictionary *attrs = [textAttributes mutableCopy];
+			attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+			return attrs;
+		};
 		
-		// Add semi-opaque background
-		config.background.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
-		config.background.cornerRadius = 8.0;
+		// Default photo button with same blue color as Start button
+		config.background.backgroundColor = [UIColor systemBlueColor];
+		config.background.cornerRadius = 10.0;
 		
 		customDefaultButton.configuration = config;
 		
@@ -122,7 +138,8 @@
 - (void)photoDefaultButtonAction
 {
     PhotoDefaultController *pdc = [[PhotoDefaultController alloc] initWithPhotoController:self];
-    [self presentViewController:pdc animated:YES completion:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pdc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)photoLibraryButtonAction

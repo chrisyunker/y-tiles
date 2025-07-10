@@ -8,8 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutController">
             <connections>
+                <outlet property="aboutNavigationBar" destination="MFm-i2-v1A" id="AboutNavBarRef"/>
                 <outlet property="copyrightLabel" destination="onA-lb-SXK" id="wpa-KR-3IY"/>
-                <outlet property="doneButton" destination="6zl-8u-Pf5" id="88c-VG-lVN"/>
                 <outlet property="icon" destination="deo-wI-1Da" id="uhx-4d-eJS"/>
                 <outlet property="versionLabel" destination="BWx-mY-8oy" id="EBg-mu-Hwe"/>
                 <outlet property="view" destination="9mB-W0-n2N" id="7pG-2P-9Fc"/>
@@ -25,11 +25,6 @@
                     <color key="barTintColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <items>
                         <navigationItem title="Y-Tiles" id="igi-Bg-3j9">
-                            <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="6zl-8u-Pf5">
-                                <connections>
-                                    <action selector="doneButtonAction" destination="-1" id="kwV-Cv-lDN"/>
-                                </connections>
-                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>

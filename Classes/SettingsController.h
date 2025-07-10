@@ -25,6 +25,9 @@
     IBOutlet UIButton *restartButton;
 	IBOutlet UIBarButtonItem *saveButton;
 	IBOutlet UIBarButtonItem *cancelButton;
+	IBOutlet UINavigationBar *settingsNavigationBar;
+	UIButton *customSaveButton;
+	UIButton *customCancelButton;
 	Board *board;
 }
 
@@ -36,6 +39,9 @@
 @property (nonatomic, strong) IBOutlet UIButton *restartButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *saveButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *cancelButton;
+@property (nonatomic, strong) IBOutlet UINavigationBar *settingsNavigationBar;
+@property (nonatomic, strong) UIButton *customSaveButton;
+@property (nonatomic, strong) UIButton *customCancelButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil board:(Board *)aBoard;
 - (IBAction)saveButtonAction;

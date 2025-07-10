@@ -15,7 +15,6 @@
 @synthesize defaultPhoto3;
 @synthesize defaultPhoto4;
 @synthesize cancelButton;
-@synthesize navBar;
 
 - (id)initWithPhotoController:(PhotoController *)aPhotoController
 {
@@ -52,9 +51,8 @@
 		[self setDefaultPhoto3:nil];
 		[self setDefaultPhoto4:nil];
 		[self setCancelButton:nil];
-        [self setNavBar:nil];
+        //[self setNavBar:nil];
 	}
-    
     [super setView:aView];
 }
 
@@ -79,24 +77,34 @@
     
     if (cancelButton == nil)
     {
-        cancelButton = [[UIBarButtonItem alloc]
-                        initWithTitle:NSLocalizedString(@"DefaultCancelButton", @"")
-                        style:UIBarButtonItemStyleDone
-                        target:self
-                        action:@selector(cancelButtonAction)];
-    }
-    if (navBar == nil)
-    {
-        navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kNavBarHeight)];
-        navBar.translucent = NO;
-        navBar.barTintColor = [UIColor colorWithRed:0.196f green:0.196f blue:0.196f alpha:1];
+        DLog("Create cancel button");
         
-        UINavigationItem *navItem = [[UINavigationItem alloc] init];
-        navItem.rightBarButtonItem = cancelButton;
-        navBar.items = @[ navItem ];
+        UIButton *customCancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [customCancelButton addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
         
-        [self.view addSubview:navBar];
+        // Set button size
+        customCancelButton.frame = CGRectMake(0, 0, 80, 32);
+        
+        UIButtonConfiguration *config = [UIButtonConfiguration filledButtonConfiguration];
+        config.title = NSLocalizedString(@"DefaultCancelButton", @"");
+        config.baseForegroundColor = [UIColor whiteColor];
+        config.contentInsets = NSDirectionalEdgeInsetsMake(8, 16, 8, 16);
+        config.titleTextAttributesTransformer = ^NSDictionary<NSAttributedStringKey,id> * _Nonnull(NSDictionary<NSAttributedStringKey,id> * _Nonnull textAttributes) {
+            NSMutableDictionary *attrs = [textAttributes mutableCopy];
+            attrs[NSFontAttributeName] = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+            return attrs;
+        };
+        
+        // Use the same blue color as the Start button
+        config.background.backgroundColor = [UIColor systemBlueColor];
+        config.background.cornerRadius = 10.0;
+        
+        customCancelButton.configuration = config;
+        
+        cancelButton = [[UIBarButtonItem alloc] initWithCustomView:customCancelButton];
+        [[self navigationItem] setLeftBarButtonItem:cancelButton];
     }
+    
     if (defaultPhoto1 == nil)
     {
         UIImage *photo1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle]
