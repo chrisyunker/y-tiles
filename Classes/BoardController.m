@@ -119,7 +119,7 @@
 		};
 		
 		// Secondary button styling with orange accent
-		config.background.backgroundColor = [UIColor systemOrangeColor];
+		config.background.backgroundColor = [UIColor systemBlueColor];
 		config.background.cornerRadius = 10.0;
 		
 		customRestartButton.configuration = config;
@@ -148,7 +148,7 @@
 		};
 		
 		// Accent button styling with green color for resume action
-		config.background.backgroundColor = [UIColor systemGreenColor];
+		config.background.backgroundColor = [UIColor systemBlueColor];
 		config.background.cornerRadius = 10.0;
 		
 		customResumeButton.configuration = config;
@@ -179,11 +179,9 @@
 }
 
 - (void)displayRestartMenu
-{
-	//DLog("displayRestartMenu");
-	
-	[[self navigationItem] setLeftBarButtonItem:restartButton];
-	[[self navigationItem] setRightBarButtonItem:resumeButton];
+{	
+    [[self navigationItem] setLeftBarButtonItem:resumeButton];
+	[[self navigationItem] setRightBarButtonItem:restartButton];
 	
 	// Add smooth animation with spring effect
 	[UIView animateWithDuration:0.4

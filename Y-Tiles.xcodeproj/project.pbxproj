@@ -54,6 +54,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Y_Tiles_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Y_Tiles_Prefix.pch; sourceTree = "<group>"; };
 		3B03F18911E543B2000D4F03 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		3B12D9832E205EA8006A1A2F /* Y-Tiles.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Y-Tiles.entitlements"; path = "Y-Tiles/Y-Tiles.entitlements"; sourceTree = "<group>"; };
 		3B2EE8551C5556AB0081A25E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3B3C45F81C35D28D006EC76C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		3B3C45F91C35D2F7006EC76C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -130,6 +131,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				3B12D9832E205EA8006A1A2F /* Y-Tiles.entitlements */,
 				3BE56CEF0F9D971000B7A13F /* LICENSE */,
 				3B3C45FD1C35D565006EC76C /* Entitlements.plist */,
 				3B3C46001C35E811006EC76C /* Sources */,
@@ -286,10 +288,9 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Y-Tiles" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
@@ -386,23 +387,28 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "Y-Tiles/Y-Tiles.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Chris Yunker (3R7GXL5V6M)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 3D8ND6RR7P;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3D8ND6RR7P;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Y-Tiles";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chrisyunker.y-tiles";
 				PRODUCT_NAME = "Y-Tiles";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = Automatic;
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = Automatic;
+				PROVISIONING_PROFILE_SPECIFIER = "ytiles-development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ytiles-development";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				UILaunchStoryboardName = LaunchScreen;
@@ -415,21 +421,26 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "Y-Tiles/Y-Tiles.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 3D8ND6RR7P;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3D8ND6RR7P;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Y-Tiles";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chrisyunker.y-tiles";
 				PRODUCT_NAME = "Y-Tiles";
-				PROVISIONING_PROFILE = "769f529b-2258-4696-9f01-9f00da57ef1a";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "769f529b-2258-4696-9f01-9f00da57ef1a";
-				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "769f529b-2258-4696-9f01-9f00da57ef1a";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ytiles-dev";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[arch=*]" = Automatic;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = Automatic;
+				PROVISIONING_PROFILE_SPECIFIER = "ytiles-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ytiles-distribution";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				UILaunchStoryboardName = LaunchScreen;
@@ -458,8 +469,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -472,7 +483,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "ytile-dist";
 				SDKROOT = iphoneos;
 				SYMROOT = build;
 			};
@@ -484,20 +495,26 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "Y-Tiles/Y-Tiles.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 3D8ND6RR7P;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3D8ND6RR7P;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Y_Tiles_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Y-Tiles";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chrisyunker.y-tiles";
 				PRODUCT_NAME = "Y-Tiles";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = Automatic;
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = Automatic;
+				PROVISIONING_PROFILE_SPECIFIER = "ytiles-distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ytiles-distribution";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				UILaunchStoryboardName = LaunchScreen;
@@ -527,8 +544,8 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				CODE_SIGN_IDENTITY = "Apple Development: Chris Yunker (3R7GXL5V6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Chris Yunker (3R7GXL5V6M)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -542,7 +559,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "ytile-dev";
+				"PROVISIONING_PROFILE[arch=*]" = "";
 				SDKROOT = iphoneos;
 				SYMROOT = build;
 			};
@@ -570,8 +588,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chris Yunker (3R7GXL5V6M)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Chris Yunker (3D8ND6RR7P)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -584,6 +602,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "ytile-dist";
+				"PROVISIONING_PROFILE[arch=*]" = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SYMROOT = build;
