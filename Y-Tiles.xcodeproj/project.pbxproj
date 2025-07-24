@@ -13,15 +13,15 @@
 		3B2EE8561C5556AB0081A25E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2EE8551C5556AB0081A25E /* AVFoundation.framework */; };
 		3B3C46021C35E84E006EC76C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B3C46011C35E84E006EC76C /* Images.xcassets */; };
 		3B66C43E2E31BD1600084F1F /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66C43D2E31BD1600084F1F /* Logger.swift */; };
-		3B689C1E2E2B0A3100A3D19F /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B689C1D2E2B0A2900A3D19F /* Tile.swift */; };
-		3B689C202E2C044200A3D19F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B689C1F2E2C043D00A3D19F /* Board.swift */; };
+		3B66C4422E32982B00084F1F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66C4412E32982B00084F1F /* Constants.swift */; };
+		3B66C4452E32985900084F1F /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66C4442E32985900084F1F /* TileView.swift */; };
+		3B66C4462E32985900084F1F /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66C4432E32985900084F1F /* Tile.swift */; };
+		3B66C4482E32986800084F1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66C4472E32986800084F1F /* Board.swift */; };
 		3B75F9662E25540000B9212C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B75F9672E25540000B9212C /* LaunchScreen.storyboard */; };
-		3B9CF5C82E28471500F9C73F /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CF5C72E28471500F9C73F /* TileView.swift */; };
 		3BC28DEF1C397F4E00F8420B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC28DEE1C397F4E00F8420B /* CoreText.framework */; };
 		3BE09D670F53B19E00D88117 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE09D660F53B19E00D88117 /* AudioToolbox.framework */; };
 		3BE56CF00F9D971000B7A13F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3BE56CEF0F9D971000B7A13F /* LICENSE */; };
 		3BE84FD91C4DB68200303C12 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BE84FDB1C4DB68200303C12 /* Localizable.strings */; };
-		4A1001000000000000000001 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2001000000000000000001 /* Constants.swift */; };
 		4A1001000000000000000004 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2001000000000000000004 /* DataTypes.swift */; };
 		4A1001000000000000000015 /* YTilesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2001000000000000000015 /* YTilesApp.swift */; };
 		4A1001000000000000000016 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2001000000000000000016 /* GameState.swift */; };
@@ -39,23 +39,23 @@
 		3B12D9832E205EA8006A1A2F /* Y-Tiles.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Y-Tiles.entitlements"; path = "Y-Tiles/Y-Tiles.entitlements"; sourceTree = "<group>"; };
 		3B2EE8551C5556AB0081A25E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3B3C46011C35E84E006EC76C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Y-Tiles/Images.xcassets"; sourceTree = "<group>"; };
-		3B66C43D2E31BD1600084F1F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Classes/Logger.swift; sourceTree = "<group>"; };
-		3B689C1D2E2B0A2900A3D19F /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
-		3B689C1F2E2C043D00A3D19F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		3B66C43D2E31BD1600084F1F /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Logger.swift; sourceTree = "<group>"; };
+		3B66C4412E32982B00084F1F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Sources/Constants.swift; sourceTree = "<group>"; };
+		3B66C4432E32985900084F1F /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tile.swift; path = Sources/Tile.swift; sourceTree = "<group>"; };
+		3B66C4442E32985900084F1F /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TileView.swift; path = Sources/TileView.swift; sourceTree = "<group>"; };
+		3B66C4472E32986800084F1F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Board.swift; path = Sources/Board.swift; sourceTree = "<group>"; };
 		3B75F9672E25540000B9212C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3B9CF5C72E28471500F9C73F /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 		3BC28DEE1C397F4E00F8420B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3BE09D660F53B19E00D88117 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3BE56CEF0F9D971000B7A13F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3BE84FDA1C4DB68200303C12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		4A2001000000000000000001 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		4A2001000000000000000004 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataTypes.swift; path = Classes/DataTypes.swift; sourceTree = "<group>"; };
-		4A2001000000000000000015 /* YTilesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YTilesApp.swift; path = Classes/YTilesApp.swift; sourceTree = "<group>"; };
-		4A2001000000000000000016 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = Classes/GameState.swift; sourceTree = "<group>"; };
-		4A2001000000000000000017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Classes/ContentView.swift; sourceTree = "<group>"; };
-		4A2001000000000000000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Classes/SwiftUI/SettingsView.swift; sourceTree = "<group>"; };
-		4A2001000000000000000019 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoView.swift; path = Classes/SwiftUI/PhotoView.swift; sourceTree = "<group>"; };
-		4A2001000000000000000020 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = Classes/SwiftUI/BoardView.swift; sourceTree = "<group>"; };
+		4A2001000000000000000004 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataTypes.swift; path = Sources/DataTypes.swift; sourceTree = "<group>"; };
+		4A2001000000000000000015 /* YTilesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = YTilesApp.swift; path = Sources/YTilesApp.swift; sourceTree = "<group>"; };
+		4A2001000000000000000016 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = Sources/GameState.swift; sourceTree = "<group>"; };
+		4A2001000000000000000017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Sources/ContentView.swift; sourceTree = "<group>"; };
+		4A2001000000000000000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Sources/SettingsView.swift; sourceTree = "<group>"; };
+		4A2001000000000000000019 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoView.swift; path = Sources/PhotoView.swift; sourceTree = "<group>"; };
+		4A2001000000000000000020 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = Sources/BoardView.swift; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,17 +124,17 @@
 		3B3C46001C35E811006EC76C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3B66C43D2E31BD1600084F1F /* Logger.swift */,
-				3B689C1F2E2C043D00A3D19F /* Board.swift */,
-				4A2001000000000000000001 /* Constants.swift */,
+				3B66C4472E32986800084F1F /* Board.swift */,
+				4A2001000000000000000020 /* BoardView.swift */,
+				3B66C4412E32982B00084F1F /* Constants.swift */,
 				4A2001000000000000000017 /* ContentView.swift */,
 				4A2001000000000000000004 /* DataTypes.swift */,
 				4A2001000000000000000016 /* GameState.swift */,
-				4A2001000000000000000020 /* BoardView.swift */,
+				3B66C43D2E31BD1600084F1F /* Logger.swift */,
 				4A2001000000000000000019 /* PhotoView.swift */,
 				4A2001000000000000000018 /* SettingsView.swift */,
-				3B689C1D2E2B0A2900A3D19F /* Tile.swift */,
-				3B9CF5C72E28471500F9C73F /* TileView.swift */,
+				3B66C4432E32985900084F1F /* Tile.swift */,
+				3B66C4442E32985900084F1F /* TileView.swift */,
 				4A2001000000000000000015 /* YTilesApp.swift */,
 			);
 			name = Sources;
@@ -212,18 +212,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A1001000000000000000001 /* Constants.swift in Sources */,
 				4A1001000000000000000004 /* DataTypes.swift in Sources */,
 				4A1001000000000000000015 /* YTilesApp.swift in Sources */,
+				3B66C4482E32986800084F1F /* Board.swift in Sources */,
 				4A1001000000000000000016 /* GameState.swift in Sources */,
 				4A1001000000000000000017 /* ContentView.swift in Sources */,
 				4A1001000000000000000018 /* SettingsView.swift in Sources */,
-				3B689C202E2C044200A3D19F /* Board.swift in Sources */,
+				3B66C4452E32985900084F1F /* TileView.swift in Sources */,
+				3B66C4462E32985900084F1F /* Tile.swift in Sources */,
 				3B66C43E2E31BD1600084F1F /* Logger.swift in Sources */,
-				3B689C1E2E2B0A3100A3D19F /* Tile.swift in Sources */,
 				4A1001000000000000000019 /* PhotoView.swift in Sources */,
-				3B9CF5C82E28471500F9C73F /* TileView.swift in Sources */,
 				4A1001000000000000000020 /* BoardView.swift in Sources */,
+				3B66C4422E32982B00084F1F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

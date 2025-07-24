@@ -399,10 +399,3 @@ struct BoardView: View {
         }
     }
 }
-
-/*
-#Preview {
-    BoardView(gameState: GameState())
-        .preferredColorScheme(.dark)
-}
-*/

@@ -17,7 +17,10 @@ struct SettingsView: View {
                 Section {
                     HStack {
                         Picker(
-                            NSLocalizedString("Columns", comment: "Grid columns setting"),
+                            NSLocalizedString(
+                                "Columns",
+                                comment: "Grid columns setting"
+                            ),
                             selection: Binding(
                                 get: { gameState.columns },
                                 set: { gameState.updateColumns($0) }
@@ -35,7 +38,10 @@ struct SettingsView: View {
                         Spacer()
 
                         Picker(
-                            NSLocalizedString("Rows", comment: "Grid rows setting"),
+                            NSLocalizedString(
+                                "Rows",
+                                comment: "Grid rows setting"
+                            ),
                             selection: Binding(
                                 get: { gameState.rows },
                                 set: { gameState.updateRows($0) }
@@ -55,7 +61,12 @@ struct SettingsView: View {
                         Image(systemName: "photo")
                             .foregroundColor(.red)
                             .frame(width: 30)
-                        Text(NSLocalizedString("UsePhoto", comment: "Photo mode toggle"))
+                        Text(
+                            NSLocalizedString(
+                                "UsePhoto",
+                                comment: "Photo mode toggle"
+                            )
+                        )
 
                         Spacer()
 
@@ -74,7 +85,12 @@ struct SettingsView: View {
                         Image(systemName: "textformat.123")
                             .foregroundColor(.green)
                             .frame(width: 30)
-                        Text(NSLocalizedString("ShowNumbers", comment: "Numbers mode toggle"))
+                        Text(
+                            NSLocalizedString(
+                                "ShowNumbers",
+                                comment: "Numbers mode toggle"
+                            )
+                        )
 
                         Spacer()
 
@@ -96,7 +112,12 @@ struct SettingsView: View {
                         )
                         .foregroundColor(.orange)
                         .frame(width: 30)
-                        Text(NSLocalizedString("SoundEffects", comment: "Sound effects toggle"))
+                        Text(
+                            NSLocalizedString(
+                                "SoundEffects",
+                                comment: "Sound effects toggle"
+                            )
+                        )
 
                         Spacer()
 
@@ -119,8 +140,13 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 30)
 
-                            Text(NSLocalizedString("About", comment: "About button"))
-                                .foregroundColor(.primary)
+                            Text(
+                                NSLocalizedString(
+                                    "About",
+                                    comment: "About button"
+                                )
+                            )
+                            .foregroundColor(.primary)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(Constants.buttonPadding)
@@ -128,6 +154,7 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .cornerRadius(Constants.buttonCornerRadius)
                     }
+                    .padding(.horizontal, 30)
                 }
 
                 Section {
@@ -137,8 +164,13 @@ struct SettingsView: View {
                     }) {
                         HStack {
                             Image(systemName: "arrow.clockwise")
-                            Text(NSLocalizedString("RestartGame", comment: "Restart game button"))
-                                .fontWeight(.semibold)
+                            Text(
+                                NSLocalizedString(
+                                    "RestartGame",
+                                    comment: "Restart game button"
+                                )
+                            )
+                            .fontWeight(.semibold)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(Constants.buttonPadding)
@@ -146,6 +178,7 @@ struct SettingsView: View {
                         .foregroundColor(.white)
                         .cornerRadius(Constants.buttonCornerRadius)
                     }
+                    .padding(.horizontal, 30)
                 }
             }
             .sheet(isPresented: $showAboutMenu) {
@@ -161,74 +194,103 @@ struct AboutView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    HStack(spacing: 20) {
-                        Spacer()
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            HStack {
-                                Text(NSLocalizedString("Done", comment: "Done button"))
-                                    .fontWeight(.semibold)
-                            }
-                            .frame(maxWidth: 80)
-                            .padding(Constants.buttonPadding)
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(Constants.buttonCornerRadius)
+            VStack(spacing: 20) {
+                HStack(spacing: 20) {
+                    Spacer()
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack {
+                            Text(
+                                NSLocalizedString(
+                                    "Done",
+                                    comment: "Done button"
+                                )
+                            )
+                            .fontWeight(.semibold)
                         }
+                        .frame(maxWidth: 80)
+                        .padding(Constants.buttonPadding)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(Constants.buttonCornerRadius)
                     }
+                }
 
-                    // App Icon
-                    Image("About")
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
+                // App Icon
+                Image("About")
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(20)
+                    .shadow(radius: 5)
 
-                    // App Info
-                    VStack(spacing: 8) {
-                        Text(NSLocalizedString("AppName", comment: "Application name"))
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-
-                        Text(
-                            String(format: NSLocalizedString("Version", comment: "Version string format"), Constants.versionMajor, Constants.versionMinor)
+                // App Info
+                VStack(spacing: 8) {
+                    Text(
+                        NSLocalizedString(
+                            "AppName",
+                            comment: "Application name"
                         )
+                    )
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+
+                    Text(
+                        String(
+                            format: NSLocalizedString(
+                                "Version",
+                                comment: "Version string format"
+                            ),
+                            Constants.versionMajor,
+                            Constants.versionMinor
+                        )
+                    )
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+
+                    Text(
+                        NSLocalizedString(
+                            "AppDescription",
+                            comment: "App description"
+                        )
+                    )
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                }
+
+                Divider()
+
+                // Description
+                VStack(spacing: 8) {
+                    Text(
+                        NSLocalizedString(
+                            "Developer",
+                            comment: "Developer name"
+                        )
+                    )
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+                    Text(
+                        String(
+                            format: NSLocalizedString(
+                                "Copyright",
+                                comment: "Copyright year"
+                            ),
+                            Constants.copyrightYear
+                        )
+                    )
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    Text("[yunker.dev](https://yunker.dev)")
                         .font(.title2)
                         .foregroundColor(.secondary)
-
-                        Text(NSLocalizedString("AppDescription", comment: "App description"))
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-
-                    Divider()
-
-                    // Description
-                    VStack(spacing: 8) {
-                        Text(NSLocalizedString("Developer", comment: "Developer name"))
-                            .font(.title2)
-                            .foregroundColor(.secondary)
-                        Text(String(format: NSLocalizedString("Copyright", comment: "Copyright string format"), Constants.copyrightYear))
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                        Text(NSLocalizedString("Website", comment: "Developer website"))
-                            .font(.title2)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
                 }
-                .padding()
+                .padding(.horizontal)
+
+                Spacer()
             }
+            .padding()
         }
     }
 }
-/*
-#Preview {
-    SettingsView(gameState: GameState())
-        .preferredColorScheme(.dark)
-}
-*/

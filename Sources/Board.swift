@@ -13,7 +13,6 @@ class Board: ObservableObject {
     var lock: NSLock = NSLock()
     var tiles: [Tile] = []
     var grid: [[Tile?]] = []
-    var debug: Bool = false
     private var emptyLoc: Point = Point(x: 0, y: 0)
     
     var totalPositions: Int {
@@ -119,20 +118,15 @@ class Board: ObservableObject {
     }
 
     func scrambleBoard() {
-        if debug {
+        if Constants.debugTestCompleteGame {
+            // Debug mode where only one tile is moved when scrambling board
             
-            logDebug("MOVE from \(gameState.columns - 2), \(gameState.rows - 1) to \(gameState.columns - 1), \(gameState.rows - 1)")
-            
-            grid[gameState.columns - 1][gameState.rows - 1] = grid[gameState.columns - 2][gameState.rows - 1]
-                //tiles[gameState.columns * gameState.rows - 2]
-            
+            grid[gameState.columns - 1][gameState.rows - 1] =
+                grid[gameState.columns - 2][gameState.rows - 1]
             grid[gameState.columns - 1][gameState.rows - 1]!.loc =
                 Point(x: gameState.columns - 1, y: gameState.rows - 1)
             grid[gameState.columns - 2][gameState.rows - 1] = nil
-            
             emptyLoc = Point(x: gameState.columns - 2, y:  gameState.rows - 1)
-            
-            logDebug("EMPTY: \(emptyLoc)")
         } else {
 
             // Clear board
@@ -171,7 +165,7 @@ class Board: ObservableObject {
     
     func playSound() {
         if gameState.soundEnabled {
-            AudioServicesPlayAlertSound(SystemSoundID(1105))
+            AudioServicesPlaySystemSound(SystemSoundID(1105))
         }
     }
 }

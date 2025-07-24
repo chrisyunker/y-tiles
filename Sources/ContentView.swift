@@ -34,5 +34,6 @@ struct ContentView: View {
             }
             .tag(Constants.tabBarSettingsTag)
         }
+        .tint(.blue)
     }
 }

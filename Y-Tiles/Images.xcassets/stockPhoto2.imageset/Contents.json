@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "castle-1x.jpg",
+      "filename" : "cordoba-1x.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "castle-2x.jpg",
+      "filename" : "cordoba-2x.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "castle-3x.jpg",
+      "filename" : "cordoba-3x.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

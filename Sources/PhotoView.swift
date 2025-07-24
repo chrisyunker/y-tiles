@@ -157,7 +157,8 @@ struct StockPhotosView: View {
                         dismiss()
                     }
                     .frame(alignment: .center)
-                    .padding(Constants.buttonPadding)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 12)
                     .background(.blue)
                     .foregroundColor(.white)
                     .cornerRadius(Constants.buttonCornerRadius)
@@ -179,10 +180,3 @@ struct StockPhotosView: View {
         dismiss()
     }
 }
-
-/*
-#Preview {
-    PhotoView(gameState: GameState())
-        .preferredColorScheme(.dark)
-}
-*/

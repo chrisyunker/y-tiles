@@ -155,7 +155,7 @@ struct TileView: View {
                         )
                     }
                 default:
-                    logError("[\(self.id)] Error: Trying to move a locked tile in direction: \(tile.direction)")
+                    logDebug("[\(self.id)] Error: Trying to move a locked tile in direction: \(tile.direction)")
                 }
 
             }
@@ -195,12 +195,5 @@ struct TileView: View {
                     logDebug("[\(id)] Unlocked")
                 }
             }
-    }
-
-    private func snapToGrid(_ point: CGPoint) -> CGPoint {
-        let snappedX = round(point.x / size.width) * size.width
-        let snappedY = round(point.y / size.height) * size.height
-        logDebug("snap: x: \(snappedX), y: \(snappedY)")
-        return CGPoint(x: snappedX, y: snappedY)
     }
 }

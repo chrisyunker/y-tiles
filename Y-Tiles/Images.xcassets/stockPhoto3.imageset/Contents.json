@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "cordoba-1x.jpg",
+      "filename" : "barcelona-portrait-x1.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "cordoba-2x.jpg",
+      "filename" : "barcelona-portrait-x2.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "cordoba-3x.jpg",
+      "filename" : "barcelona-portrait-x3.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

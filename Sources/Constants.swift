@@ -56,5 +56,9 @@ struct Constants {
 
     // MARK: - Animation Timing
     static let tileScrambleTime: TimeInterval = 1.0
-    static let tileMoveTime: TimeInterval = 0.2
+    static let tileMoveTime: TimeInterval = 0.1
+    
+    // MARK: - Debug Settings
+    static let debugTestCompleteGame: Bool = false
+
 }
