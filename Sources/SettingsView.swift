@@ -132,53 +132,59 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Button(action: {
-                        showAboutMenu = true
-                    }) {
-                        HStack {
-                            Image(systemName: "info.circle")
-                                .foregroundColor(.white)
-                                .frame(width: 30)
-
-                            Text(
-                                NSLocalizedString(
-                                    "About",
-                                    comment: "About button"
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            showAboutMenu = true
+                        }) {
+                            HStack {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.white)
+                                    .frame(width: 30)
+                                
+                                Text(
+                                    NSLocalizedString(
+                                        "About",
+                                        comment: "About button"
+                                    )
                                 )
-                            )
-                            .foregroundColor(.primary)
+                                .fontWeight(.semibold)
+                            }
+                            .frame(maxWidth: 250)
+                            .padding(Constants.buttonPadding)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(Constants.buttonCornerRadius)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(Constants.buttonPadding)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(Constants.buttonCornerRadius)
+                        Spacer()
                     }
-                    .padding(.horizontal, 30)
                 }
 
                 Section {
-                    Button(action: {
-                        gameState.pauseGame()
-                        selectedTab = 0
-                    }) {
-                        HStack {
-                            Image(systemName: "arrow.clockwise")
-                            Text(
-                                NSLocalizedString(
-                                    "RestartGame",
-                                    comment: "Restart game button"
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            gameState.pauseGame()
+                            selectedTab = 0
+                        }) {
+                            HStack {
+                                Image(systemName: "arrow.clockwise")
+                                Text(
+                                    NSLocalizedString(
+                                        "RestartGame",
+                                        comment: "Restart game button"
+                                    )
                                 )
-                            )
-                            .fontWeight(.semibold)
+                                .fontWeight(.semibold)
+                            }
+                            .frame(maxWidth: 250)
+                            .padding(Constants.buttonPadding)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(Constants.buttonCornerRadius)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(Constants.buttonPadding)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(Constants.buttonCornerRadius)
+                        Spacer()
                     }
-                    .padding(.horizontal, 30)
                 }
             }
             .sheet(isPresented: $showAboutMenu) {

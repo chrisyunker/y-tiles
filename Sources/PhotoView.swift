@@ -45,7 +45,7 @@ struct PhotoView: View {
                             Text(NSLocalizedString("PhotoLibrary", comment: "Photo library button"))
                                 .font(.headline)
                         }
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: 200)
                         .padding(Constants.buttonPadding)
                         .background(Color.black)
                         .foregroundColor(.white)
@@ -61,7 +61,7 @@ struct PhotoView: View {
                             Text(NSLocalizedString("StockPhotos", comment: "Stock photos button"))
                                 .font(.headline)
                         }
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: 200)
                         .padding(Constants.buttonPadding)
                         .background(Color.black)
                         .foregroundColor(.white)
@@ -126,21 +126,15 @@ struct StockPhotosView: View {
                     ],
                     spacing: 5
                 ) {
-                    let height =
-                        ((gameState.boardSize?.height ?? 400) / 2.0) - 10.0
-                    let width =
-                        ((gameState.boardSize?.width ?? 400) / 2.0) - 5.0
                     ForEach(stockPhotos, id: \.1) { item in
                         Button(action: {
                             selectStockPhoto(item.1)
                         }) {
                             VStack {
-
                                 if let image = UIImage(named: item.0) {
                                     Image(uiImage: image)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: width, height: height)
                                         .cornerRadius(12)
                                 }
                             }

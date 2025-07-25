@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "barcelona-1x.jpg",
+      "filename" : "granada-1x.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "barcelona-2x.jpg",
+      "filename" : "granada-2x.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "barcelona-3x.jpg",
+      "filename" : "granada-3x.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "castle-1x.jpg",
+      "filename" : "aranjuez-1x.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "castle-2x.jpg",
+      "filename" : "aranjuez-2x.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "castle-3x.jpg",
+      "filename" : "aranjuez-3x.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
