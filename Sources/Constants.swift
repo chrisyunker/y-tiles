@@ -11,7 +11,7 @@ struct Constants {
 
     // MARK: - Version Info
     static let versionMajor = 3
-    static let versionMinor = 1
+    static let versionMinor = 2
     static let copyrightYear = "2025"
 
     // MARK: - User Default Keys

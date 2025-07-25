@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "y-tiles-1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "y-tiles-2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "y-tiles-1024.png",
+      "filename" : "y-tiles-3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
