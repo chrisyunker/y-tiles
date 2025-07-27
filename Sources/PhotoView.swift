@@ -97,8 +97,10 @@ struct PhotoView: View {
             ),
                 let image = UIImage(data: imageData)
             {
-                await MainActor.run {
-                    gameState.setCustomPhoto(image)
+                if !gameState.isPhotoLargeEnough(photo: image) {
+                    await MainActor.run {
+                        gameState.setCustomPhoto(image)
+                    }
                 }
             }
         }

@@ -8,6 +8,21 @@
 import SwiftUI
 import UIKit
 
+extension UIImage {
+    var orientationCorrectedCGImage: CGImage? {
+        if imageOrientation == .up {
+            return cgImage
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(in: CGRect(origin: .zero, size: size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage?.cgImage
+    }
+}
+
 enum GameStatus: Int, CaseIterable {
     case newGame = 0
     case readyToBuild = 1
@@ -80,6 +95,18 @@ class GameState: ObservableObject {
             logDebug("update boardSize from: \(boardSize ?? .zero) to: \(newSize)")
             boardSize = newSize
         }
+    }
+    
+    func isPhotoLargeEnough(photo: UIImage) -> Bool {
+        if let size = boardSize {
+            if (photo.size.width * photo.scale) < size.width {
+                return false
+            }
+            if (photo.size.height * photo.scale) < size.height {
+                return false
+            }
+        }
+        return false
     }
 
     func setStockPhoto(_ newPhotoType: PhotoType) {
@@ -158,7 +185,7 @@ class GameState: ObservableObject {
         if photoType == .customPhoto {
 
             if let customPhoto = loadCustomPhoto() {
-                logInfo("Loaded custom photo")
+                logInfo("Loaded custom photo, size: \(customPhoto.size), scale: \(customPhoto.scale)")
                 boardPhoto = customPhoto
             } else {
                 logWarning("Failed to load custom photo, defaulting to stock photo")
@@ -220,35 +247,38 @@ class GameState: ObservableObject {
             logError("Error setting boardPhoto: boardsize not set")
             return
         }
-        guard let cgImage = originalPhoto.cgImage else {
+        guard let cgImage = originalPhoto.orientationCorrectedCGImage else {
             logError("Error setting boardPhoto: cgImage is nil")
             return
         }
-
-        // Calculate pixel ratio between UIImage and CGImage
-        let ratio = CGFloat(cgImage.height) / CGFloat(originalPhoto.size.height)
-
-        let cropWidth = boardSize.width * ratio
-        let cropHeight = boardSize.height * ratio
+        logDebug("Original UIImage size: \(originalPhoto.size), scale: \(originalPhoto.scale)")
+        logDebug("Original CGImage size: (\(cgImage.width), \(cgImage.height))")
         
-        logDebug("Original CGImage size: \(cgImage.width), \(cgImage.height)")
-        logDebug("Crop CGImage to: \(cropWidth), \(cropHeight)")
-
-        // Apply ratio to boardPhoto
+        let widthScale = Int(originalPhoto.size.width * originalPhoto.scale) / Int(boardSize.width)
+        let heightScale = Int(originalPhoto.size.height * originalPhoto.scale) / Int(boardSize.height)
+        let scale = CGFloat(min(widthScale, heightScale))
+        logDebug("Scale to game board, width: \(widthScale) height: \(heightScale) actual: \(scale)")
+        
+        let cropWidth = boardSize.width * scale
+        let cropHeight = boardSize.height * scale
         let cropRect = CGRect(
             x: (CGFloat(cgImage.width) - cropWidth) / 2,
             y: (CGFloat(cgImage.height) - cropHeight) / 2,
             width: cropWidth,
             height: cropHeight
         )
-        
+        logDebug("Crop CGImage to: \(cropRect)")
+
         if let croppedImage = cgImage.cropping(to: cropRect) {
             logDebug("Set board photo")
-            self.boardPhoto = UIImage(
+            let newImage = UIImage(
                 cgImage: croppedImage,
-                scale: originalPhoto.scale,
-                orientation: originalPhoto.imageOrientation
+                scale: scale,
+                orientation: .up
             )
+            logDebug("New UIImage size: \(newImage.size), scale: \(newImage.scale)")
+
+            self.boardPhoto = newImage
         }
     }
 
@@ -263,6 +293,9 @@ class GameState: ObservableObject {
     private func saveCustomPhoto() {
         guard let boardPhoto = boardPhoto else { return }
         
+        let defaults = UserDefaults.standard
+        defaults.set(Int(boardPhoto.scale), forKey: Constants.keyCustomPhotoScale)
+        
         guard let data = boardPhoto.jpegData(compressionQuality: 0.8) else {
             return
         }
@@ -275,7 +308,17 @@ class GameState: ObservableObject {
     }
 
     private func loadCustomPhoto() -> UIImage? {
-        return UIImage(contentsOfFile: getCustomPhotoUrl().path)
+
+        let defaults = UserDefaults.standard
+        var customPhotoScale = defaults.integer(forKey: Constants.keyCustomPhotoScale)
+        if customPhotoScale < 0 {
+            customPhotoScale = 1
+        }
+        
+        if let image = UIImage(contentsOfFile: getCustomPhotoUrl().path) {
+            return UIImage(cgImage: image.cgImage!, scale: CGFloat(customPhotoScale), orientation: image.imageOrientation)
+        }
+        return nil
     }
     
     private func deleteCustomPhoto() {

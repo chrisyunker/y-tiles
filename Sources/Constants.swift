@@ -11,7 +11,7 @@ struct Constants {
 
     // MARK: - Version Info
     static let versionMajor = 3
-    static let versionMinor = 2
+    static let versionMinor = 3
     static let copyrightYear = "2025"
 
     // MARK: - User Default Keys
@@ -22,6 +22,7 @@ struct Constants {
     static let keyPhotoEnabled = "photoEnabled"
     static let keyNumbersEnabled = "numbersEnabled"
     static let keySoundEnabled = "soundEnabled"
+    static let keyCustomPhotoScale = "customPhotoScale"
 
     // MARK: - Default Values
     static let columnsDefault = 4
